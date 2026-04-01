@@ -1,0 +1,884 @@
+<div
+  class="avion-hoodie-premium-section"
+  style="
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.section_bg }};
+    --section-heading-color: {{ section.settings.heading_color }};
+    --section-heading-size: {{ section.settings.heading_size }}px;
+    --section-subheading-color: {{ section.settings.subheading_color }};
+    --section-eyebrow-color: {{ section.settings.eyebrow_color }};
+  "
+>
+  <div class="page-width">
+    <div class="avion-hoodie-premium-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="avion-hoodie-premium-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="avion-hoodie-premium-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <div class="avion-hoodie-premium-subheading">
+          {{ section.settings.subheading }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="avion-hoodie-premium-grid">
+      {%- for block in section.blocks -%}
+        <article
+          class="avion-hoodie-premium-card"
+          style="
+            --card-bg: {{ block.settings.card_bg }};
+            --card-hover-bg: {{ block.settings.card_hover_bg }};
+            --card-shadow: {{ block.settings.card_shadow }};
+            --title-color: {{ block.settings.title_color }};
+            --title-hover-color: {{ block.settings.title_hover_color }};
+            --text-color: {{ block.settings.text_color }};
+            --text-hover-color: {{ block.settings.text_hover_color }};
+            --meta-color: {{ block.settings.meta_color }};
+            --meta-hover-color: {{ block.settings.meta_hover_color }};
+            --button-bg: {{ block.settings.button_bg }};
+            --button-text: {{ block.settings.button_text }};
+            --button-hover-bg: {{ block.settings.button_hover_bg }};
+            --button-hover-text: {{ block.settings.button_hover_text }};
+            --hover-word-color: {{ block.settings.hover_word_color }};
+            --hover-word-scale: {{ block.settings.hover_word_scale | divided_by: 100.0 }};
+            --spec-bg: {{ block.settings.spec_bg }};
+            --spec-text: {{ block.settings.spec_text }};
+            --spec-hover-bg: {{ block.settings.spec_hover_bg }};
+            --spec-hover-text: {{ block.settings.spec_hover_text }};
+            --image-overlay: {{ block.settings.image_overlay }};
+          "
+          {{ block.shopify_attributes }}
+        >
+          <div class="avion-hoodie-premium-card-inner">
+            <div class="avion-hoodie-premium-media">
+              {%- if block.settings.bg_word != blank -%}
+                <span class="avion-hoodie-premium-word">{{ block.settings.bg_word }}</span>
+              {%- endif -%}
+
+              <div class="avion-hoodie-premium-image-shell">
+                <div class="avion-hoodie-premium-image-wrap">
+                  {%- if block.settings.image != blank -%}
+                    <img
+                      srcset="
+                        {{ block.settings.image | image_url: width: 500 }} 500w,
+                        {{ block.settings.image | image_url: width: 700 }} 700w,
+                        {{ block.settings.image | image_url: width: 900 }} 900w,
+                        {{ block.settings.image | image_url: width: 1100 }} 1100w
+                      "
+                      sizes="(min-width: 990px) 30vw, (min-width: 750px) 50vw, 100vw"
+                      src="{{ block.settings.image | image_url: width: 900 }}"
+                      alt="{{ block.settings.image.alt | escape }}"
+                      loading="lazy"
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"
+                    >
+                  {%- else -%}
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+
+            <div class="avion-hoodie-premium-content">
+              <div class="avion-hoodie-premium-copy">
+                {%- if block.settings.collection_label != blank -%}
+                  <p class="avion-hoodie-premium-meta">{{ block.settings.collection_label }}</p>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <h3 class="avion-hoodie-premium-title">{{ block.settings.title }}</h3>
+                {%- endif -%}
+
+                {%- if block.settings.text != blank -%}
+                  <div class="avion-hoodie-premium-text">
+                    {{ block.settings.text }}
+                  </div>
+                {%- endif -%}
+
+                <div class="avion-hoodie-premium-specs" aria-label="Hoodie details">
+                  {%- if block.settings.spec_1 != blank -%}
+                    <span>{{ block.settings.spec_1 }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.spec_2 != blank -%}
+                    <span>{{ block.settings.spec_2 }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.spec_3 != blank -%}
+                    <span>{{ block.settings.spec_3 }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {%- if block.settings.button_label != blank -%}
+                <a
+                  href="{{ block.settings.button_link }}"
+                  class="avion-hoodie-premium-button"
+                  {% if block.settings.button_link == blank %}
+                    role="button" aria-disabled="true"
+                  {% endif %}
+                >
+                  <span>{{ block.settings.button_label }}</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .avion-hoodie-premium-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avion-hoodie-premium-header {
+    max-width: 980px;
+    margin: 0 auto 4rem;
+    text-align: center;
+  }
+
+  .avion-hoodie-premium-eyebrow {
+    margin: 0 0 0.8rem;
+    font-size: 0.72rem;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--section-eyebrow-color);
+    opacity: 0.9;
+  }
+
+  .avion-hoodie-premium-heading {
+    margin: 0;
+    color: var(--section-heading-color);
+    font-size: clamp(2.4rem, 6vw, var(--section-heading-size));
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .avion-hoodie-premium-subheading {
+    max-width: 700px;
+    margin: 1rem auto 0;
+    color: var(--section-subheading-color);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .avion-hoodie-premium-subheading p {
+    margin: 0;
+  }
+
+  .avion-hoodie-premium-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+    align-items: stretch;
+  }
+
+  .avion-hoodie-premium-card {
+    position: relative;
+    min-width: 0;
+    border: none !important;
+    outline: none !important;
+    background: var(--card-bg);
+    overflow: hidden;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    transform: translateY(0);
+    transition:
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .avion-hoodie-premium-card:hover {
+    background: var(--card-hover-bg);
+    transform: translateY(-8px);
+    box-shadow: 0 24px 50px var(--card-shadow);
+  }
+
+  .avion-hoodie-premium-card-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .avion-hoodie-premium-media {
+    position: relative;
+    min-height: 430px;
+    padding: 2rem 1.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .avion-hoodie-premium-image-shell {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .avion-hoodie-premium-image-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .avion-hoodie-premium-image-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--image-overlay);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-image-wrap::after {
+    opacity: 1;
+  }
+
+  .avion-hoodie-premium-image-wrap img,
+  .avion-hoodie-premium-image-wrap .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .avion-hoodie-premium-image-wrap img {
+    object-fit: contain;
+    transform: scale(1);
+    transform-origin: center center;
+    transition:
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-image-wrap img {
+    transform: scale(1.035);
+    filter: saturate(1.02) contrast(1.02);
+  }
+
+  .avion-hoodie-premium-word {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 4;
+    width: min(96%, 620px);
+    transform: translate(-50%, -50%) scale(calc(0.96 * var(--hover-word-scale)));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(3.4rem, 7vw, 6.2rem);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    font-weight: 800;
+    color: var(--hover-word-color);
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+    filter: blur(2px);
+    transition:
+      opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-word {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(calc(1 * var(--hover-word-scale)));
+    filter: blur(0);
+  }
+
+  .avion-hoodie-premium-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.2rem;
+    padding: 0 1.5rem 1.5rem;
+    margin-top: auto;
+  }
+
+  .avion-hoodie-premium-copy {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .avion-hoodie-premium-meta {
+    margin: 0 0 0.45rem;
+    color: var(--meta-color);
+    font-size: 0.62rem;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: color 0.35s ease;
+  }
+
+  .avion-hoodie-premium-title {
+    margin: 0 0 0.65rem;
+    color: var(--title-color);
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+    transition: color 0.35s ease;
+  }
+
+  .avion-hoodie-premium-text {
+    color: var(--text-color);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    max-width: 27ch;
+    transition: color 0.35s ease;
+  }
+
+  .avion-hoodie-premium-text p {
+    margin: 0;
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-meta {
+    color: var(--meta-hover-color);
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-title {
+    color: var(--title-hover-color);
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-text {
+    color: var(--text-hover-color);
+  }
+
+  .avion-hoodie-premium-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+  }
+
+  .avion-hoodie-premium-specs span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 0.4rem 0.65rem;
+    border-radius: 999px;
+    background: var(--spec-bg);
+    color: var(--spec-text);
+    font-size: 0.58rem;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      transform 0.35s ease;
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-specs span {
+    background: var(--spec-hover-bg);
+    color: var(--spec-hover-text);
+    transform: translateY(-1px);
+  }
+
+  .avion-hoodie-premium-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    background: var(--button-bg);
+    color: var(--button-text);
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    font-family: "Young Serif", serif;
+    transform: translateY(0);
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.35s ease,
+      color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+
+  .avion-hoodie-premium-card:hover .avion-hoodie-premium-button {
+    background: var(--button-hover-bg);
+    color: var(--button-hover-text);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  }
+
+  .avion-hoodie-premium-button[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: 0.72;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .avion-hoodie-premium-grid {
+      gap: 1.25rem;
+    }
+
+    .avion-hoodie-premium-media {
+      min-height: 390px;
+      padding: 1.75rem 1.35rem 0.8rem;
+    }
+
+    .avion-hoodie-premium-word {
+      width: min(94%, 540px);
+      font-size: clamp(3rem, 6.5vw, 5.2rem);
+    }
+
+    .avion-hoodie-premium-content {
+      padding: 0 1.25rem 1.25rem;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .avion-hoodie-premium-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .avion-hoodie-premium-media {
+      min-height: 410px;
+    }
+
+    .avion-hoodie-premium-image-shell {
+      max-width: 300px;
+    }
+
+    .avion-hoodie-premium-word {
+      width: min(92%, 500px);
+      font-size: clamp(2.8rem, 8vw, 4.6rem);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .avion-hoodie-premium-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .avion-hoodie-premium-heading {
+      font-size: clamp(2rem, 10vw, calc(var(--section-heading-size) * 0.72));
+    }
+
+    .avion-hoodie-premium-card {
+      border-radius: 22px;
+    }
+
+    .avion-hoodie-premium-media {
+      min-height: 340px;
+      padding: 1.5rem 1.15rem 0.7rem;
+    }
+
+    .avion-hoodie-premium-word {
+      width: 92%;
+      font-size: clamp(2.1rem, 10vw, 3.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+    }
+
+    .avion-hoodie-premium-content {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 1.15rem 1.15rem;
+    }
+
+    .avion-hoodie-premium-button {
+      width: 100%;
+    }
+
+    .avion-hoodie-premium-text {
+      max-width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .avion-hoodie-premium-card,
+    .avion-hoodie-premium-image-wrap::after,
+    .avion-hoodie-premium-image-wrap img,
+    .avion-hoodie-premium-word,
+    .avion-hoodie-premium-meta,
+    .avion-hoodie-premium-title,
+    .avion-hoodie-premium-text,
+    .avion-hoodie-premium-specs span,
+    .avion-hoodie-premium-button {
+      transition: none;
+    }
+
+    .avion-hoodie-premium-card:hover,
+    .avion-hoodie-premium-card:hover .avion-hoodie-premium-image-wrap img,
+    .avion-hoodie-premium-card:hover .avion-hoodie-premium-word,
+    .avion-hoodie-premium-card:hover .avion-hoodie-premium-button {
+      transform: none;
+      filter: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Avion premium hoodies",
+  "tag": "section",
+  "class": "section-avion-premium-hoodies",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MERCH"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#C9453A"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HEAVYWEIGHT. CLEAN. BUILT TO LAST."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 32,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 74
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#C9453A"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Three signature hoodies presented in a cleaner, more elevated layout with equal image sizing and a stronger editorial feel.</p>"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#4B443D"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#F3EAD8"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 88
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hoodie",
+      "name": "Hoodie card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "collection_label",
+          "label": "Small label",
+          "default": "AVIÓN LEGACY CANNABIS MERCH"
+        },
+        {
+          "type": "text",
+          "id": "bg_word",
+          "label": "Hover word",
+          "default": "LEGACY"
+        },
+        {
+          "type": "range",
+          "id": "hover_word_scale",
+          "label": "Hover word size",
+          "min": 60,
+          "max": 140,
+          "step": 2,
+          "unit": "%",
+          "default": 100
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Green Hoodie"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Built from heavyweight cotton fleece with a clean fit and premium feel.</p>"
+        },
+        {
+          "type": "text",
+          "id": "spec_1",
+          "label": "Spec 1",
+          "default": "100% Cotton Fleece"
+        },
+        {
+          "type": "text",
+          "id": "spec_2",
+          "label": "Spec 2",
+          "default": "350 GSM"
+        },
+        {
+          "type": "text",
+          "id": "spec_3",
+          "label": "Spec 3",
+          "default": "Pre-shrunk"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop hoodie"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "header",
+          "content": "Card colors"
+        },
+        {
+          "type": "color",
+          "id": "card_bg",
+          "label": "Card background",
+          "default": "#E7D4C6"
+        },
+        {
+          "type": "color",
+          "id": "card_hover_bg",
+          "label": "Card hover background",
+          "default": "#D8C1B0"
+        },
+        {
+          "type": "color",
+          "id": "card_shadow",
+          "label": "Card shadow color",
+          "default": "rgba(83, 58, 33, 0.16)"
+        },
+        {
+          "type": "color",
+          "id": "image_overlay",
+          "label": "Image overlay on hover",
+          "default": "rgba(32, 30, 30, 0.14)"
+        },
+        {
+          "type": "color",
+          "id": "hover_word_color",
+          "label": "Hover word color",
+          "default": "#F7F0DF"
+        },
+        {
+          "type": "color",
+          "id": "meta_color",
+          "label": "Small label color",
+          "default": "#8A5A37"
+        },
+        {
+          "type": "color",
+          "id": "meta_hover_color",
+          "label": "Small label hover color",
+          "default": "#F7F0DF"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color",
+          "default": "#2E2A28"
+        },
+        {
+          "type": "color",
+          "id": "title_hover_color",
+          "label": "Title hover color",
+          "default": "#F7F0DF"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#4B443D"
+        },
+        {
+          "type": "color",
+          "id": "text_hover_color",
+          "label": "Text hover color",
+          "default": "#F7F0DF"
+        },
+        {
+          "type": "color",
+          "id": "spec_bg",
+          "label": "Specs background",
+          "default": "#F2E7D7"
+        },
+        {
+          "type": "color",
+          "id": "spec_text",
+          "label": "Specs text color",
+          "default": "#3C3C40"
+        },
+        {
+          "type": "color",
+          "id": "spec_hover_bg",
+          "label": "Specs hover background",
+          "default": "#F7F0DF"
+        },
+        {
+          "type": "color",
+          "id": "spec_hover_text",
+          "label": "Specs hover text color",
+          "default": "#2E2A28"
+        },
+        {
+          "type": "color",
+          "id": "button_bg",
+          "label": "Button background",
+          "default": "#C9453A"
+        },
+        {
+          "type": "color",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "#FFF8EF"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_bg",
+          "label": "Button hover background",
+          "default": "#F0A03A"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_text",
+          "label": "Button hover text",
+          "default": "#2E2A28"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avion premium hoodies",
+      "blocks": [
+        {
+          "type": "hoodie",
+          "settings": {
+            "title": "Green Hoodie",
+            "bg_word": "HEAVYWEIGHT",
+            "hover_word_scale": 78,
+            "card_bg": "#D9E0CA",
+            "card_hover_bg": "#5EA082",
+            "title_hover_color": "#F7F0DF",
+            "text_hover_color": "#F7F0DF",
+            "meta_hover_color": "#F7F0DF"
+          }
+        },
+        {
+          "type": "hoodie",
+          "settings": {
+            "title": "Sand Hoodie",
+            "bg_word": "COTTON",
+            "hover_word_scale": 92,
+            "card_bg": "#E7D4C6",
+            "card_hover_bg": "#C9453A",
+            "title_hover_color": "#F7F0DF",
+            "text_hover_color": "#F7F0DF",
+            "meta_hover_color": "#F7F0DF"
+          }
+        },
+        {
+          "type": "hoodie",
+          "settings": {
+            "title": "Black Hoodie",
+            "bg_word": "LEGACY",
+            "hover_word_scale": 96,
+            "card_bg": "#C7D6D0",
+            "card_hover_bg": "#3C3C40",
+            "title_hover_color": "#F7F0DF",
+            "text_hover_color": "#F7F0DF",
+            "meta_hover_color": "#F7F0DF"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,354 @@
+{%- style -%}
+  .plane-intro-{{ section.id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+  }
+
+  .plane-intro-{{ section.id }}.animation-complete {
+    display: none;
+  }
+
+  .flying-plane-{{ section.id }} {
+    position: absolute;
+    width: {{ section.settings.plane_size }}px;
+    height: auto;
+    left: -200px;
+    top: 100%;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+    animation: flyInCurve-{{ section.id }} {{ section.settings.animation_duration }}s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: {{ section.settings.start_delay }}s;
+    opacity: 0;
+  }
+
+  @keyframes flyInCurve-{{ section.id }} {
+    0% {
+      left: -200px;
+      top: 100%;
+      opacity: 0;
+      transform: rotate({{ section.settings.start_rotation }}deg) scale(0.5);
+    }
+    10% {
+      opacity: 1;
+      transform: rotate({{ section.settings.start_rotation }}deg) scale(0.7);
+    }
+    30% {
+      left: 20%;
+      top: 60%;
+      transform: rotate(-20deg) scale(0.85);
+    }
+    50% {
+      left: 40%;
+      top: 35%;
+      transform: rotate(-10deg) scale(0.95);
+    }
+    70% {
+      left: 50%;
+      top: 30%;
+      transform: rotate(-5deg) scale(1);
+    }
+    85% {
+      left: {{ section.settings.final_position_x }}%;
+      top: {{ section.settings.final_position_y }}%;
+      transform: rotate({{ section.settings.final_rotation }}deg) scale(1);
+    }
+    100% {
+      left: {{ section.settings.final_position_x }}%;
+      top: {{ section.settings.final_position_y }}%;
+      opacity: 1;
+      transform: rotate({{ section.settings.final_rotation }}deg) scale(1);
+    }
+  }
+
+  {% if section.settings.show_trail %}
+  .flying-plane-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 150px;
+    height: 4px;
+    background: linear-gradient(to left, rgba(255,255,255,0.6), transparent);
+    border-radius: 2px;
+    opacity: 0;
+    animation: trailFade-{{ section.id }} {{ section.settings.animation_duration }}s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    animation-delay: {{ section.settings.start_delay }}s;
+  }
+
+  @keyframes trailFade-{{ section.id }} {
+    0%, 10% {
+      opacity: 0;
+      width: 50px;
+    }
+    20%, 70% {
+      opacity: 0.7;
+      width: 150px;
+    }
+    90%, 100% {
+      opacity: 0;
+      width: 50px;
+    }
+  }
+  {% endif %}
+
+  @media screen and (max-width: 749px) {
+    .flying-plane-{{ section.id }} {
+      width: {{ section.settings.plane_size_mobile }}px;
+    }
+    
+    @keyframes flyInCurve-{{ section.id }} {
+      0% {
+        left: -100px;
+        top: 100%;
+        opacity: 0;
+        transform: rotate({{ section.settings.start_rotation }}deg) scale(0.5);
+      }
+      10% {
+        opacity: 1;
+        transform: rotate({{ section.settings.start_rotation }}deg) scale(0.7);
+      }
+      30% {
+        left: 10%;
+        top: 65%;
+        transform: rotate(-20deg) scale(0.85);
+      }
+      50% {
+        left: 30%;
+        top: 40%;
+        transform: rotate(-10deg) scale(0.95);
+      }
+      70% {
+        left: 45%;
+        top: 35%;
+        transform: rotate(-5deg) scale(1);
+      }
+      85% {
+        left: {{ section.settings.final_position_x_mobile }}%;
+        top: {{ section.settings.final_position_y_mobile }}%;
+        transform: rotate({{ section.settings.final_rotation }}deg) scale(1);
+      }
+      100% {
+        left: {{ section.settings.final_position_x_mobile }}%;
+        top: {{ section.settings.final_position_y_mobile }}%;
+        opacity: 1;
+        transform: rotate({{ section.settings.final_rotation }}deg) scale(1);
+      }
+    }
+  }
+
+  .plane-intro-{{ section.id }}.fade-out {
+    animation: fadeOutIntro-{{ section.id }} 0.5s ease forwards;
+  }
+
+  @keyframes fadeOutIntro-{{ section.id }} {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+{%- endstyle -%}
+
+<div class="plane-intro-{{ section.id }}" id="plane-intro-{{ section.id }}">
+  {%- if section.settings.plane_image != blank -%}
+    <img 
+      src="{{ section.settings.plane_image | image_url: width: 600 }}"
+      alt="Avion Legacy"
+      class="flying-plane-{{ section.id }}"
+      id="flying-plane-{{ section.id }}"
+    >
+  {%- else -%}
+    <div class="flying-plane-{{ section.id }}" style="width: {{ section.settings.plane_size }}px; height: 80px; background: #ccc; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 12px;">Add plane image</span>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const introContainer = document.getElementById('plane-intro-{{ section.id }}');
+    const plane = document.getElementById('flying-plane-{{ section.id }}');
+    
+    if (introContainer && plane) {
+      const totalTime = ({{ section.settings.start_delay }} + {{ section.settings.animation_duration }} + 0.5) * 1000;
+      
+      setTimeout(function() {
+        introContainer.classList.add('animation-complete');
+      }, totalTime);
+
+      {% if section.settings.only_first_visit %}
+      if (sessionStorage.getItem('avion-intro-shown')) {
+        introContainer.classList.add('animation-complete');
+      } else {
+        sessionStorage.setItem('avion-intro-shown', 'true');
+      }
+      {% endif %}
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Plane Intro Animation",
+  "tag": "section",
+  "class": "plane-intro-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Plane Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "plane_image",
+      "label": "Plane image",
+      "info": "Transparent PNG recommended. Plane should point to the right."
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "range",
+      "id": "plane_size",
+      "min": 100,
+      "max": 400,
+      "step": 20,
+      "unit": "px",
+      "label": "Plane size (desktop)",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "plane_size_mobile",
+      "min": 60,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Plane size (mobile)",
+      "default": 120
+    },
+    {
+      "type": "header",
+      "content": "Final Position"
+    },
+    {
+      "type": "range",
+      "id": "final_position_x",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "unit": "%",
+      "label": "Final X position (desktop)",
+      "default": 50,
+      "info": "Horizontal end position"
+    },
+    {
+      "type": "range",
+      "id": "final_position_y",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "label": "Final Y position (desktop)",
+      "default": 35,
+      "info": "Vertical end position"
+    },
+    {
+      "type": "range",
+      "id": "final_position_x_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "unit": "%",
+      "label": "Final X position (mobile)",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "final_position_y_mobile",
+      "min": 15,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "label": "Final Y position (mobile)",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "min": 2,
+      "max": 6,
+      "step": 0.5,
+      "unit": "s",
+      "label": "Animation duration",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "start_delay",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "unit": "s",
+      "label": "Start delay",
+      "default": 0.3,
+      "info": "Wait before animation starts"
+    },
+    {
+      "type": "range",
+      "id": "start_rotation",
+      "min": -45,
+      "max": 0,
+      "step": 5,
+      "unit": "°",
+      "label": "Start rotation",
+      "default": -35,
+      "info": "Entry angle (negative = nose up)"
+    },
+    {
+      "type": "range",
+      "id": "final_rotation",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "°",
+      "label": "Final rotation",
+      "default": -8,
+      "info": "Angle when animation ends"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trail",
+      "label": "Show trail",
+      "default": true,
+      "info": "Trail line behind the plane"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "only_first_visit",
+      "label": "Only show on first visit",
+      "default": true,
+      "info": "Animation only plays on first site visit"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Plane Intro Animation",
+      "category": "Avion Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,313 @@
+<div
+  id="StoryGrid-{{ section.id }}"
+  class="story-grid color-{{ section.settings.color_scheme }}"
+>
+  <div
+    class="story-grid__container spacing-style section {{ section.settings.section_width }}"
+    style="{% render 'spacing-style', settings: section.settings %}"
+  >
+    <div class="story-grid__layout">
+      
+      <div class="story-grid__col story-grid__col-left">
+        {% for block in section.blocks %}
+          {% if block.settings.position == 'left' %}
+            <div class="rte" {{ block.shopify_attributes }}>
+              {{ block.settings.content }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      
+      <div class="story-grid__col story-grid__col-center">
+        <div class="story-grid__row-top">
+          {% for block in section.blocks %}
+            {% if block.settings.position == 'center-top' %}
+              <div class="rte" {{ block.shopify_attributes }}>
+                {{ block.settings.content }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="story-grid__row-bottom">
+          {% for block in section.blocks %}
+            {% if block.settings.position == 'center-bottom' %}
+              <div class="rte" {{ block.shopify_attributes }}>
+                {{ block.settings.content }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="story-grid__col story-grid__col-right">
+        <div class="story-grid__row-top">
+          {% for block in section.blocks %}
+            {% if block.settings.position == 'right-top' %}
+              <div class="rte" {{ block.shopify_attributes }}>
+                {{ block.settings.content }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="story-grid__row-bottom">
+          {% for block in section.blocks %}
+            {% if block.settings.position == 'right-bottom' %}
+              <div class="rte" {{ block.shopify_attributes }}>
+                {{ block.settings.content }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="story-grid__footer">
+      <div class="story-grid__footer-left">
+        {% for block in section.blocks %}
+          {% if block.settings.position == 'footer-left' %}
+            <span {{ block.shopify_attributes }}>{{ block.settings.footer_text }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="story-grid__footer-right">
+        {% for block in section.blocks %}
+          {% if block.settings.position == 'footer-right' %}
+            <span {{ block.shopify_attributes }}>{{ block.settings.footer_text }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+{% stylesheet %}
+  .story-grid {
+    background: linear-gradient(to bottom, #d4c4a8 0%, #e8dcc8 50%, #f5f0e8 100%);
+    position: relative;
+  }
+
+  .story-grid::before,
+  .story-grid::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 8px, #a89968 8px, #a89968 10px);
+    z-index: 1;
+  }
+
+  .story-grid::before { 
+    top: 0; 
+    border-top: 2px solid #a89968; 
+  }
+  
+  .story-grid::after { 
+    bottom: 0; 
+    border-bottom: 2px solid #a89968; 
+  }
+
+  .story-grid__container {
+    border-left: 2px solid #a89968;
+    border-right: 2px solid #a89968;
+  }
+
+  .story-grid__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 40px;
+  }
+
+  .story-grid__col {
+    color: #c84b31;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .story-grid__col-left h1,
+  .story-grid__col-left h2 {
+    font-size: 48px;
+    line-height: 1.1;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .story-grid__col-center,
+  .story-grid__col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .story-grid__row-top,
+  .story-grid__row-bottom {
+    flex: 1;
+  }
+
+  .story-grid__footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #c84b31;
+  }
+
+  .story-grid__footer-right {
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 749px) {
+    .story-grid__layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .story-grid__col-left h1,
+    .story-grid__col-left h2 {
+      font-size: 36px;
+    }
+    
+    .story-grid__footer {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Story Grid",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {"value": "page-width", "label": "Page"},
+        {"value": "full-width", "label": "Full"}
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content_block",
+      "name": "Content Block",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "text",
+          "id": "footer_text",
+          "label": "Footer Text"
+        },
+        {
+          "type": "select",
+          "id": "position",
+          "label": "Position",
+          "options": [
+            {"value": "left", "label": "Left Column"},
+            {"value": "center-top", "label": "Center - Top"},
+            {"value": "center-bottom", "label": "Center - Bottom"},
+            {"value": "right-top", "label": "Right - Top"},
+            {"value": "right-bottom", "label": "Right - Bottom"},
+            {"value": "footer-left", "label": "Footer - Left"},
+            {"value": "footer-right", "label": "Footer - Right"}
+          ],
+          "default": "left"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Grid",
+      "blocks": [
+        {
+          "type": "content_block",
+          "settings": {
+            "content": "<h1>Our Story</h1>",
+            "position": "left"
+          }
+        },
+        {
+          "type": "content_block",
+          "settings": {
+            "content": "<p>We are a collective of craftspeople united by a passion for cannabis and the art of design.</p>",
+            "position": "center-top"
+          }
+        },
+        {
+          "type": "content_block",
+          "settings": {
+            "content": "<p>Cannabis has been my family's legacy for three generations, beginning with my grandfather Jerry.</p>",
+            "position": "center-bottom"
+          }
+        },
+        {
+          "type": "content_block",
+          "settings": {
+            "content": "<p>We work with people for whom cannabis is not just a product, but a source of inspiration and harmony.</p>",
+            "position": "right-top"
+          }
+        },
+        {
+          "type": "content_block",
+          "settings": {
+            "content": "<p>Our commitment to quality and to sharing this culture inspires us every day.</p>",
+            "position": "right-bottom"
+          }
+        },
+        {
+          "type": "content_block",
+          "settings": {
+            "footer_text": "since 2017",
+            "position": "footer-left"
+          }
+        },
+        {
+          "type": "content_block",
+          "settings": {
+            "footer_text": "from california with ♥",
+            "position": "footer-right"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

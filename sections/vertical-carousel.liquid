@@ -1,0 +1,638 @@
+<div
+  class="vertical-carousel-section"
+  style="
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+    --carousel-animation-speed: {{ section.settings.animation_speed }}s;
+  "
+>
+  <div class="page-width">
+    <div class="vertical-carousel-wrapper">
+      <div class="vertical-carousel-container">
+        <div class="vertical-carousel-columns">
+          <div class="vertical-carousel-column vertical-carousel-left">
+            <div class="vertical-carousel-track">
+              {%- for block in section.blocks limit: 6 -%}
+                {%- if forloop.index <= 3 -%}
+                  <div class="vertical-carousel-item" {{ block.shopify_attributes }}>
+                    {%- if block.settings.image != blank -%}
+                      <img
+                        srcset="{{ block.settings.image | image_url: width: 200 }} 200w,
+                                {{ block.settings.image | image_url: width: 300 }} 300w,
+                                {{ block.settings.image | image_url: width: 420 }} 420w,
+                                {{ block.settings.image | image_url: width: 600 }} 600w"
+                        sizes="(min-width: 990px) 420px, (min-width: 750px) calc(50vw - 40px), calc(100vw - 40px)"
+                        src="{{ block.settings.image | image_url: width: 420 }}"
+                        alt="{{ block.settings.image.alt | escape }}"
+                        loading="eager"
+                        width="{{ block.settings.image.width }}"
+                        height="{{ block.settings.image.height }}"
+                      >
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- for block in section.blocks limit: 6 -%}
+                {%- if forloop.index <= 3 -%}
+                  <div class="vertical-carousel-item" aria-hidden="true">
+                    {%- if block.settings.image != blank -%}
+                      <img
+                        src="{{ block.settings.image | image_url: width: 420 }}"
+                        alt=""
+                        loading="eager"
+                        width="{{ block.settings.image.width }}"
+                        height="{{ block.settings.image.height }}"
+                      >
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+
+          <div class="vertical-carousel-column vertical-carousel-right">
+            <div class="vertical-carousel-track">
+              {%- for block in section.blocks limit: 6 -%}
+                {%- if forloop.index > 3 -%}
+                  <div class="vertical-carousel-item" {{ block.shopify_attributes }}>
+                    {%- if block.settings.image != blank -%}
+                      <img
+                        srcset="{{ block.settings.image | image_url: width: 200 }} 200w,
+                                {{ block.settings.image | image_url: width: 300 }} 300w,
+                                {{ block.settings.image | image_url: width: 420 }} 420w,
+                                {{ block.settings.image | image_url: width: 600 }} 600w"
+                        sizes="(min-width: 990px) 420px, (min-width: 750px) calc(50vw - 40px), calc(100vw - 40px)"
+                        src="{{ block.settings.image | image_url: width: 420 }}"
+                        alt="{{ block.settings.image.alt | escape }}"
+                        loading="eager"
+                        width="{{ block.settings.image.width }}"
+                        height="{{ block.settings.image.height }}"
+                      >
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- for block in section.blocks limit: 6 -%}
+                {%- if forloop.index > 3 -%}
+                  <div class="vertical-carousel-item" aria-hidden="true">
+                    {%- if block.settings.image != blank -%}
+                      <img
+                        src="{{ block.settings.image | image_url: width: 420 }}"
+                        alt=""
+                        loading="eager"
+                        width="{{ block.settings.image.width }}"
+                        height="{{ block.settings.image.height }}"
+                      >
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+
+        <div class="vertical-carousel-content">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="vertical-carousel-eyebrow">{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="vertical-carousel-heading">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+
+          <div class="vertical-carousel-specs" aria-label="Product details">
+  <span class="vertical-carousel-spec">100% Cotton Fleece</span>
+  <span class="vertical-carousel-spec">350 GSM Heavyweight</span>
+  <span class="vertical-carousel-spec">Pre-shrunk</span>
+  <span class="vertical-carousel-spec">Made with Intent</span>
+</div>
+
+          {%- if section.settings.description != blank -%}
+            <div class="vertical-carousel-description">
+              {{ section.settings.description }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <a
+              href="{{ section.settings.button_link }}"
+              class="vertical-carousel-button"
+              style="
+                background-color: {{ section.settings.button_background_color }};
+                color: {{ section.settings.button_text_color }};
+                --button-hover-color: {{ section.settings.button_hover_color }};
+              "
+              {% if section.settings.button_link == blank %}
+                role="button" aria-disabled="true"
+              {% endif %}
+            >
+              {{ section.settings.button_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .vertical-carousel-section {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .vertical-carousel-wrapper {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .vertical-carousel-container {
+    display: grid;
+    grid-template-columns: minmax(0, 40%) minmax(0, 55%);
+    gap: 5%;
+    align-items: center;
+    min-height: 600px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .vertical-carousel-columns {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 650px;
+    max-height: 650px;
+    min-width: 0;
+  }
+
+  .vertical-carousel-column {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+  }
+
+  .vertical-carousel-track {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+
+  .vertical-carousel-left .vertical-carousel-track {
+    animation: scroll-up var(--carousel-animation-speed, 40s) linear infinite;
+  }
+
+  .vertical-carousel-right .vertical-carousel-track {
+    animation: scroll-down var(--carousel-animation-speed, 40s) linear infinite;
+  }
+
+  .vertical-carousel-item {
+    flex-shrink: 0;
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .vertical-carousel-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .vertical-carousel-item .placeholder-svg {
+    width: 100%;
+    height: 400px;
+    background: rgba(var(--color-foreground), 0.08);
+  }
+
+  .vertical-carousel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding: 2rem 3rem 2rem 0;
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .vertical-carousel-eyebrow {
+    font-size: 0.875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0;
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  .vertical-carousel-heading {
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 1.08;
+    margin: 0;
+    font-weight: 600;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .vertical-carousel-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: -0.25rem 0 0.5rem;
+}
+
+.vertical-carousel-spec {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 243, 220, 0.22);
+  background: rgba(255, 243, 220, 0.06);
+  font-size: 0.72rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 243, 220, 0.92);
+  white-space: nowrap;
+}
+
+.vertical-carousel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 0.95rem 1.75rem;
+  text-decoration: none;
+  border-radius: 999px;
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: fit-content;
+  border: none;
+  font-family: 'Young Serif', serif;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+}
+
+.vertical-carousel-button:hover {
+  background-color: var(--button-hover-color) !important;
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+ .vertical-carousel-description {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: rgba(var(--color-foreground), 0.88);
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: normal;
+  word-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-align: left;
+}
+  .vertical-carousel-description p {
+    margin: 0 0 1.35rem 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .vertical-carousel-description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .vertical-carousel-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.95rem 1.8rem;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: fit-content;
+    font-family: 'Young Serif', serif;
+    letter-spacing: 0.04em;
+  }
+
+  .vertical-carousel-button:hover {
+    background-color: var(--button-hover-color) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  }
+
+  .vertical-carousel-button[aria-disabled="true"] {
+    pointer-events: none;
+    filter: brightness(0.7);
+  }
+
+  @keyframes scroll-up {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  @keyframes scroll-down {
+    0% {
+      transform: translateY(-50%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .vertical-carousel-column:hover .vertical-carousel-track {
+    animation-play-state: paused;
+  }
+
+  .vertical-carousel-item:hover {
+    transform: scale(1.02);
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 989px) {
+    .vertical-carousel-container {
+      grid-template-columns: 42% 58%;
+      gap: 2.5rem;
+    }
+
+    .vertical-carousel-columns {
+      gap: 1rem;
+      height: 550px;
+      max-height: 550px;
+    }
+
+    .vertical-carousel-track {
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .vertical-carousel-container {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      min-height: auto;
+    }
+
+    .vertical-carousel-columns {
+      order: 2;
+      height: 500px;
+      max-height: 500px;
+      justify-content: center;
+    }
+
+    .vertical-carousel-content {
+      order: 1;
+      text-align: center;
+      align-items: center;
+      padding: 0;
+    }
+
+    .vertical-carousel-heading {
+      font-size: 2rem;
+    }
+
+    .vertical-carousel-description {
+      padding-left: 20px;
+      padding-right: 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .vertical-carousel-specs {
+        display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: -0.25rem 0 0.5rem;
+    }
+
+    .vertical-carousel-button {
+      width: auto;
+      margin: 0 auto;
+    }
+
+    .vertical-carousel-track {
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .vertical-carousel-columns {
+      gap: 0.75rem;
+      height: 400px;
+      max-height: 400px;
+    }
+
+    .vertical-carousel-track {
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .vertical-carousel-specs {
+      gap: 0.6rem 1rem;
+    }
+
+    .vertical-carousel-specs span {
+      font-size: 0.72rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vertical-carousel-track {
+      animation: none;
+    }
+
+    .vertical-carousel-item {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Carrusel Vertical",
+  "tag": "section",
+  "class": "section-vertical-carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto superior",
+      "default": "OUR STORY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "BUILT BY WOMEN WHO GET IT"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Descripción",
+      "default": "<p>For too long, women have been forced to choose between ineffective one-size-fits-all products or confusing arrays of individual supplements.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "READ MORE ABOUT US"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "header",
+      "content": "Estilo del Botón"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Color de fondo del botón",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Color del texto del botón",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Color de fondo al hacer hover",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Estilo"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Configuración de Animación"
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "s",
+      "label": "Velocidad de animación",
+      "default": 40,
+      "info": "Mayor número = más lento"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Imagen",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carrusel Vertical",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

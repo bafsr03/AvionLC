@@ -1,0 +1,475 @@
+{% comment %}
+  Sección personalizada: Pre-Rolls con elementos de marca
+  Instrucciones de instalación:
+  1. Ve a Tienda online > Temas > Editar código
+  2. En "Sections", haz clic en "Add a new section"
+  3. Nombra la sección "prerolls-hero"
+  4. Copia y pega este código
+  5. Guarda y añade la sección en el personalizador
+{% endcomment %}
+
+<style>
+  .prerolls-hero {
+    position: relative;
+    padding: 80px 20px;
+    background-color: {{ section.settings.background_color }};
+    overflow: hidden;
+    min-height: 500px;
+  }
+
+  .prerolls-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Elementos decorativos flotantes */
+  .prerolls-hero__deco {
+    position: absolute;
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .prerolls-hero__deco--sun {
+    top: 10%;
+    right: 8%;
+    width: 80px;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  .prerolls-hero__deco--cactus-left {
+    left: 5%;
+    top: 30%;
+    width: 100px;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .prerolls-hero__deco--cactus-right {
+    right: 10%;
+    bottom: 20%;
+    width: 90px;
+    animation: float 7s ease-in-out infinite 0.5s;
+  }
+
+  .prerolls-hero__deco--plane {
+    top: 15%;
+    right: 25%;
+    width: 120px;
+    animation: fly 15s linear infinite;
+  }
+
+  .prerolls-hero__deco--mountains {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    opacity: 0.15;
+  }
+
+  .prerolls-hero__deco--flowers {
+    bottom: 15%;
+    left: 8%;
+    width: 70px;
+    animation: float 5s ease-in-out infinite 1s;
+  }
+
+  /* Animaciones */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.25; }
+    50% { transform: scale(1.1); opacity: 0.35; }
+  }
+
+  @keyframes fly {
+    0% { transform: translateX(-100px); opacity: 0; }
+    10%, 90% { opacity: 0.3; }
+    100% { transform: translateX(calc(100vw + 100px)); opacity: 0; }
+  }
+
+  /* Título principal */
+  .prerolls-hero__title {
+    font-family: {{ section.settings.title_font.family }}, serif;
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: {{ section.settings.title_color }};
+    font-weight: {{ section.settings.title_font.weight }};
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* Línea decorativa debajo del título */
+  .prerolls-hero__title::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 3px;
+    background: {{ section.settings.accent_color }};
+    margin: 20px auto;
+    border-radius: 2px;
+  }
+
+  /* Grid de características */
+  .prerolls-hero__features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 900px;
+    margin: 50px auto;
+    text-align: center;
+  }
+
+  .prerolls-hero__feature {
+    padding: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .prerolls-hero__feature:hover {
+    transform: translateY(-5px);
+  }
+
+  .prerolls-hero__feature-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  }
+
+  .prerolls-hero__feature-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: {{ section.settings.title_color }};
+  }
+
+  .prerolls-hero__feature-text {
+    font-size: 1rem;
+    color: {{ section.settings.text_color }};
+    opacity: 0.8;
+  }
+
+  /* Descripción */
+  .prerolls-hero__description {
+    max-width: 700px;
+    margin: 40px auto;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: {{ section.settings.text_color }};
+  }
+
+  /* Botón CTA */
+  .prerolls-hero__cta {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .prerolls-hero__button {
+    display: inline-block;
+    padding: 15px 40px;
+    background: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .prerolls-hero__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: {{ section.settings.button_hover_color }};
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .prerolls-hero {
+      padding: 60px 15px;
+    }
+
+    .prerolls-hero__title {
+      font-size: 2.5rem;
+    }
+
+    .prerolls-hero__features {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .prerolls-hero__deco {
+      opacity: 0.15;
+    }
+
+    .prerolls-hero__deco--sun,
+    .prerolls-hero__deco--cactus-left,
+    .prerolls-hero__deco--cactus-right {
+      width: 60px;
+    }
+
+    .prerolls-hero__deco--plane {
+      display: none;
+    }
+  }
+</style>
+
+<section class="prerolls-hero">
+  <!-- Elementos decorativos -->
+  {% if section.settings.show_decorations %}
+    {% if section.settings.deco_sun != blank %}
+      <img src="{{ section.settings.deco_sun | img_url: '200x' }}" 
+           alt="Decoración" 
+           class="prerolls-hero__deco prerolls-hero__deco--sun">
+    {% endif %}
+    
+    {% if section.settings.deco_cactus_left != blank %}
+      <img src="{{ section.settings.deco_cactus_left | img_url: '200x' }}" 
+           alt="Decoración" 
+           class="prerolls-hero__deco prerolls-hero__deco--cactus-left">
+    {% endif %}
+    
+    {% if section.settings.deco_cactus_right != blank %}
+      <img src="{{ section.settings.deco_cactus_right | img_url: '200x' }}" 
+           alt="Decoración" 
+           class="prerolls-hero__deco prerolls-hero__deco--cactus-right">
+    {% endif %}
+    
+    {% if section.settings.deco_plane != blank %}
+      <img src="{{ section.settings.deco_plane | img_url: '200x' }}" 
+           alt="Decoración" 
+           class="prerolls-hero__deco prerolls-hero__deco--plane">
+    {% endif %}
+    
+    {% if section.settings.deco_mountains != blank %}
+      <img src="{{ section.settings.deco_mountains | img_url: '400x' }}" 
+           alt="Decoración" 
+           class="prerolls-hero__deco prerolls-hero__deco--mountains">
+    {% endif %}
+    
+    {% if section.settings.deco_flowers != blank %}
+      <img src="{{ section.settings.deco_flowers | img_url: '150x' }}" 
+           alt="Decoración" 
+           class="prerolls-hero__deco prerolls-hero__deco--flowers">
+    {% endif %}
+  {% endif %}
+
+  <div class="prerolls-hero__container">
+    <!-- Título principal -->
+    <h2 class="prerolls-hero__title">{{ section.settings.title }}</h2>
+
+    <!-- Grid de características -->
+    <div class="prerolls-hero__features">
+      {% for block in section.blocks %}
+        <div class="prerolls-hero__feature">
+          {% if block.settings.icon != blank %}
+            <img src="{{ block.settings.icon | img_url: '150x' }}" 
+                 alt="{{ block.settings.feature_title }}" 
+                 class="prerolls-hero__feature-icon">
+          {% endif %}
+          <div class="prerolls-hero__feature-title">{{ block.settings.feature_title }}</div>
+          <div class="prerolls-hero__feature-text">{{ block.settings.feature_text }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Descripción -->
+    {% if section.settings.description != blank %}
+      <div class="prerolls-hero__description">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+
+    <!-- Botón CTA -->
+    {% if section.settings.button_text != blank %}
+      <div class="prerolls-hero__cta">
+        <a href="{{ section.settings.button_link }}" class="prerolls-hero__button">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Pre-Rolls Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Pre-Rolls"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Fuente del título",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color del título",
+      "default": "#2c3e50"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color de fondo",
+      "default": "#f5f1e8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color del texto",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Color de acento (línea decorativa)",
+      "default": "#d4764f"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Our Premium Hash Holes are made from 100% Indoor Top Shelf Flower and extracts, sourced from trusted farmers. Only real cannabis that speaks loudly for itself."
+    },
+    {
+      "type": "header",
+      "content": "Botón CTA"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto del botón",
+      "default": "Explorar Pre-Rolls"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link del botón"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Color del botón",
+      "default": "#d4764f"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Color del texto del botón",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Color del botón (hover)",
+      "default": "#c06540"
+    },
+    {
+      "type": "header",
+      "content": "Elementos decorativos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decorations",
+      "label": "Mostrar elementos decorativos",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "deco_sun",
+      "label": "Sol (Elements-03)"
+    },
+    {
+      "type": "image_picker",
+      "id": "deco_cactus_left",
+      "label": "Cactus izquierdo (Elements-04)"
+    },
+    {
+      "type": "image_picker",
+      "id": "deco_cactus_right",
+      "label": "Cactus derecho (Elements-11)"
+    },
+    {
+      "type": "image_picker",
+      "id": "deco_plane",
+      "label": "Avión (Elements-01)"
+    },
+    {
+      "type": "image_picker",
+      "id": "deco_mountains",
+      "label": "Montañas (Elements-02)"
+    },
+    {
+      "type": "image_picker",
+      "id": "deco_flowers",
+      "label": "Flores (Elements-05)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Característica",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Ícono"
+        },
+        {
+          "type": "text",
+          "id": "feature_title",
+          "label": "Título",
+          "default": "100% Indoor"
+        },
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "Texto",
+          "default": "Top Shelf"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pre-Rolls Hero",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "feature_title": "100% Indoor",
+            "feature_text": "Top Shelf Flower"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_title": "Premium Quality",
+            "feature_text": "Real Cannabis"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_title": "Trusted Farmers",
+            "feature_text": "Sourced Responsibly"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

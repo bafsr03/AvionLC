@@ -1,0 +1,320 @@
+{%- style -%}
+  .avion-reinvention-{{ section.id }}{
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    width: 100%;
+    padding-top: {{ section.settings.pt_desktop }}px;
+    padding-bottom: {{ section.settings.pb_desktop }}px;
+  }
+
+  .avion-reinvention__inner-{{ section.id }}{
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding-left: {{ section.settings.side_padding }}px;
+    padding-right: {{ section.settings.side_padding }}px;
+  }
+
+  .avion-reinvention__grid-{{ section.id }}{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: {{ section.settings.gap_desktop }}px;
+    align-items: {% if section.settings.match_text_height %}stretch{% else %}start{% endif %};
+  }
+
+  .avion-reinvention__content-{{ section.id }}{
+    width: 100%;
+    align-self: {{ section.settings.content_align }};
+  }
+
+  .avion-reinvention__heading-{{ section.id }}{
+    margin: 0 0 {{ section.settings.heading_spacing }}px 0;
+    line-height: calc({{ section.settings.heading_line_height }} / 100);
+    letter-spacing: calc({{ section.settings.heading_letter_spacing }} / 100 * 1em);
+    font-weight: {{ section.settings.heading_weight }};
+    font-size: {{ section.settings.heading_size_desktop }}px;
+  }
+
+  .avion-reinvention__richtext-{{ section.id }}{
+    margin: 0;
+    font-size: {{ section.settings.body_size_desktop }}px;
+    line-height: calc({{ section.settings.body_line_height }} / 100);
+    letter-spacing: calc({{ section.settings.body_letter_spacing }} / 100 * 1em);
+    font-weight: {{ section.settings.body_weight }};
+    max-width: {{ section.settings.text_max_width }}px;
+  }
+
+  .avion-reinvention__richtext-{{ section.id }} p{
+    margin: 0 0 {{ section.settings.paragraph_spacing }}px 0;
+  }
+
+  .avion-reinvention__richtext-{{ section.id }} p:last-child{
+    margin-bottom: 0;
+  }
+
+  .avion-reinvention__media-{{ section.id }}{
+    width: 100%;
+    display: flex;
+    justify-content: {{ section.settings.image_align }};
+    align-items: {% if section.settings.match_text_height %}stretch{% else %}flex-start{% endif %};
+  }
+
+  .avion-reinvention__frame-{{ section.id }}{
+    width: 100%;
+    max-width: {{ section.settings.image_max_width_desktop }}px;
+    border-radius: {{ section.settings.image_radius }}px;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    {% if section.settings.match_text_height %}
+      height: 100%;
+    {% else %}
+      height: auto;
+    {% endif %}
+  }
+
+  .avion-reinvention__img-{{ section.id }}{
+    display: block;
+    {% if section.settings.match_text_height %}
+      width: 100%;
+      height: 100%;
+      object-fit: {{ section.settings.image_fit }};
+      object-position: {{ section.settings.image_position }};
+    {% else %}
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+    {% endif %}
+  }
+
+  @media screen and (max-width: 749px){
+    .avion-reinvention-{{ section.id }}{
+      padding-top: {{ section.settings.pt_mobile }}px;
+      padding-bottom: {{ section.settings.pb_mobile }}px;
+    }
+
+    .avion-reinvention__inner-{{ section.id }}{
+      padding-left: {{ section.settings.side_padding_mobile }}px;
+      padding-right: {{ section.settings.side_padding_mobile }}px;
+    }
+
+    .avion-reinvention__grid-{{ section.id }}{
+      grid-template-columns: 1fr;
+      gap: {{ section.settings.gap_mobile }}px;
+      align-items: start;
+    }
+
+    .avion-reinvention__heading-{{ section.id }}{
+      font-size: {{ section.settings.heading_size_mobile }}px;
+    }
+
+    .avion-reinvention__richtext-{{ section.id }}{
+      font-size: {{ section.settings.body_size_mobile }}px;
+      max-width: 100%;
+    }
+
+    .avion-reinvention__frame-{{ section.id }}{
+      max-width: {{ section.settings.image_max_width_mobile }}px;
+      height: auto;
+    }
+
+    .avion-reinvention__img-{{ section.id }}{
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    {% if section.settings.reverse_mobile %}
+      .avion-reinvention__media-{{ section.id }}{ order: 2; }
+      .avion-reinvention__content-{{ section.id }}{ order: 1; }
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section class="avion-reinvention-{{ section.id }}">
+  <div class="avion-reinvention__inner-{{ section.id }}">
+    <div class="avion-reinvention__grid-{{ section.id }}">
+      <div class="avion-reinvention__content-{{ section.id }}">
+        {%- if section.settings.heading != blank -%}
+          {%- assign tag = section.settings.heading_tag -%}
+          <{{ tag }} class="avion-reinvention__heading-{{ section.id }}">
+            {{ section.settings.heading | escape | newline_to_br }}
+          </{{ tag }}>
+        {%- endif -%}
+
+        {%- if section.settings.body != blank -%}
+          <div class="avion-reinvention__richtext-{{ section.id }}">
+            {{ section.settings.body }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="avion-reinvention__media-{{ section.id }}">
+        {%- if section.settings.image != blank -%}
+          <div class="avion-reinvention__frame-{{ section.id }}">
+            <img
+              class="avion-reinvention__img-{{ section.id }}"
+              src="{{ section.settings.image | image_url: width: 2200 }}"
+              alt="{{ section.settings.image_alt | escape }}"
+              loading="lazy"
+            >
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reinvention Split Section",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "REINVENTION" },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading type",
+      "default": "h2",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Jerry didn’t disappear after prison.</p><p>He built.</p><p>He used his earnings to fund Soloflex, a fitness company that would redefine American advertising.</p><p>Later, he invested heavily in cannabis legalization efforts, serving as chief petitioner in Oregon and running for governor in 2005.</p><p>From the shadows into advocacy.</p><p>From outlaw to organizer.</p><p>From risk to reform.</p>"
+    },
+
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Reinvention image" },
+
+    {
+      "type": "checkbox",
+      "id": "match_text_height",
+      "label": "Match text height",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit (when matching text height)",
+      "default": "cover",
+      "options": [
+        { "value": "cover", "label": "Cover (cropped)" },
+        { "value": "contain", "label": "Contain (no distortion)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position (when matching text height)",
+      "default": "center",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image corner radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_max_width_desktop",
+      "min": 320,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "label": "Image max width (desktop)",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "image_max_width_mobile",
+      "min": 240,
+      "max": 520,
+      "step": 10,
+      "unit": "px",
+      "label": "Image max width (mobile)",
+      "default": 340
+    },
+    {
+      "type": "select",
+      "id": "image_align",
+      "label": "Image alignment (desktop)",
+      "default": "center",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ]
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#F8F0E3" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#C23B2A" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "min": 900, "max": 1600, "step": 50, "unit": "px", "label": "Max content width", "default": 1400 },
+    { "type": "range", "id": "text_max_width", "min": 360, "max": 720, "step": 10, "unit": "px", "label": "Text max width", "default": 520 },
+    { "type": "range", "id": "side_padding", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Side padding (desktop)", "default": 24 },
+    { "type": "range", "id": "side_padding_mobile", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Side padding (mobile)", "default": 18 },
+    { "type": "range", "id": "gap_desktop", "min": 0, "max": 140, "step": 4, "unit": "px", "label": "Column gap (desktop)", "default": 72 },
+    { "type": "range", "id": "gap_mobile", "min": 0, "max": 70, "step": 2, "unit": "px", "label": "Column gap (mobile)", "default": 26 },
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Text vertical position (desktop)",
+      "default": "start",
+      "options": [
+        { "value": "start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "end", "label": "Bottom" }
+      ]
+    },
+    { "type": "checkbox", "id": "reverse_mobile", "label": "Reverse order on mobile", "default": false },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "pt_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Padding top (desktop)", "default": 40 },
+    { "type": "range", "id": "pb_desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Padding bottom (desktop)", "default": 40 },
+    { "type": "range", "id": "pt_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top (mobile)", "default": 28 },
+    { "type": "range", "id": "pb_mobile", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom (mobile)", "default": 28 },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "heading_size_desktop", "min": 24, "max": 120, "step": 2, "unit": "px", "label": "Heading size (desktop)", "default": 64 },
+    { "type": "range", "id": "heading_size_mobile", "min": 18, "max": 80, "step": 2, "unit": "px", "label": "Heading size (mobile)", "default": 40 },
+    { "type": "range", "id": "heading_weight", "min": 300, "max": 900, "step": 100, "label": "Heading weight", "default": 700 },
+    { "type": "range", "id": "heading_line_height", "min": 90, "max": 140, "step": 1, "label": "Heading line height", "default": 105 },
+    { "type": "range", "id": "heading_letter_spacing", "min": -5, "max": 20, "step": 1, "label": "Heading letter spacing", "default": 0 },
+
+    { "type": "range", "id": "body_size_desktop", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Body size (desktop)", "default": 16 },
+    { "type": "range", "id": "body_size_mobile", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Body size (mobile)", "default": 15 },
+    { "type": "range", "id": "body_weight", "min": 300, "max": 900, "step": 100, "label": "Body weight", "default": 400 },
+    { "type": "range", "id": "body_line_height", "min": 120, "max": 200, "step": 1, "label": "Body line height", "default": 160 },
+    { "type": "range", "id": "body_letter_spacing", "min": -3, "max": 10, "step": 1, "label": "Body letter spacing", "default": 0 },
+
+    { "type": "range", "id": "heading_spacing", "min": 0, "max": 60, "step": 2, "unit": "px", "label": "Space below heading", "default": 18 },
+    { "type": "range", "id": "paragraph_spacing", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Paragraph spacing", "default": 12 }
+  ],
+  "presets": [
+    { "name": "Reinvention Split Section" }
+  ]
+}
+{% endschema %}

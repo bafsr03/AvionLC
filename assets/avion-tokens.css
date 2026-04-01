@@ -1,0 +1,28 @@
+:root{
+  /* Avión palette */
+  --av-sand:#FFF3DC;
+  --av-red:#CC4137;
+  --av-ember:#F7B32B;
+  --av-terracotta:#EF983E;
+  --av-olive:#A2C523;
+  --av-teal:#4A987B;
+  --av-graphite:#3A3A3C;
+
+  /* UI */
+  --av-ink:var(--av-graphite);
+  --av-bg:var(--av-sand);
+  --av-border:rgba(58,58,60,.22);
+
+  /* Shape */
+  --av-radius-sm:10px;
+  --av-radius-md:16px;
+  --av-radius-lg:22px;
+
+  /* Layout */
+  --av-max:1200px;
+  --av-gutter:clamp(18px,3vw,34px);
+
+  /* Motion */
+  --av-ease:cubic-bezier(.2,.8,.2,1);
+  --av-fast:160ms;
+}

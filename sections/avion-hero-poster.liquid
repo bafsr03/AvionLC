@@ -1,0 +1,103 @@
+{% style %}
+  .av-marquee-section {
+    background-color: #4A987B;
+    border-top: 4px solid #F7B32B;
+    border-bottom: 4px solid #F7B32B;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0; 
+    display: flex;
+    align-items: center;
+    height: 80px; 
+  }
+
+  .av-marquee__track {
+    display: flex;
+    align-items: center;
+    animation: marquee-scroll 60s linear infinite;
+    width: max-content;
+    height: 100%;
+  }
+
+  .av-marquee-item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 5px;
+  }
+
+  .av-marquee__word {
+   font-family: "Young Serif", serif !important;
+    color: #FFF3DC;
+    font-size: 1.5rem; 
+    padding: 0 15px;
+    letter-spacing: 0.05em;
+  }
+
+  .av-marquee__icon {
+    height: 90%; 
+    width: auto;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+    margin: 0 10px;
+  }
+
+  .av-marquee__dot {
+    width: 10px;
+    height: 10px;
+    background-color: #FFF3DC;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+{% endstyle %}
+
+<section class="av-marquee-section">
+  {% if section.settings.marquee_text != blank %}
+    {% assign words = section.settings.marquee_text | split: ' ' %}
+    <div class="av-marquee__track">
+      {% for i in (1..20) %}
+        {% for word in words %}
+          {% if word != blank and word != '*' and word != '|' %}
+            <div class="av-marquee-item">
+              {% comment %} 1. CACTUS {% endcomment %}
+              <img src="https://cdn.shopify.com/s/files/1/0905/4227/6792/files/cactus.png?v=1766159619" alt="" class="av-marquee__icon" loading="lazy">
+
+              {% comment %} 2. PUNTO {% endcomment %}
+              <span class="av-marquee__dot"></span>
+
+              {% comment %} 3. PALABRA {% endcomment %}
+              <span class="av-marquee__word">{{ word | strip }}</span>
+
+              {% comment %} 4. PUNTO FINAL {% endcomment %}
+              <span class="av-marquee__dot"></span>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Marquee Avión Final",
+  "settings": [
+    {
+      "type": "textarea", 
+      "id": "marquee_text", 
+      "label": "Marquee text", 
+      "default": "NOSTALGIA CRAFT CULTURE LEGACY" 
+    }
+  ],
+  "presets": [
+    { "name": "Marquee Avión Final" }
+  ]
+}
+{% endschema %}

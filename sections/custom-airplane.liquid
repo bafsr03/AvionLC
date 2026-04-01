@@ -1,0 +1,89 @@
+{% style %}
+  .airplane-section-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .airplane-container {
+    perspective: 1000px;
+    margin-bottom: 30px;
+  }
+
+  .airplane-animation {
+    width: 100%;
+    max-width: {{ section.settings.airplane_width }}px;
+    height: auto;
+    animation: floatingAirplane 4s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes floatingAirplane {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-25px) rotate(2deg);
+    }
+  }
+
+  .airplane-text {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    max-width: 600px;
+  }
+{% endstyle %}
+
+<div class="airplane-section-{{ section.id }}">
+  <div class="airplane-container">
+    {% if section.settings.airplane_image != blank %}
+      <img src="{{ section.settings.airplane_image | image_url: width: 1200 }}" 
+           class="airplane-animation" 
+           alt="Airplane">
+    {% endif %}
+  </div>
+
+  {% if section.settings.heading != blank %}
+    <div class="airplane-text">
+      {{ section.settings.heading }}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Floating Airplane Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "airplane_image",
+      "label": "Airplane Image"
+    },
+    {
+      "type": "range",
+      "id": "airplane_width",
+      "min": 100,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Airplane Width",
+      "default": 450
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Text Content",
+      "default": "<p>Crafted for those who still believe in stories worth telling</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating Airplane Hero"
+    }
+  ]
+}
+{% endschema %}

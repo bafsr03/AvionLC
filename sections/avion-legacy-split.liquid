@@ -1,0 +1,416 @@
+{%- style -%}
+  .avion-legacy-split-{{ section.id }}{
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    width: 100%;
+    padding-top: {{ section.settings.pt_desktop }}px;
+    padding-bottom: {{ section.settings.pb_desktop }}px;
+  }
+
+  .avion-legacy-split__inner-{{ section.id }}{
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding-left: {{ section.settings.side_padding }}px;
+    padding-right: {{ section.settings.side_padding }}px;
+  }
+
+  .avion-legacy-split__grid-{{ section.id }}{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ section.settings.gap_desktop }}px;
+    align-items: center;
+  }
+
+  .avion-legacy-split__image-{{ section.id }}{
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ section.settings.image_radius }}px;
+  }
+
+  .avion-legacy-split__heading-{{ section.id }}{
+    margin: 0 0 {{ section.settings.heading_spacing }}px 0;
+    line-height: calc({{ section.settings.heading_line_height }} / 100);
+    letter-spacing: calc({{ section.settings.heading_letter_spacing }} / 100 * 1em);
+    font-weight: {{ section.settings.heading_weight }};
+    font-size: {{ section.settings.heading_size_desktop }}px;
+  }
+
+  .avion-legacy-split__richtext-{{ section.id }}{
+    margin: 0;
+    font-size: {{ section.settings.body_size_desktop }}px;
+    line-height: calc({{ section.settings.body_line_height }} / 100);
+    letter-spacing: calc({{ section.settings.body_letter_spacing }} / 100 * 1em);
+    font-weight: {{ section.settings.body_weight }};
+  }
+
+  .avion-legacy-split__richtext-{{ section.id }} p{
+    margin: 0 0 {{ section.settings.paragraph_spacing }}px 0;
+  }
+
+  .avion-legacy-split__richtext-{{ section.id }} p:last-child{
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 749px){
+    .avion-legacy-split-{{ section.id }}{
+      padding-top: {{ section.settings.pt_mobile }}px;
+      padding-bottom: {{ section.settings.pb_mobile }}px;
+    }
+
+    .avion-legacy-split__inner-{{ section.id }}{
+      padding-left: {{ section.settings.side_padding_mobile }}px;
+      padding-right: {{ section.settings.side_padding_mobile }}px;
+    }
+
+    .avion-legacy-split__grid-{{ section.id }}{
+      grid-template-columns: 1fr;
+      gap: {{ section.settings.gap_mobile }}px;
+    }
+
+    .avion-legacy-split__heading-{{ section.id }}{
+      font-size: {{ section.settings.heading_size_mobile }}px;
+    }
+
+    .avion-legacy-split__richtext-{{ section.id }}{
+      font-size: {{ section.settings.body_size_mobile }}px;
+    }
+
+    {% if section.settings.reverse_mobile %}
+      .avion-legacy-split__media-{{ section.id }}{ order: 2; }
+      .avion-legacy-split__content-{{ section.id }}{ order: 1; }
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section class="avion-legacy-split-{{ section.id }}">
+  <div class="avion-legacy-split__inner-{{ section.id }}">
+    <div class="avion-legacy-split__grid-{{ section.id }}">
+      <div class="avion-legacy-split__media-{{ section.id }}">
+        {%- if section.settings.image != blank -%}
+          <img
+            class="avion-legacy-split__image-{{ section.id }}"
+            src="{{ section.settings.image | image_url: width: 1800 }}"
+            alt="{{ section.settings.image_alt | escape }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+      <div class="avion-legacy-split__content-{{ section.id }}">
+        {%- if section.settings.heading != blank -%}
+          {%- assign tag = section.settings.heading_tag -%}
+          <{{ tag }} class="avion-legacy-split__heading-{{ section.id }}">
+            {{ section.settings.heading | escape | newline_to_br }}
+          </{{ tag }}>
+        {%- endif -%}
+
+        {%- if section.settings.body != blank -%}
+          <div class="avion-legacy-split__richtext-{{ section.id }}">
+            {{ section.settings.body }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Legacy Split Section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "Legacy image"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE MAN BEHIND THE\nLEGACY"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading type",
+      "default": "h2",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Jerry Wilson was not just a pilot.</p><p>He was a risk-taker. A disruptor. A believer in freedom before it was fashionable.</p><p>To me, he was my grandfather.</p><p>To the headlines, he was something else entirely.</p><p>In the 1970s and 80s, Jerry flew cannabis from Mexico and Colombia into the United States.</p><p>Not quietly. Not carefully. Boldly.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#9C2F2A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F8F0E3"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 900,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Max content width",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Side padding (desktop)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "side_padding_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Side padding (mobile)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "gap_desktop",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Column gap (desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Column gap (mobile)",
+      "default": 26
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse_mobile",
+      "label": "Reverse order on mobile",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image corner radius",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "pt_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "pb_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "pt_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (mobile)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "pb_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (mobile)",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size (desktop)",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "label": "Heading weight",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 90,
+      "max": 140,
+      "step": 1,
+      "label": "Heading line height",
+      "default": 105
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "min": -5,
+      "max": 20,
+      "step": 1,
+      "label": "Heading letter spacing",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "body_size_desktop",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Body size (desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "body_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body size (mobile)",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "body_weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "label": "Body weight",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "min": 120,
+      "max": 200,
+      "step": 1,
+      "label": "Body line height",
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "body_letter_spacing",
+      "min": -3,
+      "max": 10,
+      "step": 1,
+      "label": "Body letter spacing",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Space below heading",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "paragraph_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Paragraph spacing",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Legacy Split Section"
+    }
+  ]
+}
+{% endschema %}

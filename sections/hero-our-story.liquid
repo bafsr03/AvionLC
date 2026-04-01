@@ -1,0 +1,704 @@
+{% liquid
+  assign section_id = 'avion-story-split-' | append: section.id
+%}
+
+{% style %}
+  #{{ section_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section_id }} .avion-story-split__inner {
+    position: relative;
+    width: 100%;
+    min-height: {{ section.settings.section_height }}px;
+  }
+
+  #{{ section_id }} .avion-story-split__media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  #{{ section_id }} .avion-story-split__image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center center;
+    transform: scale(1.08);
+    will-change: transform, filter;
+    transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1), filter 1.2s ease;
+    filter: saturate(0.96) contrast(1.02);
+  }
+
+  #{{ section_id }} .avion-story-split__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      linear-gradient(to right,
+        rgba(0, 0, 0, 0.46) 0%,
+        rgba(0, 0, 0, 0.18) 18%,
+        rgba(0, 0, 0, 0.04) 34%,
+        rgba(0, 0, 0, 0.00) 50%,
+        rgba(0, 0, 0, 0.04) 66%,
+        rgba(0, 0, 0, 0.18) 82%,
+        rgba(0, 0, 0, 0.46) 100%
+      ),
+      linear-gradient(to top,
+        rgba(0, 0, 0, 0.24) 0%,
+        rgba(0, 0, 0, 0.08) 24%,
+        rgba(0, 0, 0, 0.00) 52%
+      );
+  }
+
+  #{{ section_id }} .avion-story-split__content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    min-height: {{ section.settings.section_height }}px;
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) minmax(80px, 220px) minmax(240px, 1fr);
+    gap: 18px;
+    align-items: start;
+    padding:
+      {{ section.settings.content_top_padding }}px
+      {{ section.settings.side_padding }}px
+      {{ section.settings.text_bottom_spacing }}px;
+    box-sizing: border-box;
+  }
+
+  #{{ section_id }} .avion-story-split__left,
+  #{{ section_id }} .avion-story-split__right {
+    max-width: 500px;
+    align-self: start;
+    opacity: 0;
+    transform: translateY(34px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+  }
+
+  #{{ section_id }} .avion-story-split__left {
+    justify-self: start;
+    text-align: left;
+    transition-delay: 0.12s;
+  }
+
+  #{{ section_id }} .avion-story-split__right {
+    justify-self: end;
+    text-align: left;
+    transition-delay: 0.24s;
+  }
+
+  #{{ section_id }} .avion-story-split__spacer {
+    width: 100%;
+    min-height: 1px;
+  }
+
+ #{{ section_id }} .avion-story-split__text-wrap {
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 15, 12, 0.18),
+    rgba(20, 15, 12, 0.10)
+  );
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  padding: 18px 18px 16px;
+  border: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+  #{{ section_id }} .avion-story-split__text {
+    margin: 0;
+    color: {{ section.settings.text_color }};
+    font-size: {{ section.settings.font_size }}px;
+    line-height: {{ section.settings.line_height }};
+    letter-spacing: {{ section.settings.letter_spacing }}px;
+    text-wrap: pretty;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.22);
+  }
+
+  #{{ section_id }} .avion-story-split__text p {
+    margin: 0 0 1.05em;
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  #{{ section_id }} .avion-story-split__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  #{{ section_id }}.is-visible .avion-story-split__image {
+    transform: scale(1.02);
+    filter: saturate(1) contrast(1.04);
+  }
+
+  #{{ section_id }}.is-visible .avion-story-split__left,
+  #{{ section_id }}.is-visible .avion-story-split__right {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #{{ section_id }} .avion-story-split__text p.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media screen and (max-width: 1280px) {
+    #{{ section_id }} .avion-story-split__inner {
+      min-height: {{ section.settings.section_height_tablet }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__content {
+      min-height: {{ section.settings.section_height_tablet }}px;
+      grid-template-columns: minmax(220px, 1fr) minmax(40px, 140px) minmax(220px, 1fr);
+      gap: 16px;
+      padding:
+        {{ section.settings.content_top_padding_tablet }}px
+        {{ section.settings.side_padding_tablet }}px
+        {{ section.settings.text_bottom_spacing_tablet }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__left,
+    #{{ section_id }} .avion-story-split__right {
+      max-width: 360px;
+    }
+
+    #{{ section_id }} .avion-story-split__text {
+      font-size: {{ section.settings.font_size_tablet }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__text-wrap {
+      padding: 20px 20px 18px;
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+    #{{ section_id }} .avion-story-split__inner {
+      min-height: {{ section.settings.section_height_small_tablet }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__content {
+      min-height: {{ section.settings.section_height_small_tablet }}px;
+      grid-template-columns: minmax(180px, 1fr) minmax(20px, 72px) minmax(180px, 1fr);
+      gap: 12px;
+      padding:
+        {{ section.settings.content_top_padding_small_tablet }}px
+        {{ section.settings.side_padding_small_tablet }}px
+        {{ section.settings.text_bottom_spacing_small_tablet }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__left,
+    #{{ section_id }} .avion-story-split__right {
+      max-width: 280px;
+    }
+
+    #{{ section_id }} .avion-story-split__text {
+      font-size: {{ section.settings.font_size_small_tablet }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__text-wrap {
+      padding: 16px 16px 15px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    #{{ section_id }} .avion-story-split__inner {
+      min-height: auto;
+    }
+
+    #{{ section_id }} .avion-story-split__media {
+      position: relative;
+      inset: auto;
+      height: {{ section.settings.mobile_image_height }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__image {
+      object-position: center top;
+      transform: scale(1.03);
+    }
+
+    #{{ section_id }} .avion-story-split__overlay {
+      background:
+        linear-gradient(to top,
+          rgba(0, 0, 0, 0.18) 0%,
+          rgba(0, 0, 0, 0.04) 28%,
+          rgba(0, 0, 0, 0.00) 55%
+        );
+    }
+
+    #{{ section_id }} .avion-story-split__content {
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding:
+        {{ section.settings.mobile_content_top_padding }}px
+        {{ section.settings.mobile_side_padding }}px
+        {{ section.settings.mobile_text_bottom_spacing }}px;
+      background-color: {{ section.settings.mobile_text_bg }};
+    }
+
+    #{{ section_id }} .avion-story-split__spacer {
+      display: none;
+    }
+
+    #{{ section_id }} .avion-story-split__left,
+    #{{ section_id }} .avion-story-split__right {
+      max-width: 100%;
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    #{{ section_id }} .avion-story-split__right {
+      margin-top: {{ section.settings.mobile_text_gap }}px;
+    }
+
+    #{{ section_id }} .avion-story-split__text-wrap {
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+    }
+
+    #{{ section_id }} .avion-story-split__text {
+      font-size: {{ section.settings.mobile_font_size }}px;
+      line-height: {{ section.settings.mobile_line_height }};
+      letter-spacing: {{ section.settings.mobile_letter_spacing }}px;
+      text-shadow: none;
+    }
+
+    #{{ section_id }} .avion-story-split__text p {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #{{ section_id }} .avion-story-split__image,
+    #{{ section_id }} .avion-story-split__left,
+    #{{ section_id }} .avion-story-split__right,
+    #{{ section_id }} .avion-story-split__text p {
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+      filter: none !important;
+    }
+  }
+{% endstyle %}
+
+<section id="{{ section_id }}" class="avion-story-split">
+  <div class="avion-story-split__inner">
+    <div class="avion-story-split__media">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 3200
+          | image_tag:
+            class: 'avion-story-split__image',
+            loading: 'lazy',
+            sizes: '(max-width: 768px) 100vw, 100vw',
+            widths: '480, 768, 960, 1200, 1600, 2000, 2400, 3200'
+        }}
+      {% endif %}
+      <div class="avion-story-split__overlay"></div>
+    </div>
+
+    <div class="avion-story-split__content">
+      <div class="avion-story-split__left">
+        {% if section.settings.left_text != blank %}
+          <div class="avion-story-split__text-wrap">
+            <div class="avion-story-split__text">{{ section.settings.left_text }}</div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="avion-story-split__spacer"></div>
+
+      <div class="avion-story-split__right">
+        {% if section.settings.right_text != blank %}
+          <div class="avion-story-split__text-wrap">
+            <div class="avion-story-split__text">{{ section.settings.right_text }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var section = document.getElementById('{{ section_id }}');
+    if (!section) return;
+
+    var paragraphs = section.querySelectorAll('.avion-story-split__text p');
+
+    function revealParagraphs() {
+      paragraphs.forEach(function (p, index) {
+        setTimeout(function () {
+          p.classList.add('is-visible');
+        }, index * 90);
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var sectionObserver = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            section.classList.add('is-visible');
+            revealParagraphs();
+            observer.unobserve(section);
+          }
+        });
+      }, {
+        threshold: 0.24
+      });
+
+      sectionObserver.observe(section);
+    } else {
+      section.classList.add('is-visible');
+      revealParagraphs();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Avion story split",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "richtext",
+      "id": "left_text",
+      "label": "Left text",
+      "default": "<p>Left text goes here.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "right_text",
+      "label": "Right text",
+      "default": "<p>Right text goes here.</p>"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#5A463F"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F5EBDD"
+    },
+    {
+      "type": "color",
+      "id": "mobile_text_bg",
+      "label": "Mobile text background",
+      "default": "#1E1815"
+    },
+    {
+      "type": "range",
+      "id": "text_panel_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Desktop text panel opacity",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 500,
+      "max": 1100,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop section height",
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "content_top_padding",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop text top offset",
+      "default": 84
+    },
+    {
+      "type": "range",
+      "id": "text_bottom_spacing",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop text bottom spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "min": 12,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop side padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "label": "Desktop line height",
+      "default": 17
+    },
+    {
+  "type": "range",
+  "id": "letter_spacing",
+  "min": -10,
+  "max": 20,
+  "step": 1,
+  "unit": "px",
+  "label": "Desktop letter spacing",
+  "default": 0
+},
+    {
+      "type": "range",
+      "id": "section_height_tablet",
+      "min": 460,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Tablet section height",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "content_top_padding_tablet",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Tablet text top offset",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "text_bottom_spacing_tablet",
+      "min": 0,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "label": "Tablet text bottom spacing",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "side_padding_tablet",
+      "min": 12,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Tablet side padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "font_size_tablet",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Tablet font size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "section_height_small_tablet",
+      "min": 420,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "label": "Small tablet section height",
+      "default": 620
+    },
+    {
+      "type": "range",
+      "id": "content_top_padding_small_tablet",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "label": "Small tablet text top offset",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "text_bottom_spacing_small_tablet",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Small tablet text bottom spacing",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "side_padding_small_tablet",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Small tablet side padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "font_size_small_tablet",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Small tablet font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_height",
+      "min": 260,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile image height",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "mobile_content_top_padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile content top spacing",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_bottom_spacing",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile text bottom spacing",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_side_padding",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile side padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile gap between texts",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "mobile_line_height",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "label": "Mobile line height",
+      "default": 17
+    },
+    {
+  "type": "range",
+  "id": "mobile_letter_spacing",
+  "min": -10,
+  "max": 20,
+  "step": 1,
+  "unit": "px",
+  "label": "Mobile letter spacing",
+  "default": 0
+},
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Section top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Section bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avion story split"
+    }
+  ]
+}
+{% endschema %}

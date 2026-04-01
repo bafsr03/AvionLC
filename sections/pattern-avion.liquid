@@ -1,0 +1,210 @@
+{% style %}
+  .avion-pattern-separator {
+    width: 100%;
+    padding: {{ section.settings.spacing_top }}px 0 {{ section.settings.spacing_bottom }}px 0;
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+  }
+
+  .pattern-separator-container {
+    width: 100%;
+    height: {{ section.settings.pattern_height }}px;
+    background-image: url("{{ section.settings.pattern_image | image_url: width: 2000 }}");
+    background-repeat: repeat-x;
+    background-position: 0 center;
+    background-size: auto {{ section.settings.pattern_height }}px;
+    opacity: {{ section.settings.opacity | divided_by: 100.0 }};
+    will-change: background-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .avion-pattern-separator {
+      padding: {{ section.settings.spacing_top_mobile }}px 0 {{ section.settings.spacing_bottom_mobile }}px 0;
+    }
+
+    .pattern-separator-container {
+      height: {{ section.settings.pattern_height_mobile }}px;
+      background-size: auto {{ section.settings.pattern_height_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="avion-pattern-separator">
+  <div class="pattern-separator-container" id="pattern-{{ section.id }}"></div>
+</div>
+
+<script>
+  (function() {
+    const pattern = document.getElementById('pattern-{{ section.id }}');
+    const direction = '{{ section.settings.scroll_direction }}';
+    const speed = {{ section.settings.scroll_speed }} / 100;
+
+    let currentPosition = 0;
+    let targetPosition = 0;
+    let animationFrame = null;
+
+    function getSmoothFactor() {
+      if (window.innerWidth <= 480) return 0.032;
+      if (window.innerWidth <= 768) return 0.028;
+      if (window.innerWidth <= 1200) return 0.024;
+      return 0.02;
+    }
+
+    function updateTarget() {
+      const scrolled = window.pageYOffset || window.scrollY || 0;
+      targetPosition = direction === 'right' ? scrolled * speed : -scrolled * speed;
+
+      if (!animationFrame) {
+        animationFrame = requestAnimationFrame(animatePattern);
+      }
+    }
+
+    function animatePattern() {
+      const smoothFactor = getSmoothFactor();
+      currentPosition += (targetPosition - currentPosition) * smoothFactor;
+      pattern.style.backgroundPosition = `${currentPosition}px center`;
+
+      if (Math.abs(targetPosition - currentPosition) > 0.03) {
+        animationFrame = requestAnimationFrame(animatePattern);
+      } else {
+        currentPosition = targetPosition;
+        pattern.style.backgroundPosition = `${currentPosition}px center`;
+        animationFrame = null;
+      }
+    }
+
+    window.addEventListener('scroll', updateTarget, { passive: true });
+    window.addEventListener('resize', updateTarget, { passive: true });
+    updateTarget();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Avión Pattern Separador",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "pattern_image",
+      "label": "Imagen de Patrón",
+      "info": "Sube tu imagen de patrón. Se repetirá horizontalmente."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de Fondo",
+      "default": "#FFF3DC"
+    },
+    {
+      "type": "range",
+      "id": "pattern_height",
+      "label": "Altura del Patrón Desktop (px)",
+      "min": 20,
+      "max": 200,
+      "step": 5,
+      "default": 50,
+      "info": "Controla la altura del patrón"
+    },
+    {
+      "type": "range",
+      "id": "pattern_height_mobile",
+      "label": "Altura del Patrón Mobile (px)",
+      "min": 15,
+      "max": 100,
+      "step": 5,
+      "default": 35,
+      "info": "Altura del patrón en móvil"
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "label": "Opacidad (%)",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Animación de Scroll"
+    },
+    {
+      "type": "select",
+      "id": "scroll_direction",
+      "label": "Dirección del Movimiento",
+      "options": [
+        {
+          "value": "left",
+          "label": "Izquierda"
+        },
+        {
+          "value": "right",
+          "label": "Derecha"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Velocidad del Scroll",
+      "min": 10,
+      "max": 200,
+      "step": 10,
+      "default": 50,
+      "info": "Controla qué tan rápido se mueve el patrón con el scroll"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado Desktop"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Espacio Superior (px)",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Espacio Inferior (px)",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Espaciado Mobile"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top_mobile",
+      "label": "Espacio Superior Mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom_mobile",
+      "label": "Espacio Inferior Mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avión Pattern Separador"
+    }
+  ]
+}
+{% endschema %}

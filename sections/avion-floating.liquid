@@ -1,0 +1,248 @@
+{%- style -%}
+  .floating-icon-section-{{ section.id }} {
+    position: relative;
+    height: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .floating-icon-container-{{ section.id }} {
+    position: absolute;
+    left: {{ section.settings.horizontal_position }}%;
+    transform: translateX(-50%);
+    top: {{ section.settings.vertical_offset }}px;
+    pointer-events: auto;
+  }
+
+  {% if section.settings.horizontal_position > 85 %}
+  .floating-icon-container-{{ section.id }} {
+    left: auto;
+    right: {{ 100 | minus: section.settings.horizontal_position }}%;
+    transform: translateX(50%);
+  }
+  {% elsif section.settings.horizontal_position < 15 %}
+  .floating-icon-container-{{ section.id }} {
+    left: {{ section.settings.horizontal_position }}%;
+    transform: translateX(-50%);
+  }
+  {% endif %}
+
+  .floating-icon-{{ section.id }} {
+    width: {{ section.settings.icon_size }}px;
+    height: auto;
+    max-width: none;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+    animation: floatAnimation-{{ section.id }} {{ section.settings.animation_speed }}s ease-in-out infinite;
+  }
+
+  @keyframes floatAnimation-{{ section.id }} {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-{{ section.settings.float_distance }}px);
+    }
+  }
+
+  .floating-icon-shadow-{{ section.id }} {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ section.settings.icon_size | times: 0.6 }}px;
+    height: 10px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.2) 0%, transparent 70%);
+    animation: shadowAnimation-{{ section.id }} {{ section.settings.animation_speed }}s ease-in-out infinite;
+  }
+
+  @keyframes shadowAnimation-{{ section.id }} {
+    0%, 100% {
+      transform: translateX(-50%) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translateX(-50%) scale(0.8);
+      opacity: 0.15;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .floating-icon-{{ section.id }} {
+      width: {{ section.settings.icon_size_mobile }}px;
+    }
+
+    .floating-icon-container-{{ section.id }} {
+      top: {{ section.settings.vertical_offset_mobile }}px;
+      left: {{ section.settings.horizontal_position_mobile }}%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+
+    {% if section.settings.hide_on_mobile %}
+      .floating-icon-section-{{ section.id }} {
+        display: none !important;
+      }
+    {% endif %}
+  }
+
+  .floating-icon-section-{{ section.id }},
+  .floating-icon-section-{{ section.id }} * {
+    overflow: visible !important;
+  }
+{%- endstyle -%}
+
+<div class="floating-icon-section-{{ section.id }}">
+  <div class="floating-icon-container-{{ section.id }}">
+    {%- if section.settings.icon_image != blank -%}
+      <img 
+        src="{{ section.settings.icon_image | image_url: width: 500 }}"
+        alt="{{ section.settings.icon_alt | default: 'Avion Legacy' }}"
+        class="floating-icon-{{ section.id }}"
+        loading="lazy"
+      >
+      {%- if section.settings.show_shadow -%}
+        <div class="floating-icon-shadow-{{ section.id }}"></div>
+      {%- endif -%}
+    {%- else -%}
+      <div style="width: {{ section.settings.icon_size }}px; height: {{ section.settings.icon_size }}px; background: #ccc; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+        <span style="font-size: 12px; color: #666;">Add image</span>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Floating Icon",
+  "tag": "section",
+  "class": "floating-icon-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Icon Image"
+    },
+    {
+      "type": "text",
+      "id": "icon_alt",
+      "label": "Alt text",
+      "default": "Avion Legacy"
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 40,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Icon size (desktop)",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "min": 30,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon size (mobile)",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Position"
+    },
+    {
+      "type": "range",
+      "id": "horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal position (desktop)",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "horizontal_position_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal position (mobile)",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "vertical_offset",
+      "min": -150,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical offset (desktop)",
+      "default": -40
+    },
+    {
+      "type": "range",
+      "id": "vertical_offset_mobile",
+      "min": -100,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical offset (mobile)",
+      "default": -30
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "min": 2,
+      "max": 6,
+      "step": 0.5,
+      "unit": "s",
+      "label": "Animation speed",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "float_distance",
+      "min": 5,
+      "max": 25,
+      "step": 1,
+      "unit": "px",
+      "label": "Float distance",
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shadow",
+      "label": "Show dynamic shadow",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating Icon",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
