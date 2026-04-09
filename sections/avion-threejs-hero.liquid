@@ -1,0 +1,295 @@
+{% comment %}
+  Avion 3D Hero
+  ─────────────
+  Embeds the Three.js scroll-animation engine as the homepage hero.
+
+  Required setup (one-time):
+    1. Go to Shopify Admin → Content → Files
+    2. Upload your airplane model  → paste its URL into "Airplane model URL"
+    3. Upload your sky environment → paste its URL into "Sky environment URL"
+    4. Pick your logo image using the image picker below
+
+  The canvas is position:fixed and fullscreen.  All subsequent page
+  sections need a stacking context above it — the CSS block below handles
+  this automatically for the active page.
+{% endcomment %}
+
+{% style %}
+
+  /* ── Stacking fix ────────────────────────────────────────────────────────
+     The canvas is position:fixed; z-index:0.  Every .shopify-section that
+     follows must sit above it so its solid background covers the canvas
+     as the user scrolls past the hero.  We scope this to pages that
+     actually carry this section so it never leaks to other templates.   */
+  .avion-hero-page .shopify-section {
+    position: relative;
+    z-index: 1;
+  }
+  /* The hero's own shopify-section wrapper must NOT participate in stacking
+     so its fixed children (canvas, overlays) stack against the viewport. */
+  .avion-hero-page #shopify-section-{{ section.id }} {
+    position: static;
+    z-index: auto;
+    background: transparent;
+  }
+
+  /* ── Loading screen ──────────────────────────────────────────────────── */
+  #avion-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: #010714;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease;
+  }
+  #avion-loading.avion-loading--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .avion-loading-inner {
+    text-align: center;
+    width: 260px;
+  }
+  .avion-loading-bar {
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  #avion-loading-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6d28d9, #0ea5e9);
+    border-radius: 2px;
+    transition: width 0.2s ease;
+  }
+  .avion-loading-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(241,245,249,0.45);
+    font-family: system-ui, sans-serif;
+  }
+
+  /* ── Canvas ──────────────────────────────────────────────────────────── */
+  #avion-webgl {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    display: block;
+  }
+
+  /* ── Hero overlay (logo reveal) ──────────────────────────────────────── */
+  #avion-hero-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .avion-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+  .avion-hero-logo {
+    width: clamp(180px, 35vw, 380px);
+    height: auto;
+    /* Drop-shadow so the logo reads against any sky tone */
+    filter: drop-shadow(0 4px 32px rgba(0,0,0,0.55))
+            drop-shadow(0 0  12px rgba(0,0,0,0.35));
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .avion-scroll-hint {
+    font-size: 1.4rem;
+    color: rgba(241,245,249,0.55);
+    animation: avion-bounce 2.4s ease-in-out infinite;
+    font-family: system-ui, sans-serif;
+  }
+  @keyframes avion-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(10px); }
+  }
+
+  /* ── Scroll zones (provide scroll height — no visual footprint) ──────── */
+  #avion-animation-zone {
+    height: {{ section.settings.animation_zone_vh }}vh;
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
+  #avion-pause-zone {
+    height: {{ section.settings.pause_zone_vh }}vh;
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── Section bridge (canvas → page content gradient) ─────────────────── */
+  #avion-section-bridge {
+    position: relative;
+    z-index: 15;
+    height: 28vh;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      {{ section.settings.bridge_color }}
+    );
+    pointer-events: none;
+  }
+
+{% endstyle %}
+
+{%- comment %} Mark the page so stacking CSS above only applies here ─────── {%- endcomment %}
+<script>document.documentElement.classList.add('avion-hero-page')</script>
+
+{%- comment %} Inject config for the JS bundle ──────────────────────────── {%- endcomment %}
+<script>
+  window.AvionHero = {
+    glbUrl: {{ section.settings.glb_url | default: '' | json }},
+    exrUrl: {{ section.settings.exr_url | default: '' | json }}
+  }
+</script>
+
+{%- comment %} Loading screen ─────────────────────────────────────────────── {%- endcomment %}
+<div id="avion-loading">
+  <div class="avion-loading-inner">
+    <div class="avion-loading-bar">
+      <div id="avion-loading-fill"></div>
+    </div>
+    <p class="avion-loading-label">
+      Loading <span id="avion-loading-pct">0%</span>
+    </p>
+  </div>
+</div>
+
+{%- comment %} WebGL canvas ───────────────────────────────────────────────── {%- endcomment %}
+<canvas id="avion-webgl"></canvas>
+
+{%- comment %} Hero overlay — logo fades in at end of animation ─────────── {%- endcomment %}
+<div id="avion-hero-overlay">
+  <div class="avion-hero-content">
+    {%- if section.settings.logo_image != blank -%}
+      {{
+        section.settings.logo_image
+          | image_url: width: 760
+          | image_tag:
+            class: 'avion-hero-logo',
+            alt: shop.name,
+            loading: 'eager',
+            widths: '280, 380, 560, 760',
+            sizes: 'clamp(180px, 35vw, 380px)'
+      }}
+    {%- endif -%}
+    {%- if section.settings.show_scroll_hint -%}
+      <div class="avion-scroll-hint">↓</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- comment %} Scroll zones — pure height, drive the animation scrub ──────── {%- endcomment %}
+<div id="avion-animation-zone"></div>
+<div id="avion-pause-zone"></div>
+<div id="avion-section-bridge"></div>
+
+{%- comment %} Three.js bundle ─────────────────────────────────────────────── {%- endcomment %}
+<script type="module" src="{{ 'avion-hero.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Avion 3D Hero",
+  "tag": "div",
+  "class": "avion-threejs-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo image",
+      "info": "Displayed at the end of the scroll animation. Transparent PNG recommended."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_hint",
+      "label": "Show scroll arrow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "3D Assets"
+    },
+    {
+      "type": "text",
+      "id": "glb_url",
+      "label": "Airplane model URL (.glb)",
+      "info": "Upload your .glb file via Admin → Content → Files and paste the CDN URL here."
+    },
+    {
+      "type": "text",
+      "id": "exr_url",
+      "label": "Sky environment URL (.exr)",
+      "info": "Upload your .exr file via Admin → Content → Files and paste the CDN URL here. Leave blank for a procedural sky."
+    },
+    {
+      "type": "header",
+      "content": "Scroll Timing"
+    },
+    {
+      "type": "range",
+      "id": "animation_zone_vh",
+      "label": "Animation scroll height (vh)",
+      "min": 200,
+      "max": 700,
+      "step": 50,
+      "default": 400,
+      "info": "How many viewport-heights of scrolling cover the full animation. Higher = slower playback."
+    },
+    {
+      "type": "range",
+      "id": "pause_zone_vh",
+      "label": "Logo dwell height (vh)",
+      "min": 40,
+      "max": 250,
+      "step": 10,
+      "default": 120,
+      "info": "How long the logo lingers before the page content slides in."
+    },
+    {
+      "type": "header",
+      "content": "Transition"
+    },
+    {
+      "type": "color",
+      "id": "bridge_color",
+      "label": "Fade-out colour",
+      "default": "#1a1a1a",
+      "info": "The canvas fades into this colour before the next section begins. Match your first section's background."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avion 3D Hero",
+      "settings": {
+        "animation_zone_vh": 400,
+        "pause_zone_vh": 120,
+        "bridge_color": "#1a1a1a",
+        "show_scroll_hint": true
+      }
+    }
+  ]
+}
+{% endschema %}
