@@ -1,1 +1,790 @@
-{"sections":{"avion_hero_poster_BN977i":{"type":"avion-hero-poster","name":"Marquee Avi\u00f3n","settings":{"marquee_text":"| Craft | Culture | Legacy"}},"hoodies_home_ADcEw6":{"type":"hoodies-home","blocks":{"hoodie_bNDU4E":{"type":"hoodie","settings":{"image":"shopify://shop_images/Avion_Berah-09213_websize.jpg","collection_label":"AVI\u00d3N LEGACY CANNABIS MERCH","bg_word":"HEAVYWEIGHT","hover_word_scale":60,"title":"Military Green","text":"<p>Crafted from 350 GSM 100% cotton fleece and pre-shrunk to maintain its structure, comfort, and feel over time.</p>","spec_1":"100% Cotton Fleece","spec_2":"350 GSM","spec_3":"Pre-shrunk","button_label":"SHOP HOODIE","button_link":"shopify://products/hoodies","card_bg":"#ead2c2","card_hover_bg":"#4a987b","card_shadow":"#533a2129","image_overlay":"#201e1e2e","hover_word_color":"#f7f0df","meta_color":"#8a5a37","meta_hover_color":"#f7f0df","title_color":"#1e1e1e","title_hover_color":"#f7f0df","text_color":"#313131","text_hover_color":"#f7f0df","spec_bg":"#ffffff73","spec_text":"#1e1e1e","spec_hover_bg":"#f7f0df","spec_hover_text":"#2e2a28","button_bg":"#cc4137","button_text":"#ffffff","button_hover_bg":"#a7322c","button_hover_text":"#fff3dc"}},"hoodie_qhBYiw":{"type":"hoodie","settings":{"image":"shopify://shop_images/Avion_Berah-09241_websize.jpg","collection_label":"AVI\u00d3N LEGACY CANNABIS MERCH","bg_word":"INTENTIONAL","hover_word_scale":60,"title":"Desert Sand","text":"<p>Crafted from 350 GSM 100% cotton fleece and pre-shrunk to maintain its structure, comfort, and feel over time.</p>","spec_1":"100% Cotton Fleece","spec_2":"350 GSM","spec_3":"Pre-shrunk","button_label":"SHOP HOODIE","button_link":"shopify://products/hoodies","card_bg":"#ead2c2","card_hover_bg":"#fff3dc","card_shadow":"#533a2129","image_overlay":"#201e1e2e","hover_word_color":"#cc4137","meta_color":"#8a5a37","meta_hover_color":"#cc4137","title_color":"#1e1e1e","title_hover_color":"#cc4137","text_color":"#313131","text_hover_color":"#cc4137","spec_bg":"#ffffff73","spec_text":"#1e1e1e","spec_hover_bg":"#f7f0df","spec_hover_text":"#2e2a28","button_bg":"#cc4137","button_text":"#ffffff","button_hover_bg":"#cc4137","button_hover_text":"#fff3dc"}},"hoodie_na7b4t":{"type":"hoodie","settings":{"image":"shopify://shop_images/Avion_Berah-09206_websize.jpg","collection_label":"AVI\u00d3N LEGACY CANNABIS MERCH","bg_word":"LEGACY","hover_word_scale":100,"title":"Jet Black","text":"<p>Crafted from 350 GSM 100% cotton fleece and pre-shrunk to maintain its structure, comfort, and feel over time.</p>","spec_1":"100% Cotton Fleece","spec_2":"350 GSM","spec_3":"Pre-shrunk","button_label":"SHOP HOODIE","button_link":"shopify://products/hoodies","card_bg":"#ead2c2","card_hover_bg":"#3a3a3c","card_shadow":"#533a2129","image_overlay":"#201e1e2e","hover_word_color":"#f7f0df","meta_color":"#8a5a37","meta_hover_color":"#f7f0df","title_color":"#1e1e1e","title_hover_color":"#f7f0df","text_color":"#313131","text_hover_color":"#f7f0df","spec_bg":"#ffffff73","spec_text":"#1e1e1e","spec_hover_bg":"#f7f0df","spec_hover_text":"#2e2a28","button_bg":"#cc4137","button_text":"#fff3dc","button_hover_bg":"#a7322c","button_hover_text":"#fff3dc"}}},"block_order":["hoodie_bNDU4E","hoodie_qhBYiw","hoodie_na7b4t"],"name":"Avion hoodie material","settings":{"eyebrow":"MERCH","eyebrow_color":"#c9453a","heading":"HEAVYWEIGHT. CLEAN. BUILT TO LAST.","heading_size":62,"heading_color":"#cc4137","subheading":"<p>Crafted with intention. Built to hold its shape, its weight, and its identity over time.</p>","subheading_color":"#4b443d","section_bg":"#fff3dc","padding_top":84,"padding_bottom":84}},"pattern_avion_tDK4Ny":{"type":"pattern-avion","name":"Avi\u00f3n Pattern Separador","settings":{"pattern_image":"shopify://shop_images/Pattern-home.png","bg_color":"#3a3a3c","pattern_height":50,"pattern_height_mobile":35,"opacity":100,"scroll_direction":"left","scroll_speed":50,"spacing_top":0,"spacing_bottom":0,"spacing_top_mobile":40,"spacing_bottom_mobile":40}},"avion_floating_9RkPGb":{"type":"avion-floating","name":"Icono Flotante","settings":{"icon_image":"shopify://shop_images/cactus.png","icon_alt":"Avi\u00f3n Legacy","icon_size":90,"icon_size_mobile":50,"horizontal_position":93,"horizontal_position_mobile":50,"vertical_offset":-110,"vertical_offset_mobile":-35,"animation_speed":3,"float_distance":10,"show_shadow":true,"hide_on_mobile":true}},"hero_UVVk4Y":{"type":"hero","blocks":{"text_ncnNTx":{"type":"text","name":"t:names.heading","settings":{"text":"<h2>THE LEGACY CONTINUES</h2>","width":"fit-content","max_width":"narrow","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"text_KP9wU8":{"type":"text","settings":{"text":"","width":"fit-content","max_width":"narrow","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":32,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"button_tdt4xp":{"type":"button","name":"t:names.button","settings":{"label":"Shop now","link":"shopify://collections/all","open_in_new_tab":false,"style_class":"button","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["text_ncnNTx","text_KP9wU8","button_tdt4xp"],"name":"t:names.hero","settings":{"media_type_1":"image","image_1":"shopify://shop_images/Avion_Berah-09279_websize.jpg","media_type_2":"image","stack_media_on_mobile":false,"custom_mobile_media":false,"media_type_1_mobile":"image","media_type_2_mobile":"image","link":"","open_in_new_tab":false,"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":16,"section_width":"page-width","section_height":"medium","section_height_custom":50,"color_scheme":"scheme-1","toggle_overlay":true,"overlay_color":"#3a3a3c","overlay_style":"gradient","gradient_direction":"to bottom","blurred_reflection":false,"reflection_opacity":100,"padding-block-start":40,"padding-block-end":40}},"pattern_avion_HQCPBN":{"type":"pattern-avion","name":"Avi\u00f3n Pattern Separador","settings":{"pattern_image":"shopify://shop_images/Pattern-home.png","bg_color":"#3a3a3c","pattern_height":50,"pattern_height_mobile":35,"opacity":100,"scroll_direction":"right","scroll_speed":50,"spacing_top":0,"spacing_bottom":0,"spacing_top_mobile":0,"spacing_bottom_mobile":0}},"avion_floating_KWMPdb":{"type":"avion-floating","name":"Icono Flotante","settings":{"icon_image":"shopify://shop_images/avion.png","icon_alt":"Avi\u00f3n Legacy","icon_size":240,"icon_size_mobile":50,"horizontal_position":10,"horizontal_position_mobile":75,"vertical_offset":-75,"vertical_offset_mobile":-30,"animation_speed":3,"float_distance":10,"show_shadow":true,"hide_on_mobile":true}},"media_with_content_E7M3aJ":{"type":"media-with-content","blocks":{"media":{"type":"_media-without-appearance","static":true,"settings":{"media_type":"image","image":"shopify://shop_images/IMG_6435.heic","link":"","video_loop":true,"video_autoplay":false,"image_position":"cover","video_position":"cover"},"blocks":{}},"content":{"type":"_content-without-appearance","static":true,"settings":{"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":24},"blocks":{"text_BcnRDN":{"type":"text","name":"t:names.heading","settings":{"text":"<h2>PRE-ROLLS</h2>","width":"100%","max_width":"normal","alignment":"center","type_preset":"custom","font":"var(--font-heading--family)","font_size":"3.5rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"text_8kEdFg":{"type":"text","settings":{"text":"<p>Our premium pre Rolls are made from 100% Top Shelf nug run, sourced from trusted farmers. High quality cannabis that speaks LOUD-ly for itself.</p>","width":"100%","max_width":"normal","alignment":"center","type_preset":"custom","font":"var(--font-body--family)","font_size":"0.875rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"text_nA6yxa":{"type":"text","name":"t:names.text","settings":{"text":"<p><em>* Not for sale on this website. Please find us at your local Minnesota Dispensary.</em></p>","width":"100%","max_width":"narrow","alignment":"center","type_preset":"custom","font":"var(--font-body--family)","font_size":"0.75rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"var(--color-foreground)","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["text_BcnRDN","text_8kEdFg","text_nA6yxa"]}},"custom_css":["/* Pre-Rolls */.text-block--AdWx5OE5rOGF3STFqS__text_BLWmUB p {font-family: \"Young Serif\", serif !important; font-size: 4rem !important; font-weight: bold;}"],"name":"t:names.media_with_text","settings":{"media_position":"right","media_width":"medium","media_height":"60svh","section_width":"full-width","extend_media":true,"color_scheme":"scheme-3e9e52f0-82e6-4f26-9a58-d424cd22bd28","padding-block-start":0,"padding-block-end":0}},"product_list_z7QLNk":{"type":"product-list","blocks":{"static-header":{"type":"_product-list-content","static":true,"settings":{"content_direction":"row","vertical_on_mobile":false,"horizontal_alignment":"space-between","vertical_alignment":"flex-end","align_baseline":true,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"space-between","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"inherit_color_scheme":true,"color_scheme":"","background_media":"none","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_list_text_U7Eaek":{"type":"_product-list-text","name":"t:names.collection_title","settings":{"text":"<h3>Our Products</h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-primary--family)","font_size":"","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"collection_link_button_BJRcxp":{"type":"_product-list-button","name":"t:names.product_list_button","settings":{"label":"View all","open_in_new_tab":false,"style_class":"link","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["product_list_text_U7Eaek","collection_link_button_BJRcxp"]},"static-product-card":{"type":"_product-card","name":"t:names.product_card","static":true,"settings":{"product_card_gap":12,"inherit_color_scheme":true,"color_scheme":"","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_card_gallery_EqgxKJ":{"type":"_product-card-gallery","name":"t:names.product_image","settings":{"image_ratio":"portrait","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"group_DxPy8c":{"type":"_product-card-group","settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":4,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"inherit_color_scheme":true,"color_scheme":"","background_media":"none","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","link":"","open_in_new_tab":false,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"text_QGdpYw":{"type":"text","settings":{"text":"<h4>{{ closest.product.title }}</h4>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"h5","font":"var(--font-primary--family)","font_size":"","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_d6U8n4":{"type":"price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"paragraph","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","color":"var(--color-foreground)","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"swatches_ExhD3a":{"type":"swatches","settings":{"product_swatches_alignment":"flex-start","product_swatches_alignment_mobile":"flex-start","hide_padding":false,"product_swatches_padding_top":4,"product_swatches_padding_bottom":0,"product_swatches_padding_left":0,"product_swatches_padding_right":0},"blocks":{}}},"block_order":["text_QGdpYw","price_d6U8n4","swatches_ExhD3a"]}},"block_order":["product_card_gallery_EqgxKJ","group_DxPy8c"]}},"name":"Featured collection","settings":{"collection":"all","layout_type":"carousel","carousel_on_mobile":false,"max_products":8,"columns":4,"mobile_columns":"2","mobile_card_size":"60cqw","columns_gap":16,"rows_gap":36,"icons_style":"arrow","icons_shape":"circle","section_width":"page-width","horizontal_alignment":"flex-start","gap":28,"color_scheme":"scheme-03bd770f-3716-423f-83e1-075b4b15be12","padding-block-start":48,"padding-block-end":48}},"vertical_carousel_CQyktz":{"type":"vertical-carousel","blocks":{"image_nUfHJT":{"type":"image","settings":{"image":"shopify://shop_images/Avion_Berah-08991_websize.jpg"}},"image_83LD38":{"type":"image","settings":{"image":"shopify://shop_images/Avion_Berah-08916_websize.jpg"}},"image_rUVWRf":{"type":"image","settings":{"image":"shopify://shop_images/Avion_Berah-09008_websize.jpg"}},"image_XqCDVf":{"type":"image","settings":{"image":"shopify://shop_images/Avion_Berah-09555_websize.jpg"}},"image_yCPFQH":{"type":"image","settings":{"image":"shopify://shop_images/Avion_Berah-09192_websize.jpg"}},"image_xpTA6H":{"type":"image","settings":{"image":"shopify://shop_images/Avion_Berah-09359_websize.jpg"}}},"block_order":["image_nUfHJT","image_83LD38","image_rUVWRf","image_XqCDVf","image_yCPFQH","image_xpTA6H"],"name":"Carrusel Vertical","settings":{"eyebrow":"","heading":"Our Merch","description":"<p>We approach apparel with the same philosophy behind our cannabis products: exceptional quality and intentional design.\u00a0</p><p>Each piece is custom made using 350 GSM 100% cotton fleece, pre-shrunk to maintain its structure and feel over time.\u00a0</p><p>We work with manufacturing partners committed to responsible production, ensuring each piece is made with respect for both craftsmanship and the people behind it.</p><p>The Avi\u00f3n Classic Hoodie is our first release: a custom-cut, heavyweight garment built to have a true luxury feel.</p>","button_label":"SHOP THE COLLECTION","button_link":"shopify://collections/all","button_background_color":"#3a3a3c","button_text_color":"#fff3dc","button_hover_color":"#a7322c","background_color":"#a7322c","padding_top":44,"padding_bottom":0,"animation_speed":40}},"avion_threejs_hero_main":{"type":"avion-threejs-hero","disabled":false,"settings":{"logo_image":"shopify://shop_images/Avion_Logo_-_Final_705f8b8e-ceac-4cb1-9eb4-1f7d077bb401.png","glb_url":"","exr_url":"","animation_zone_vh":400,"pause_zone_vh":120,"bridge_color":"#1a1a1a","show_scroll_hint":true}}},"order":["avion_threejs_hero_main","avion_hero_poster_BN977i","hoodies_home_ADcEw6","pattern_avion_tDK4Ny","avion_floating_9RkPGb","hero_UVVk4Y","pattern_avion_HQCPBN","avion_floating_KWMPdb","media_with_content_E7M3aJ","product_list_z7QLNk","vertical_carousel_CQyktz"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "avion_threejs_hero_main": {
+      "type": "avion-threejs-hero",
+      "settings": {
+        "logo_image": "shopify://shop_images/Avion_Logo_-_Final_705f8b8e-ceac-4cb1-9eb4-1f7d077bb401.png",
+        "show_scroll_hint": true,
+        "glb_url": "https://cdn.shopify.com/3d/models/9adfc15aef85615c/avionproto_copy.glb",
+        "exr_url": "",
+        "animation_zone_vh": 400,
+        "pause_zone_vh": 120,
+        "bridge_color": "#1a1a1a"
+      }
+    },
+    "avion_hero_poster_BN977i": {
+      "type": "avion-hero-poster",
+      "name": "Marquee Avión",
+      "settings": {
+        "marquee_text": "| Craft | Culture | Legacy"
+      }
+    },
+    "hoodies_home_ADcEw6": {
+      "type": "hoodies-home",
+      "blocks": {
+        "hoodie_bNDU4E": {
+          "type": "hoodie",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-09213_websize.jpg",
+            "collection_label": "AVIÓN LEGACY CANNABIS MERCH",
+            "bg_word": "HEAVYWEIGHT",
+            "hover_word_scale": 60,
+            "title": "Military Green",
+            "text": "<p>Crafted from 350 GSM 100% cotton fleece and pre-shrunk to maintain its structure, comfort, and feel over time.</p>",
+            "spec_1": "100% Cotton Fleece",
+            "spec_2": "350 GSM",
+            "spec_3": "Pre-shrunk",
+            "button_label": "SHOP HOODIE",
+            "button_link": "shopify://products/hoodies",
+            "card_bg": "#ead2c2",
+            "card_hover_bg": "#4a987b",
+            "card_shadow": "#533a2129",
+            "image_overlay": "#201e1e2e",
+            "hover_word_color": "#f7f0df",
+            "meta_color": "#8a5a37",
+            "meta_hover_color": "#f7f0df",
+            "title_color": "#1e1e1e",
+            "title_hover_color": "#f7f0df",
+            "text_color": "#313131",
+            "text_hover_color": "#f7f0df",
+            "spec_bg": "#ffffff73",
+            "spec_text": "#1e1e1e",
+            "spec_hover_bg": "#f7f0df",
+            "spec_hover_text": "#2e2a28",
+            "button_bg": "#cc4137",
+            "button_text": "#ffffff",
+            "button_hover_bg": "#a7322c",
+            "button_hover_text": "#fff3dc"
+          }
+        },
+        "hoodie_qhBYiw": {
+          "type": "hoodie",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-09241_websize.jpg",
+            "collection_label": "AVIÓN LEGACY CANNABIS MERCH",
+            "bg_word": "INTENTIONAL",
+            "hover_word_scale": 60,
+            "title": "Desert Sand",
+            "text": "<p>Crafted from 350 GSM 100% cotton fleece and pre-shrunk to maintain its structure, comfort, and feel over time.</p>",
+            "spec_1": "100% Cotton Fleece",
+            "spec_2": "350 GSM",
+            "spec_3": "Pre-shrunk",
+            "button_label": "SHOP HOODIE",
+            "button_link": "shopify://products/hoodies",
+            "card_bg": "#ead2c2",
+            "card_hover_bg": "#fff3dc",
+            "card_shadow": "#533a2129",
+            "image_overlay": "#201e1e2e",
+            "hover_word_color": "#cc4137",
+            "meta_color": "#8a5a37",
+            "meta_hover_color": "#cc4137",
+            "title_color": "#1e1e1e",
+            "title_hover_color": "#cc4137",
+            "text_color": "#313131",
+            "text_hover_color": "#cc4137",
+            "spec_bg": "#ffffff73",
+            "spec_text": "#1e1e1e",
+            "spec_hover_bg": "#f7f0df",
+            "spec_hover_text": "#2e2a28",
+            "button_bg": "#cc4137",
+            "button_text": "#ffffff",
+            "button_hover_bg": "#cc4137",
+            "button_hover_text": "#fff3dc"
+          }
+        },
+        "hoodie_na7b4t": {
+          "type": "hoodie",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-09206_websize.jpg",
+            "collection_label": "AVIÓN LEGACY CANNABIS MERCH",
+            "bg_word": "LEGACY",
+            "hover_word_scale": 100,
+            "title": "Jet Black",
+            "text": "<p>Crafted from 350 GSM 100% cotton fleece and pre-shrunk to maintain its structure, comfort, and feel over time.</p>",
+            "spec_1": "100% Cotton Fleece",
+            "spec_2": "350 GSM",
+            "spec_3": "Pre-shrunk",
+            "button_label": "SHOP HOODIE",
+            "button_link": "shopify://products/hoodies",
+            "card_bg": "#ead2c2",
+            "card_hover_bg": "#3a3a3c",
+            "card_shadow": "#533a2129",
+            "image_overlay": "#201e1e2e",
+            "hover_word_color": "#f7f0df",
+            "meta_color": "#8a5a37",
+            "meta_hover_color": "#f7f0df",
+            "title_color": "#1e1e1e",
+            "title_hover_color": "#f7f0df",
+            "text_color": "#313131",
+            "text_hover_color": "#f7f0df",
+            "spec_bg": "#ffffff73",
+            "spec_text": "#1e1e1e",
+            "spec_hover_bg": "#f7f0df",
+            "spec_hover_text": "#2e2a28",
+            "button_bg": "#cc4137",
+            "button_text": "#fff3dc",
+            "button_hover_bg": "#a7322c",
+            "button_hover_text": "#fff3dc"
+          }
+        }
+      },
+      "block_order": [
+        "hoodie_bNDU4E",
+        "hoodie_qhBYiw",
+        "hoodie_na7b4t"
+      ],
+      "name": "Avion hoodie material",
+      "settings": {
+        "eyebrow": "MERCH",
+        "eyebrow_color": "#c9453a",
+        "heading": "HEAVYWEIGHT. CLEAN. BUILT TO LAST.",
+        "heading_size": 62,
+        "heading_color": "#cc4137",
+        "subheading": "<p>Crafted with intention. Built to hold its shape, its weight, and its identity over time.</p>",
+        "subheading_color": "#4b443d",
+        "section_bg": "#fff3dc",
+        "padding_top": 84,
+        "padding_bottom": 84
+      }
+    },
+    "pattern_avion_tDK4Ny": {
+      "type": "pattern-avion",
+      "name": "Avión Pattern Separador",
+      "settings": {
+        "pattern_image": "shopify://shop_images/Pattern-home.png",
+        "bg_color": "#3a3a3c",
+        "pattern_height": 50,
+        "pattern_height_mobile": 35,
+        "opacity": 100,
+        "scroll_direction": "left",
+        "scroll_speed": 50,
+        "spacing_top": 0,
+        "spacing_bottom": 0,
+        "spacing_top_mobile": 40,
+        "spacing_bottom_mobile": 40
+      }
+    },
+    "avion_floating_9RkPGb": {
+      "type": "avion-floating",
+      "name": "Icono Flotante",
+      "settings": {
+        "icon_image": "shopify://shop_images/cactus.png",
+        "icon_alt": "Avión Legacy",
+        "icon_size": 90,
+        "icon_size_mobile": 50,
+        "horizontal_position": 93,
+        "horizontal_position_mobile": 50,
+        "vertical_offset": -110,
+        "vertical_offset_mobile": -35,
+        "animation_speed": 3,
+        "float_distance": 10,
+        "show_shadow": true,
+        "hide_on_mobile": true
+      }
+    },
+    "hero_UVVk4Y": {
+      "type": "hero",
+      "blocks": {
+        "text_ncnNTx": {
+          "type": "text",
+          "name": "t:names.heading",
+          "settings": {
+            "text": "<h2>THE LEGACY CONTINUES</h2>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_KP9wU8": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 32,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "button_tdt4xp": {
+          "type": "button",
+          "name": "t:names.button",
+          "settings": {
+            "label": "Shop now",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_ncnNTx",
+        "text_KP9wU8",
+        "button_tdt4xp"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/Avion_Berah-09279_websize.jpg",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "medium",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "toggle_overlay": true,
+        "overlay_color": "#3a3a3c",
+        "overlay_style": "gradient",
+        "gradient_direction": "to bottom",
+        "blurred_reflection": false,
+        "reflection_opacity": 100,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "pattern_avion_HQCPBN": {
+      "type": "pattern-avion",
+      "name": "Avión Pattern Separador",
+      "settings": {
+        "pattern_image": "shopify://shop_images/Pattern-home.png",
+        "bg_color": "#3a3a3c",
+        "pattern_height": 50,
+        "pattern_height_mobile": 35,
+        "opacity": 100,
+        "scroll_direction": "right",
+        "scroll_speed": 50,
+        "spacing_top": 0,
+        "spacing_bottom": 0,
+        "spacing_top_mobile": 0,
+        "spacing_bottom_mobile": 0
+      }
+    },
+    "avion_floating_KWMPdb": {
+      "type": "avion-floating",
+      "name": "Icono Flotante",
+      "settings": {
+        "icon_image": "shopify://shop_images/avion.png",
+        "icon_alt": "Avión Legacy",
+        "icon_size": 240,
+        "icon_size_mobile": 50,
+        "horizontal_position": 10,
+        "horizontal_position_mobile": 75,
+        "vertical_offset": -75,
+        "vertical_offset_mobile": -30,
+        "animation_speed": 3,
+        "float_distance": 10,
+        "show_shadow": true,
+        "hide_on_mobile": true
+      }
+    },
+    "media_with_content_E7M3aJ": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/IMG_6435.heic",
+            "link": "",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "cover",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 24
+          },
+          "blocks": {
+            "text_BcnRDN": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2>PRE-ROLLS</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "3.5rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_8kEdFg": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Our premium pre Rolls are made from 100% Top Shelf nug run, sourced from trusted farmers. High quality cannabis that speaks LOUD-ly for itself.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_nA6yxa": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p><em>* Not for sale on this website. Please find us at your local Minnesota Dispensary.</em></p>",
+                "width": "100%",
+                "max_width": "narrow",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_BcnRDN",
+            "text_8kEdFg",
+            "text_nA6yxa"
+          ]
+        }
+      },
+      "custom_css": [
+        "/* Pre-Rolls */.text-block--AdWx5OE5rOGF3STFqS__text_BLWmUB p {font-family: \"Young Serif\", serif !important; font-size: 4rem !important; font-weight: bold;}"
+      ],
+      "name": "t:names.media_with_text",
+      "settings": {
+        "media_position": "right",
+        "media_width": "medium",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "extend_media": true,
+        "color_scheme": "scheme-3e9e52f0-82e6-4f26-9a58-d424cd22bd28",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "product_list_z7QLNk": {
+      "type": "product-list",
+      "blocks": {
+        "static-header": {
+          "type": "_product-list-content",
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "space-between",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_list_text_U7Eaek": {
+              "type": "_product-list-text",
+              "name": "t:names.collection_title",
+              "settings": {
+                "text": "<h3>Our Products</h3>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "collection_link_button_BJRcxp": {
+              "type": "_product-list-button",
+              "name": "t:names.product_list_button",
+              "settings": {
+                "label": "View all",
+                "open_in_new_tab": false,
+                "style_class": "link",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_list_text_U7Eaek",
+            "collection_link_button_BJRcxp"
+          ]
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 12,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_EqgxKJ": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_image",
+              "settings": {
+                "image_ratio": "portrait",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "group_DxPy8c": {
+              "type": "_product-card-group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 4,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_QGdpYw": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>{{ closest.product.title }}</h4>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h5",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_d6U8n4": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "paragraph",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "color": "var(--color-foreground)",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "swatches_ExhD3a": {
+                  "type": "swatches",
+                  "settings": {
+                    "product_swatches_alignment": "flex-start",
+                    "product_swatches_alignment_mobile": "flex-start",
+                    "hide_padding": false,
+                    "product_swatches_padding_top": 4,
+                    "product_swatches_padding_bottom": 0,
+                    "product_swatches_padding_left": 0,
+                    "product_swatches_padding_right": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_QGdpYw",
+                "price_d6U8n4",
+                "swatches_ExhD3a"
+              ]
+            }
+          },
+          "block_order": [
+            "product_card_gallery_EqgxKJ",
+            "group_DxPy8c"
+          ]
+        }
+      },
+      "name": "Featured collection",
+      "settings": {
+        "collection": "all",
+        "layout_type": "carousel",
+        "carousel_on_mobile": false,
+        "max_products": 8,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 16,
+        "rows_gap": 36,
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "section_width": "page-width",
+        "horizontal_alignment": "flex-start",
+        "gap": 28,
+        "color_scheme": "scheme-03bd770f-3716-423f-83e1-075b4b15be12",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "vertical_carousel_CQyktz": {
+      "type": "vertical-carousel",
+      "blocks": {
+        "image_nUfHJT": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-08991_websize.jpg"
+          }
+        },
+        "image_83LD38": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-08916_websize.jpg"
+          }
+        },
+        "image_rUVWRf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-09008_websize.jpg"
+          }
+        },
+        "image_XqCDVf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-09555_websize.jpg"
+          }
+        },
+        "image_yCPFQH": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-09192_websize.jpg"
+          }
+        },
+        "image_xpTA6H": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Avion_Berah-09359_websize.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_nUfHJT",
+        "image_83LD38",
+        "image_rUVWRf",
+        "image_XqCDVf",
+        "image_yCPFQH",
+        "image_xpTA6H"
+      ],
+      "name": "Carrusel Vertical",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Our Merch",
+        "description": "<p>We approach apparel with the same philosophy behind our cannabis products: exceptional quality and intentional design. </p><p>Each piece is custom made using 350 GSM 100% cotton fleece, pre-shrunk to maintain its structure and feel over time. </p><p>We work with manufacturing partners committed to responsible production, ensuring each piece is made with respect for both craftsmanship and the people behind it.</p><p>The Avión Classic Hoodie is our first release: a custom-cut, heavyweight garment built to have a true luxury feel.</p>",
+        "button_label": "SHOP THE COLLECTION",
+        "button_link": "shopify://collections/all",
+        "button_background_color": "#3a3a3c",
+        "button_text_color": "#fff3dc",
+        "button_hover_color": "#a7322c",
+        "background_color": "#a7322c",
+        "padding_top": 44,
+        "padding_bottom": 0,
+        "animation_speed": 40
+      }
+    }
+  },
+  "order": [
+    "avion_threejs_hero_main",
+    "avion_hero_poster_BN977i",
+    "hoodies_home_ADcEw6",
+    "pattern_avion_tDK4Ny",
+    "avion_floating_9RkPGb",
+    "hero_UVVk4Y",
+    "pattern_avion_HQCPBN",
+    "avion_floating_KWMPdb",
+    "media_with_content_E7M3aJ",
+    "product_list_z7QLNk",
+    "vertical_carousel_CQyktz"
+  ]
+}
