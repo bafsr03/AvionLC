@@ -18,7 +18,8 @@
         "exr_url": "https://cdn.shopify.com/s/files/1/0905/4227/6792/files/dusty-desert_2K_027a1c25-2beb-4ab1-b4d7-2b2da909dcd2.exr?v=1775695597",
         "animation_zone_vh": 400,
         "pause_zone_vh": 120,
-        "bridge_color": "#1a1a1a"
+        "bridge_color": "#1a1a1a",
+        "theatre_state": "{\n  \"sheetsById\": {\n    \"Camera Path\": {\n      \"staticOverrides\": {\n        \"byObject\": {\n          \"Camera\": {\n            \"position\": {\n              \"x\": 2.5,\n              \"y\": -1,\n              \"z\": 3.8\n            },\n            \"target\": {\n              \"x\": -7,\n              \"y\": 1,\n              \"z\": -20\n            },\n            \"fov\": 40\n          }\n        }\n      }\n    }\n  },\n  \"definitionVersion\": \"0.4.0\",\n  \"revisionHistory\": [\n    \"pt9UJ5JQSp4EX45F\"\n  ]\n}"
       }
     },
     "avion_hero_poster_BN977i": {
