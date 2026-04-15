@@ -158,7 +158,11 @@
 <script>
   window.AvionHero = {
     glbUrl: {{ section.settings.glb_url | default: '' | json }},
-    exrUrl: {{ section.settings.exr_url | default: '' | json }}
+    exrUrl: {{ section.settings.exr_url | default: '' | json }},
+    theatreState: (function(){
+      var raw = {% if section.settings.theatre_state != blank %}{{ section.settings.theatre_state | json }}{% else %}'{}'{% endif %};
+      try { return JSON.parse(raw); } catch(e) { return {}; }
+    })()
   }
 </script>
 
@@ -205,6 +209,9 @@
 
 {%- comment %} Three.js bundle ─────────────────────────────────────────────── {%- endcomment %}
 <script type="module" src="{{ 'avion-hero.js' | asset_url }}"></script>
+
+{%- comment %} Theatre.js camera controller (loads Studio only when ?theatre is in URL) {%- endcomment %}
+<script type="module" src="{{ 'avion-theatre.js' | asset_url }}"></script>
 
 {% schema %}
 {
@@ -278,6 +285,17 @@
       "label": "Fade-out colour",
       "default": "#1a1a1a",
       "info": "The canvas fades into this colour before the next section begins. Match your first section's background."
+    },
+    {
+      "type": "header",
+      "content": "Camera (Theatre.js)"
+    },
+    {
+      "type": "textarea",
+      "id": "theatre_state",
+      "label": "Theatre state JSON",
+      "default": "{}",
+      "info": "Paste the JSON exported from __exportAvionState() here after editing camera keyframes in Studio (?theatre mode)."
     }
   ],
   "presets": [
