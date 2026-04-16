@@ -155,14 +155,6 @@
     size:    types.number(0.06, { range: [0.01, 1] }),
   });
 
-  // Animation Timing — values are 0–1 (fraction of total scroll)
-  const oAnimTiming = sheet.object('Animation Timing', {
-    airplane_start: types.number(0.00, { range: [0, 1] }),
-    airplane_end:   types.number(0.85, { range: [0, 1] }),
-    drop_start:     types.number(0.35, { range: [0, 1] }),
-    drop_end:       types.number(0.75, { range: [0, 1] }),
-  });
-
   /* ── Tick: scroll → timeline → apply all props ──────────────────────────── */
   const tick = () => {
     // Advance Theatre.js sequence to match scroll
@@ -170,14 +162,6 @@
 
     // ── Camera ──────────────────────────────────────────────────────────────
     window.__AvionCamProps = val(oCam.props);
-
-    // ── Animation Timing — update mixer start/end each frame ────────────────
-    const anim = val(oAnimTiming.props);
-    const mixers = window.__AvionMixers;
-    if (mixers) {
-      if (mixers[0]) { mixers[0].s = anim.airplane_start; mixers[0].n = anim.airplane_end; }
-      if (mixers[1]) { mixers[1].s = anim.drop_start;     mixers[1].n = anim.drop_end; }
-    }
 
     // ── Scene objects (available once avion-hero.js has set up the scene) ──
     const S = window.__AvionScene;
