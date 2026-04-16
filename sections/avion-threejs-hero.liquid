@@ -162,7 +162,15 @@
     theatreState: (function(){
       var raw = {% if section.settings.theatre_state != blank %}{{ section.settings.theatre_state | json }}{% else %}'{}'{% endif %};
       try { return JSON.parse(raw); } catch(e) { return {}; }
-    })()
+    })(),
+    sceneConfig: (function(){
+      var raw = {% if section.settings.scene_config != blank %}{{ section.settings.scene_config | json }}{% else %}'{}'{% endif %};
+      try { return JSON.parse(raw); } catch(e) { return {}; }
+    })(),
+    animTiming: [
+      { start: {{ section.settings.anim0_start | divided_by: 100.0 }}, end: {{ section.settings.anim0_end | divided_by: 100.0 }} },
+      { start: {{ section.settings.anim1_start | divided_by: 100.0 }}, end: {{ section.settings.anim1_end | divided_by: 100.0 }} }
+    ]
   }
 </script>
 
@@ -212,6 +220,16 @@
 
 {%- comment %} Theatre.js camera controller (loads Studio only when ?theatre is in URL) {%- endcomment %}
 <script type="module" src="{{ 'avion-theatre.js' | asset_url }}"></script>
+
+{%- comment %} Scene editor — only loaded when ?edit is in the URL ─────────── {%- endcomment %}
+<script>
+  if (new URLSearchParams(location.search).has('edit')) {
+    var s = document.createElement('script');
+    s.type = 'module';
+    s.src = {{ 'avion-edit.js' | asset_url | json }};
+    document.head.appendChild(s);
+  }
+</script>
 
 {% schema %}
 {
@@ -288,6 +306,38 @@
     },
     {
       "type": "header",
+      "content": "Animation Timing"
+    },
+    {
+      "type": "paragraph",
+      "content": "Set the scroll window (0–100%) when each GLB animation plays. Animation 1 = airplane. Animation 2 = drop object."
+    },
+    {
+      "type": "range",
+      "id": "anim0_start",
+      "label": "Anim 1 (airplane) — start %",
+      "min": 0, "max": 100, "step": 1, "default": 0
+    },
+    {
+      "type": "range",
+      "id": "anim0_end",
+      "label": "Anim 1 (airplane) — end %",
+      "min": 0, "max": 100, "step": 1, "default": 85
+    },
+    {
+      "type": "range",
+      "id": "anim1_start",
+      "label": "Anim 2 (drop) — start %",
+      "min": 0, "max": 100, "step": 1, "default": 35
+    },
+    {
+      "type": "range",
+      "id": "anim1_end",
+      "label": "Anim 2 (drop) — end %",
+      "min": 0, "max": 100, "step": 1, "default": 75
+    },
+    {
+      "type": "header",
       "content": "Camera (Theatre.js)"
     },
     {
@@ -296,6 +346,17 @@
       "label": "Theatre state JSON",
       "default": "{}",
       "info": "Paste the JSON exported from __exportAvionState() here after editing camera keyframes in Studio (?theatre mode)."
+    },
+    {
+      "type": "header",
+      "content": "Scene Config (lights, fog, effects)"
+    },
+    {
+      "type": "textarea",
+      "id": "scene_config",
+      "label": "Scene Config JSON",
+      "default": "{}",
+      "info": "Paste the JSON exported from the live editor (?edit mode). Controls all lights, atmosphere, bloom, stars, clouds, and particles."
     }
   ],
   "presets": [
