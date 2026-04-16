@@ -14,8 +14,8 @@
       "settings": {
         "logo_image": "shopify://shop_images/Avion_Logo_-_Final_705f8b8e-ceac-4cb1-9eb4-1f7d077bb401.png",
         "show_scroll_hint": true,
-        "glb_url": "https://cdn.shopify.com/3d/models/f61e527cbd61115b/avionproto.glb",
-        "exr_url": "https://cdn.shopify.com/3d/models/0e4fbc3784bf7bcb/avionproto.glb",
+        "glb_url": "https://cdn.shopify.com/3d/models/140f5f44e993b802/avionproto.glb",
+        "exr_url": "https://cdn.shopify.com/s/files/1/0905/4227/6792/files/dusty-desert_2K_027a1c25-2beb-4ab1-b4d7-2b2da909dcd2.exr?v=1775695597",
         "animation_zone_vh": 400,
         "pause_zone_vh": 120,
         "bridge_color": "#1a1a1a",
