@@ -357,6 +357,66 @@
     border-bottom-color: rgba(247, 179, 43, 0.35);
   }
 
+  /*
+    Pitch base.css (and load order on Shopify) applies theme tokens to bare input/textarea:
+    - textarea, input { background-color: var(--color-input-background); }
+    - input:hover { background-color: var(--color-input-hover-background); }
+    - textarea::placeholder, input::placeholder { color: var(--color-input-text); }
+    Browsers also paint autofill with high priority. #ContactPage + !important keeps Avion colors.
+  */
+  #ContactPage.av-contact .av-contact__input,
+  #ContactPage.av-contact .av-contact__textarea {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #1c1916 !important;
+    -webkit-text-fill-color: #1c1916 !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(73, 73, 73, 0.28) !important;
+    border-radius: 0 !important;
+    caret-color: #1c1916;
+  }
+
+  #ContactPage.av-contact .av-contact__input:hover,
+  #ContactPage.av-contact .av-contact__textarea:hover,
+  #ContactPage.av-contact .av-contact__input:focus,
+  #ContactPage.av-contact .av-contact__textarea:focus,
+  #ContactPage.av-contact .av-contact__input:focus-visible,
+  #ContactPage.av-contact .av-contact__textarea:focus-visible {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #1c1916 !important;
+    -webkit-text-fill-color: #1c1916 !important;
+  }
+
+  #ContactPage.av-contact .av-contact__input:focus,
+  #ContactPage.av-contact .av-contact__textarea:focus,
+  #ContactPage.av-contact .av-contact__input:focus-visible,
+  #ContactPage.av-contact .av-contact__textarea:focus-visible {
+    border-bottom-color: rgba(247, 179, 43, 0.35) !important;
+  }
+
+  #ContactPage.av-contact .av-contact__input::placeholder,
+  #ContactPage.av-contact .av-contact__textarea::placeholder {
+    color: rgba(28, 25, 22, 0.18) !important;
+    -webkit-text-fill-color: rgba(28, 25, 22, 0.18) !important;
+    opacity: 1 !important;
+  }
+
+  #ContactPage.av-contact .av-contact__input:-webkit-autofill,
+  #ContactPage.av-contact .av-contact__input:-webkit-autofill:hover,
+  #ContactPage.av-contact .av-contact__input:-webkit-autofill:focus,
+  #ContactPage.av-contact .av-contact__input:-webkit-autofill:active,
+  #ContactPage.av-contact .av-contact__textarea:-webkit-autofill,
+  #ContactPage.av-contact .av-contact__textarea:-webkit-autofill:hover,
+  #ContactPage.av-contact .av-contact__textarea:-webkit-autofill:focus,
+  #ContactPage.av-contact .av-contact__textarea:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #fff3dc inset !important;
+    box-shadow: 0 0 0 1000px #fff3dc inset !important;
+    -webkit-text-fill-color: #1c1916 !important;
+    caret-color: #1c1916;
+    transition: background-color 99999s ease-out 0s;
+  }
+
   /* Growing gold underline on focus */
   .av-contact__field::after {
     content: '';
