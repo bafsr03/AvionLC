@@ -37,6 +37,100 @@
     pointer-events: none;
     user-select: none;
     letter-spacing: -0.05em;
+    animation: av-glyph-drift 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes av-glyph-drift {
+    0%   { transform: translateY(-50%) scale(1); }
+    50%  { transform: translateY(-52%) scale(1.015); }
+    100% { transform: translateY(-48%) scale(0.99); }
+  }
+
+  /* Radar rings — right panel background */
+  .av-contact__radar {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 65%;
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .av-contact__radar-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(247, 179, 43, 0.06);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: av-radar-breathe 5s ease-in-out infinite;
+  }
+
+  .av-contact__radar-ring:nth-child(1) { width: 25%;  height: 25%;  animation-delay: 0s;    animation-duration: 4.5s; }
+  .av-contact__radar-ring:nth-child(2) { width: 45%;  height: 45%;  animation-delay: 0.4s;  animation-duration: 4.5s; border-color: rgba(247, 179, 43, 0.045); }
+  .av-contact__radar-ring:nth-child(3) { width: 67%;  height: 67%;  animation-delay: 0.8s;  animation-duration: 4.5s; }
+  .av-contact__radar-ring:nth-child(4) { width: 88%;  height: 88%;  animation-delay: 1.2s;  animation-duration: 4.5s; border-color: rgba(247, 179, 43, 0.03); }
+  .av-contact__radar-ring:nth-child(5) { width: 100%; height: 100%; animation-delay: 1.6s;  animation-duration: 4.5s; border-color: rgba(247, 179, 43, 0.015); }
+
+  @keyframes av-radar-breathe {
+    0%, 100% { opacity: 0.55; }
+    50%       { opacity: 0.12; }
+  }
+
+  /* Coordinates display */
+  .av-contact__coords {
+    position: absolute;
+    bottom: clamp(20px, 3vw, 36px);
+    left: clamp(28px, 5vw, 72px);
+    font-family: "Source Serif 4", serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    color: rgba(255, 243, 220, 0.15);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 1;
+  }
+
+  .av-contact__coords::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(247, 179, 43, 0.35);
+    flex-shrink: 0;
+    animation: av-status-pulse 2.8s ease-in-out infinite;
+  }
+
+  @keyframes av-status-pulse {
+    0%, 100% { opacity: 0.35; transform: scale(1); }
+    50%       { opacity: 0.9;  transform: scale(1.4); }
+  }
+
+  /* Horizontal scan line on right panel */
+  .av-contact__right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(247, 179, 43, 0.15), transparent);
+    z-index: 0;
+    animation: av-scan-line 6s ease-in-out infinite;
+  }
+
+  @keyframes av-scan-line {
+    0%, 100% { opacity: 0.4; transform: scaleX(0.3) translateX(0); }
+    50%       { opacity: 1;   transform: scaleX(1) translateX(0); }
+  }
+
+  .av-contact__right {
+    position: relative;
   }
 
   /* Horizontal rule lines */
@@ -333,6 +427,10 @@
 
   /* ---- MOBILE ---- */
   @media (max-width: 899px) {
+    .av-contact__radar,
+    .av-contact__coords {
+      display: none;
+    }
     .av-contact {
       padding-top: 60px;
     }
@@ -383,6 +481,20 @@
   <div class="av-contact__bg-glyph" aria-hidden="true">C</div>
   <div class="av-contact__rule av-contact__rule--top"   aria-hidden="true"></div>
   <div class="av-contact__rule av-contact__rule--bottom" aria-hidden="true"></div>
+
+  <!-- Radar rings (right side) -->
+  <div class="av-contact__radar" aria-hidden="true">
+    <div class="av-contact__radar-ring"></div>
+    <div class="av-contact__radar-ring"></div>
+    <div class="av-contact__radar-ring"></div>
+    <div class="av-contact__radar-ring"></div>
+    <div class="av-contact__radar-ring"></div>
+  </div>
+
+  <!-- Coordinates -->
+  <div class="av-contact__coords" aria-hidden="true">
+    44.0521° N, 121.3153° W &nbsp;·&nbsp; Oregon, USA
+  </div>
 
   <div class="av-contact__grid">
 

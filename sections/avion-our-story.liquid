@@ -1,36 +1,40 @@
 {%- style -%}
   /* ============================================================
-     AVION OUR STORY — Immersive chapter-based narrative
-     Full-bleed sections · Kinetic type · Scroll reveals
+     AVION OUR STORY v2 — The Chronicle
+     One image · Vertical timeline · Editorial minimalism
+     Dark coal · Gold spine · Kinetic typography
      ============================================================ */
 
-  /* ---- STORY WRAPPER ---- */
   .av-story {
     font-family: "Source Serif 4", serif;
     overflow: hidden;
   }
 
-  /* ---- OPENING HERO ---- */
+  /* ---- HERO ---- */
   .av-story__hero {
     background: #1C1916;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    align-items: flex-start;
+    justify-content: flex-end;
     position: relative;
     overflow: hidden;
-    padding: 80px 24px;
+    padding: 0 clamp(28px, 6vw, 88px) clamp(60px, 8vw, 100px);
   }
 
-  /* Background image with dark overlay */
   .av-story__hero-bg {
     position: absolute;
     inset: 0;
     background-size: cover;
-    background-position: center;
+    background-position: center 30%;
     z-index: 0;
+    transform: scale(1.06);
+    transition: transform 10s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .av-story__hero:hover .av-story__hero-bg {
+    transform: scale(1.0);
   }
 
   .av-story__hero-bg::after {
@@ -38,14 +42,14 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      to bottom,
-      rgba(28, 25, 22, 0.55) 0%,
-      rgba(28, 25, 22, 0.35) 40%,
-      rgba(28, 25, 22, 0.7) 100%
+      165deg,
+      rgba(28, 25, 22, 0.1) 0%,
+      rgba(28, 25, 22, 0.4) 35%,
+      rgba(28, 25, 22, 0.96) 100%
     );
   }
 
-  /* Grain */
+  /* Grain texture */
   .av-story__hero::before {
     content: '';
     position: absolute;
@@ -59,330 +63,476 @@
   .av-story__hero-content {
     position: relative;
     z-index: 2;
-    max-width: 960px;
+    width: 100%;
+    max-width: 1400px;
   }
 
-  .av-story__chapter-label {
-    display: inline-block;
-    font-size: 0.65rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: #F7B32B;
-    margin-bottom: 32px;
-  }
-
-  .av-story__hero-title {
-    font-family: "Young Serif", serif;
-    font-size: clamp(4.5rem, 12vw, 13rem);
-    line-height: 0.88;
-    letter-spacing: -0.03em;
-    color: #FFF3DC;
-    margin: 0 0 40px;
-  }
-
-  .av-story__hero-sub {
-    font-size: clamp(1rem, 1.8vw, 1.3rem);
-    line-height: 1.6;
-    color: rgba(255, 243, 220, 0.6);
-    max-width: 560px;
-    margin: 0 auto;
-  }
-
-  /* Scroll indicator */
-  .av-story__scroll-cue {
-    position: absolute;
-    bottom: 48px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    z-index: 2;
-    color: rgba(255, 243, 220, 0.35);
-  }
-
-  .av-story__scroll-cue span {
-    font-size: 0.6rem;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-  }
-
-  .av-story__scroll-line {
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, rgba(247, 179, 43, 0.4), transparent);
-    animation: av-scroll-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes av-scroll-pulse {
-    0%, 100% { opacity: 0.4; transform: scaleY(1); }
-    50%       { opacity: 1;   transform: scaleY(0.7); }
-  }
-
-  /* ---- CHAPTER SECTION ---- */
-  .av-story__chapter {
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Dark chapters */
-  .av-story__chapter--dark {
-    background: #1C1916;
-    color: #FFF3DC;
-  }
-
-  /* Light chapters */
-  .av-story__chapter--light {
-    background: #FFF3DC;
-    color: #3A3A3C;
-  }
-
-  /* Red/brand chapters */
-  .av-story__chapter--brand {
-    background: #9C2F2A;
-    color: #FFF3DC;
-  }
-
-  /* Grain on all chapters */
-  .av-story__chapter::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-    opacity: 0.02;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Giant chapter number in background */
-  .av-story__num {
-    position: absolute;
-    font-family: "Young Serif", serif;
-    font-size: clamp(14rem, 30vw, 40rem);
-    line-height: 1;
-    opacity: 0.03;
-    pointer-events: none;
-    user-select: none;
-    letter-spacing: -0.04em;
-    z-index: 0;
-  }
-
-  .av-story__num--left  { left: -2%; top: -10%; }
-  .av-story__num--right { right: -2%; bottom: -10%; }
-
-  /* Split layout for chapters */
-  .av-story__chapter-inner {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    min-height: 80vh;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 clamp(24px, 5vw, 80px);
-  }
-
-  /* Alternate side for even chapters */
-  .av-story__chapter--flipped .av-story__chapter-inner {
-    direction: rtl;
-  }
-
-  .av-story__chapter--flipped .av-story__chapter-text,
-  .av-story__chapter--flipped .av-story__chapter-media {
-    direction: ltr;
-  }
-
-  .av-story__chapter-text {
-    padding: clamp(48px, 6vw, 80px) clamp(24px, 4vw, 64px);
-  }
-
-  .av-story__chapter-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  .av-story__hero-eyebrow {
     font-size: 0.62rem;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     color: #F7B32B;
-    margin-bottom: 28px;
-    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
   }
 
-  .av-story__chapter-eyebrow::before {
+  .av-story__hero-eyebrow::before {
     content: '';
-    display: block;
-    width: 32px;
+    width: 40px;
     height: 1px;
     background: #F7B32B;
     opacity: 0.6;
     flex-shrink: 0;
   }
 
-  .av-story__chapter-title {
+  .av-story__hero-title {
     font-family: "Young Serif", serif;
-    font-size: clamp(2.4rem, 5vw, 4.5rem);
-    line-height: 1.0;
-    letter-spacing: -0.02em;
-    margin: 0 0 28px;
-    color: inherit;
+    font-size: clamp(5rem, 15vw, 17rem);
+    line-height: 0.84;
+    letter-spacing: -0.04em;
+    color: #FFF3DC;
+    margin: 0;
+    overflow: visible;
   }
 
-  .av-story__chapter-body {
-    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
-    line-height: 1.8;
-    color: inherit;
-    opacity: 0.78;
-    max-width: 500px;
+  .av-story__hero-title-offset {
+    display: block;
+    padding-left: clamp(2rem, 6vw, 10rem);
+    color: rgba(255, 243, 220, 0.28);
   }
 
-  .av-story__chapter-body p {
-    margin: 0 0 16px;
+  .av-story__hero-meta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 44px;
+    flex-wrap: wrap;
   }
 
-  .av-story__chapter-body p:last-child {
-    margin-bottom: 0;
+  .av-story__hero-sub {
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    line-height: 1.7;
+    color: rgba(255, 243, 220, 0.48);
+    max-width: 420px;
+    margin: 0;
   }
 
-  /* Image side */
-  .av-story__chapter-media {
+  .av-story__hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: rgba(255, 243, 220, 0.22);
+    font-size: 0.58rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .av-story__scroll-line {
+    width: 44px;
+    height: 1px;
+    background: rgba(247, 179, 43, 0.45);
+    animation: av-scroll-pulse 2.2s ease-in-out infinite;
+    transform-origin: left;
+  }
+
+  @keyframes av-scroll-pulse {
+    0%, 100% { opacity: 0.45; transform: scaleX(1); }
+    50%       { opacity: 1;   transform: scaleX(0.65); }
+  }
+
+  /* ---- MARQUEE STRIP ---- */
+  .av-story__marquee-strip {
+    background: #F7B32B;
+    overflow: hidden;
+    padding: 16px 0;
+    white-space: nowrap;
+  }
+
+  .av-story__marquee-inner {
+    display: inline-flex;
+    animation: av-marquee 22s linear infinite;
+  }
+
+  .av-story__marquee-inner span {
+    font-family: "Young Serif", serif;
+    font-size: clamp(0.68rem, 1.1vw, 0.85rem);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #1C1916;
+    padding: 0 28px;
+  }
+
+  .av-story__marquee-sep {
+    opacity: 0.4;
+  }
+
+  @keyframes av-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ---- IMAGE PANEL ---- */
+  .av-story__img-panel {
     position: relative;
     overflow: hidden;
-    height: 100%;
-    min-height: 60vh;
+    height: clamp(45vh, 60vw, 78vh);
+    background: #161210;
   }
 
-  .av-story__chapter-img {
+  .av-story__img-panel-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     display: block;
-    transform: scale(1.05);
-    transition: transform 8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: scale(1.04);
+    transition: transform 12s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .av-story__chapter:hover .av-story__chapter-img {
-    transform: scale(1);
+  .av-story__img-panel:hover .av-story__img-panel-img {
+    transform: scale(1.0);
   }
 
-  /* Media overlay gradient */
-  .av-story__chapter-media::after {
+  /* Top & bottom fade */
+  .av-story__img-panel::before,
+  .av-story__img-panel::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, rgba(28,25,22,0.25), transparent 60%);
+    left: 0;
+    right: 0;
+    height: 22%;
+    z-index: 1;
     pointer-events: none;
   }
 
-  .av-story__chapter--flipped .av-story__chapter-media::after {
-    background: linear-gradient(to left, rgba(28,25,22,0.25), transparent 60%);
+  .av-story__img-panel::before {
+    top: 0;
+    background: linear-gradient(to bottom, #1C1916, transparent);
   }
 
-  .av-story__chapter--light .av-story__chapter-media::after {
-    background: linear-gradient(to right, rgba(255,243,220,0.25), transparent 60%);
+  .av-story__img-panel::after {
+    bottom: 0;
+    background: linear-gradient(to top, #1C1916, transparent);
+  }
+
+  .av-story__img-caption {
+    position: absolute;
+    bottom: clamp(20px, 3vw, 36px);
+    right: clamp(24px, 4vw, 52px);
+    z-index: 2;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 243, 220, 0.28);
+  }
+
+  /* ---- CHAPTER ENTRIES ---- */
+  .av-story__entries {
+    background: #1C1916;
+    padding: clamp(80px, 10vw, 140px) 0 clamp(80px, 10vw, 120px);
+    position: relative;
+  }
+
+  /* Vertical golden spine */
+  .av-story__entries::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: clamp(28px, 8.5vw, 122px);
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(247, 179, 43, 0.2) 8%,
+      rgba(247, 179, 43, 0.2) 92%,
+      transparent 100%
+    );
+  }
+
+  .av-story__entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: clamp(60px, 10.5vw, 148px) 1fr;
+    max-width: 1280px;
+    margin: 0 auto clamp(80px, 10vw, 140px);
+    padding: 0 clamp(28px, 5vw, 80px) 0 0;
+  }
+
+  .av-story__entry:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Spine marker column */
+  .av-story__entry-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8px;
+    position: relative;
+  }
+
+  .av-story__entry-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1C1916;
+    border: 2px solid rgba(247, 179, 43, 0.5);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .av-story__entry:hover .av-story__entry-dot {
+    border-color: #F7B32B;
+    box-shadow: 0 0 0 5px rgba(247, 179, 43, 0.12);
+  }
+
+  .av-story__entry-num {
+    font-family: "Young Serif", serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    color: rgba(247, 179, 43, 0.28);
+    margin-top: 16px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    user-select: none;
+    transition: color 0.4s ease;
+  }
+
+  .av-story__entry:hover .av-story__entry-num {
+    color: rgba(247, 179, 43, 0.55);
+  }
+
+  /* Entry content */
+  .av-story__entry-content {
+    padding-left: clamp(28px, 4.5vw, 64px);
+  }
+
+  .av-story__entry-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba(247, 179, 43, 0.55);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .av-story__entry-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .av-story__entry-title {
+    font-family: "Young Serif", serif;
+    font-size: clamp(2.4rem, 5vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: #FFF3DC;
+    margin: 0 0 32px;
+    max-width: 720px;
+  }
+
+  .av-story__entry-body {
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.85;
+    color: rgba(255, 243, 220, 0.5);
+    max-width: 580px;
+  }
+
+  .av-story__entry-body p {
+    margin: 0 0 18px;
+  }
+
+  .av-story__entry-body p:last-child {
+    margin: 0;
   }
 
   /* ---- PULL QUOTE ---- */
-  .av-story__pullquote {
+  .av-story__quote {
+    background: #9C2F2A;
     position: relative;
-    z-index: 1;
-    padding: clamp(80px, 10vw, 140px) clamp(24px, 8vw, 140px);
+    overflow: hidden;
+    padding: clamp(80px, 10vw, 140px) clamp(28px, 8vw, 140px);
     text-align: center;
   }
 
-  .av-story__pullquote-mark {
+  /* Large ghost quotation mark */
+  .av-story__quote-ghost {
+    position: absolute;
     font-family: "Young Serif", serif;
-    font-size: clamp(4rem, 8vw, 9rem);
+    font-size: clamp(14rem, 35vw, 48rem);
+    line-height: 1;
+    color: rgba(255, 243, 220, 0.04);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    user-select: none;
+    line-height: 0.8;
+  }
+
+  .av-story__quote-mark {
+    font-family: "Young Serif", serif;
+    font-size: clamp(3rem, 6vw, 7rem);
+    color: rgba(255, 243, 220, 0.18);
     line-height: 0.6;
-    color: #F7B32B;
-    opacity: 0.35;
     display: block;
-    margin-bottom: 16px;
-  }
-
-  .av-story__pullquote-text {
-    font-family: "Young Serif", serif;
-    font-size: clamp(1.8rem, 4vw, 4rem);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: inherit;
-    max-width: 900px;
-    margin: 0 auto 40px;
-  }
-
-  .av-story__pullquote-attr {
-    font-family: "Source Serif 4", serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #F7B32B;
-    opacity: 0.7;
-  }
-
-  /* ---- STATS STRIP ---- */
-  .av-story__stats {
+    margin-bottom: 28px;
     position: relative;
     z-index: 1;
+  }
+
+  .av-story__quote-text {
+    font-family: "Young Serif", serif;
+    font-size: clamp(1.6rem, 3.5vw, 3.8rem);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: #FFF3DC;
+    max-width: 900px;
+    margin: 0 auto 36px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .av-story__quote-attr {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 243, 220, 0.4);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---- STATS ---- */
+  .av-story__stats {
+    background: #1C1916;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid rgba(255, 243, 220, 0.08);
-    border-bottom: 1px solid rgba(255, 243, 220, 0.08);
+    border-top: 1px solid rgba(255, 243, 220, 0.06);
+    border-bottom: 1px solid rgba(255, 243, 220, 0.06);
   }
 
   .av-story__stat {
-    padding: clamp(40px, 5vw, 64px) clamp(24px, 4vw, 48px);
-    border-right: 1px solid rgba(255, 243, 220, 0.08);
+    padding: clamp(48px, 6vw, 80px) clamp(20px, 3.5vw, 52px);
     text-align: center;
+    border-right: 1px solid rgba(255, 243, 220, 0.06);
+    position: relative;
+    overflow: hidden;
+    cursor: default;
   }
 
   .av-story__stat:last-child {
     border-right: none;
   }
 
+  /* Gold accent bar on hover */
+  .av-story__stat::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #F7B32B;
+    transition: width 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .av-story__stat:hover::after {
+    width: 52px;
+  }
+
   .av-story__stat-number {
     font-family: "Young Serif", serif;
-    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-size: clamp(3rem, 5.5vw, 5.8rem);
     line-height: 1;
     letter-spacing: -0.03em;
     color: #F7B32B;
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    transition: transform 0.4s ease;
+  }
+
+  .av-story__stat:hover .av-story__stat-number {
+    transform: translateY(-3px);
   }
 
   .av-story__stat-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255, 243, 220, 0.45);
+    color: rgba(255, 243, 220, 0.32);
   }
 
-  /* ---- CLOSING SECTION ---- */
+  /* ---- CLOSING CTA ---- */
   .av-story__close {
+    background: #1C1916;
+    text-align: center;
+    padding: clamp(90px, 13vw, 170px) clamp(28px, 8vw, 80px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Background "AVIÓN" ghost text */
+  .av-story__close::before {
+    content: 'AVIÓN';
+    position: absolute;
+    font-family: "Young Serif", serif;
+    font-size: clamp(9rem, 22vw, 30rem);
+    letter-spacing: -0.05em;
+    color: rgba(255, 243, 220, 0.018);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .av-story__close-inner {
     position: relative;
     z-index: 1;
-    text-align: center;
-    padding: clamp(80px, 12vw, 160px) clamp(24px, 8vw, 80px);
     max-width: 860px;
     margin: 0 auto;
   }
 
+  .av-story__close-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(247, 179, 43, 0.5);
+    display: block;
+    margin-bottom: 24px;
+  }
+
   .av-story__close-title {
     font-family: "Young Serif", serif;
-    font-size: clamp(2rem, 4.5vw, 5rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.2rem, 5vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
     color: #FFF3DC;
-    margin: 0 0 32px;
+    margin: 0 0 28px;
   }
 
   .av-story__close-body {
-    font-size: clamp(1rem, 1.4vw, 1.2rem);
-    line-height: 1.75;
-    color: rgba(255, 243, 220, 0.55);
-    max-width: 600px;
-    margin: 0 auto 48px;
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    line-height: 1.78;
+    color: rgba(255, 243, 220, 0.48);
+    max-width: 520px;
+    margin: 0 auto 52px;
   }
 
   .av-story__close-cta {
@@ -390,16 +540,16 @@
     align-items: center;
     gap: 14px;
     font-family: "Source Serif 4", serif;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #F7B32B;
-    border: 1px solid rgba(247, 179, 43, 0.4);
+    border: 1px solid rgba(247, 179, 43, 0.35);
     padding: 18px 44px;
     text-decoration: none;
-    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
     position: relative;
     overflow: hidden;
+    transition: color 0.35s ease, border-color 0.35s ease;
   }
 
   .av-story__close-cta::before {
@@ -421,30 +571,45 @@
     transform: translateX(0);
   }
 
+  .av-story__close-cta svg {
+    transition: transform 0.35s ease;
+  }
+
+  .av-story__close-cta:hover svg {
+    transform: translateX(4px);
+  }
+
   /* ---- MOBILE ---- */
-  @media (max-width: 899px) {
-    .av-story__chapter-inner {
+  @media (max-width: 749px) {
+    .av-story__entries::before {
+      display: none;
+    }
+
+    .av-story__entry {
       grid-template-columns: 1fr;
-      min-height: auto;
-      padding: 0;
+      padding-right: 0;
+      margin-bottom: clamp(60px, 10vw, 100px);
     }
 
-    .av-story__chapter--flipped .av-story__chapter-inner {
-      direction: ltr;
+    .av-story__entry-marker {
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-top: 0;
+      padding: 0 clamp(20px, 5vw, 36px);
     }
 
-    .av-story__chapter-media {
-      min-height: 55vw;
-      order: -1;
+    .av-story__entry-num {
+      writing-mode: horizontal-tb;
+      transform: none;
+      margin-top: 0;
+      font-size: 0.58rem;
     }
 
-    .av-story__chapter-text {
-      padding: 40px 24px 56px;
-    }
-
-    .av-story__chapter-media::after,
-    .av-story__chapter--flipped .av-story__chapter-media::after {
-      background: linear-gradient(to bottom, transparent 60%, rgba(28,25,22,0.4) 100%);
+    .av-story__entry-content {
+      padding-left: clamp(20px, 5vw, 36px);
+      padding-right: clamp(20px, 5vw, 36px);
     }
 
     .av-story__stats {
@@ -453,19 +618,33 @@
 
     .av-story__stat {
       border-right: none;
-      border-bottom: 1px solid rgba(255, 243, 220, 0.08);
+      border-bottom: 1px solid rgba(255, 243, 220, 0.06);
     }
 
     .av-story__stat:last-child {
       border-bottom: none;
     }
 
-    .av-story__num { display: none; }
+    .av-story__hero-scroll {
+      display: none;
+    }
+
+    .av-story__hero-title-offset {
+      padding-left: clamp(1.5rem, 5vw, 4rem);
+    }
+
+    .av-story__img-panel {
+      height: 60vw;
+    }
   }
 
   @media (max-width: 480px) {
-    .av-story__hero-title {
-      font-size: clamp(3.5rem, 16vw, 6rem);
+    .av-story__hero {
+      padding: 0 20px 52px;
+    }
+    .av-story__close-cta {
+      width: 100%;
+      justify-content: center;
     }
   }
 {%- endstyle -%}
@@ -473,174 +652,206 @@
 <div class="av-story">
 
   <!-- ================================================
-       OPENING HERO
+       HERO
        ================================================ -->
   <div class="av-story__hero">
-    {%- if section.settings.hero_image != blank -%}
+    {%- if section.settings.story_image != blank -%}
       <div
         class="av-story__hero-bg"
-        style="background-image: url('{{ section.settings.hero_image | image_url: width: 2400 }}');"
+        style="background-image: url('{{ section.settings.story_image | image_url: width: 2400 }}');"
       ></div>
     {%- endif -%}
 
     <div class="av-story__hero-content">
-      <span class="av-story__chapter-label" data-av-reveal="fade-up">
+      <span class="av-story__hero-eyebrow" data-av-reveal="fade-up">
         {{ section.settings.hero_label | default: 'Avión Legacy Cannabis' }}
       </span>
       <h1 class="av-story__hero-title" data-av-reveal="words" data-av-delay="100">
-        {{ section.settings.hero_title | default: 'THE STORY' }}
+        <span>{{ section.settings.hero_title | default: 'THE' }}</span>
+        <span class="av-story__hero-title-offset">{{ section.settings.hero_title_line2 | default: 'STORY' }}</span>
       </h1>
-      <p class="av-story__hero-sub" data-av-reveal="fade-up" data-av-delay="500">
-        {{ section.settings.hero_sub | default: 'A legacy built on courage, risk, and the relentless belief that the rules were wrong.' }}
-      </p>
-    </div>
-
-    <div class="av-story__scroll-cue" aria-hidden="true">
-      <span>Scroll</span>
-      <div class="av-story__scroll-line"></div>
+      <div class="av-story__hero-meta">
+        <p class="av-story__hero-sub" data-av-reveal="fade-up" data-av-delay="480">
+          {{ section.settings.hero_sub | default: 'A legacy built on courage, risk, and the relentless belief that the rules were wrong.' }}
+        </p>
+        <div class="av-story__hero-scroll" aria-hidden="true">
+          <div class="av-story__scroll-line"></div>
+          <span>Scroll</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- ================================================
-       CHAPTER 1 — The Man
+       MARQUEE STRIP
        ================================================ -->
-  <div class="av-story__chapter av-story__chapter--dark">
-    <div class="av-story__num av-story__num--right" aria-hidden="true">01</div>
+  <div class="av-story__marquee-strip" aria-hidden="true">
+    <div class="av-story__marquee-inner">
+      <span>The Story</span><span class="av-story__marquee-sep">·</span>
+      <span>The Legacy</span><span class="av-story__marquee-sep">·</span>
+      <span>Avión</span><span class="av-story__marquee-sep">·</span>
+      <span>Oregon</span><span class="av-story__marquee-sep">·</span>
+      <span>Est. 1970</span><span class="av-story__marquee-sep">·</span>
+      <span>The Man</span><span class="av-story__marquee-sep">·</span>
+      <span>The Flight</span><span class="av-story__marquee-sep">·</span>
+      <span>The Story</span><span class="av-story__marquee-sep">·</span>
+      <span>The Legacy</span><span class="av-story__marquee-sep">·</span>
+      <span>Avión</span><span class="av-story__marquee-sep">·</span>
+      <span>Oregon</span><span class="av-story__marquee-sep">·</span>
+      <span>Est. 1970</span><span class="av-story__marquee-sep">·</span>
+      <span>The Man</span><span class="av-story__marquee-sep">·</span>
+      <span>The Flight</span><span class="av-story__marquee-sep">·</span>
+    </div>
+  </div>
 
-    <div class="av-story__chapter-inner">
-      <div class="av-story__chapter-text">
-        <p class="av-story__chapter-eyebrow">Chapter One</p>
-        <h2 class="av-story__chapter-title" data-av-reveal="words">
+  <!-- ================================================
+       STORY IMAGE PANEL
+       ================================================ -->
+  {%- if section.settings.story_image != blank -%}
+    <div class="av-story__img-panel">
+      <img
+        class="av-story__img-panel-img"
+        src="{{ section.settings.story_image | image_url: width: 2400 }}"
+        alt="{{ section.settings.story_image.alt | escape | default: shop.name }}"
+        loading="lazy"
+        width="2400"
+        height="1200"
+      >
+      <span class="av-story__img-caption" aria-hidden="true">
+        Oregon &middot; Est. 1970
+      </span>
+    </div>
+  {%- endif -%}
+
+  <!-- ================================================
+       CHAPTER ENTRIES
+       ================================================ -->
+  <div class="av-story__entries">
+
+    <!-- Chapter 1 -->
+    <div class="av-story__entry">
+      <div class="av-story__entry-marker" aria-hidden="true">
+        <div class="av-story__entry-dot"></div>
+        <span class="av-story__entry-num">01</span>
+      </div>
+      <div class="av-story__entry-content">
+        <p class="av-story__entry-eyebrow" data-av-reveal="fade-up">
+          {{ section.settings.ch1_eyebrow | default: 'Chapter One' }}
+        </p>
+        <h2 class="av-story__entry-title" data-av-reveal="words">
           {{ section.settings.ch1_title | default: 'THE MAN BEHIND THE LEGACY' }}
         </h2>
-        <div class="av-story__chapter-body" data-av-reveal="fade-up" data-av-delay="300">
-          {{ section.settings.ch1_body | default: '<p>Jerry Wilson was not just a pilot. He was a risk-taker. A disruptor. A believer in freedom before it was fashionable.</p><p>In the 1970s and 80s, Jerry flew cannabis from Mexico and Colombia into the United States — not quietly, not carefully, but boldly.</p>' }}
+        <div class="av-story__entry-body" data-av-reveal="fade-up" data-av-delay="320">
+          {%- if section.settings.ch1_body != blank -%}
+            {{ section.settings.ch1_body }}
+          {%- else -%}
+            <p>Jerry Wilson was not just a pilot. He was a risk-taker. A disruptor. A believer in freedom before it was fashionable.</p>
+            <p>In the 1970s and 80s, Jerry flew cannabis from Mexico and Colombia into the United States — not quietly, not carefully, but boldly.</p>
+          {%- endif -%}
         </div>
       </div>
+    </div>
 
-      <div class="av-story__chapter-media" data-av-curtain data-av-curtain-color="#1C1916">
-        {%- if section.settings.ch1_image != blank -%}
-          <img
-            class="av-story__chapter-img"
-            src="{{ section.settings.ch1_image | image_url: width: 1400 }}"
-            alt="{{ section.settings.ch1_image.alt | escape | default: 'Chapter 1' }}"
-            loading="lazy"
-          >
-        {%- endif -%}
+    <!-- Chapter 2 -->
+    <div class="av-story__entry">
+      <div class="av-story__entry-marker" aria-hidden="true">
+        <div class="av-story__entry-dot"></div>
+        <span class="av-story__entry-num">02</span>
       </div>
-    </div>
-  </div>
-
-  <!-- ================================================
-       PULL QUOTE 1
-       ================================================ -->
-  <div class="av-story__chapter av-story__chapter--brand">
-    <div class="av-story__pullquote">
-      <span class="av-story__pullquote-mark" aria-hidden="true">"</span>
-      <p class="av-story__pullquote-text" data-av-reveal="words">
-        {{ section.settings.quote1 | default: 'He flew when no one else dared. He built when the world said it was over.' }}
-      </p>
-      <p class="av-story__pullquote-attr" data-av-reveal="fade-up" data-av-delay="300">
-        {{ section.settings.quote1_attr | default: '— The Avión Legacy' }}
-      </p>
-    </div>
-  </div>
-
-  <!-- ================================================
-       CHAPTER 2 — The Fall
-       ================================================ -->
-  <div class="av-story__chapter av-story__chapter--light av-story__chapter--flipped">
-    <div class="av-story__num av-story__num--left" aria-hidden="true">02</div>
-
-    <div class="av-story__chapter-inner">
-      <div class="av-story__chapter-text">
-        <p class="av-story__chapter-eyebrow">Chapter Two</p>
-        <h2 class="av-story__chapter-title" data-av-reveal="words">
+      <div class="av-story__entry-content">
+        <p class="av-story__entry-eyebrow" data-av-reveal="fade-up">
+          {{ section.settings.ch2_eyebrow | default: 'Chapter Two' }}
+        </p>
+        <h2 class="av-story__entry-title" data-av-reveal="words">
           {{ section.settings.ch2_title | default: 'THE CRASH THAT CHANGED EVERYTHING' }}
         </h2>
-        <div class="av-story__chapter-body" data-av-reveal="fade-up" data-av-delay="300">
-          {{ section.settings.ch2_body | default: '<p>The law caught up. Conviction. Federal prison. A chapter that would define — not destroy — the man.</p><p>Jerry served his time with the same conviction he flew with: head up, eyes forward, already planning the next flight.</p>' }}
+        <div class="av-story__entry-body" data-av-reveal="fade-up" data-av-delay="320">
+          {%- if section.settings.ch2_body != blank -%}
+            {{ section.settings.ch2_body }}
+          {%- else -%}
+            <p>The law caught up. Conviction. Federal prison. A chapter that would define — not destroy — the man.</p>
+            <p>Jerry served his time with the same conviction he flew with: head up, eyes forward, already planning the next flight.</p>
+          {%- endif -%}
         </div>
       </div>
+    </div>
 
-      <div class="av-story__chapter-media" data-av-curtain data-av-curtain-color="#FFF3DC">
-        {%- if section.settings.ch2_image != blank -%}
-          <img
-            class="av-story__chapter-img"
-            src="{{ section.settings.ch2_image | image_url: width: 1400 }}"
-            alt="{{ section.settings.ch2_image.alt | escape | default: 'Chapter 2' }}"
-            loading="lazy"
-          >
-        {%- endif -%}
+    <!-- Chapter 3 -->
+    <div class="av-story__entry">
+      <div class="av-story__entry-marker" aria-hidden="true">
+        <div class="av-story__entry-dot"></div>
+        <span class="av-story__entry-num">03</span>
+      </div>
+      <div class="av-story__entry-content">
+        <p class="av-story__entry-eyebrow" data-av-reveal="fade-up">
+          {{ section.settings.ch3_eyebrow | default: 'Chapter Three' }}
+        </p>
+        <h2 class="av-story__entry-title" data-av-reveal="words">
+          {{ section.settings.ch3_title | default: 'REINVENTION' }}
+        </h2>
+        <div class="av-story__entry-body" data-av-reveal="fade-up" data-av-delay="320">
+          {%- if section.settings.ch3_body != blank -%}
+            {{ section.settings.ch3_body }}
+          {%- else -%}
+            <p>Jerry did not disappear after prison. He built Soloflex, a fitness company that redefined American advertising. He then invested in cannabis legalization, serving as chief petitioner in Oregon.</p>
+            <p>From outlaw to organizer. From risk to reform.</p>
+          {%- endif -%}
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- ================================================
-       CHAPTER 3 — Reinvention
+       PULL QUOTE
        ================================================ -->
-  <div class="av-story__chapter av-story__chapter--dark">
-    <div class="av-story__num av-story__num--right" aria-hidden="true">03</div>
-
-    <div class="av-story__chapter-inner">
-      <div class="av-story__chapter-text">
-        <p class="av-story__chapter-eyebrow">Chapter Three</p>
-        <h2 class="av-story__chapter-title" data-av-reveal="words">
-          {{ section.settings.ch3_title | default: 'REINVENTION' }}
-        </h2>
-        <div class="av-story__chapter-body" data-av-reveal="fade-up" data-av-delay="300">
-          {{ section.settings.ch3_body | default: '<p>Jerry didn\'t disappear after prison. He built Soloflex, a fitness company that redefined American advertising. He then invested in cannabis legalization, serving as chief petitioner in Oregon.</p><p>From outlaw to organizer. From risk to reform.</p>' }}
-        </div>
-      </div>
-
-      <div class="av-story__chapter-media" data-av-curtain data-av-curtain-color="#1C1916">
-        {%- if section.settings.ch3_image != blank -%}
-          <img
-            class="av-story__chapter-img"
-            src="{{ section.settings.ch3_image | image_url: width: 1400 }}"
-            alt="{{ section.settings.ch3_image.alt | escape | default: 'Chapter 3' }}"
-            loading="lazy"
-          >
-        {%- endif -%}
-      </div>
-    </div>
+  <div class="av-story__quote">
+    <div class="av-story__quote-ghost" aria-hidden="true">&ldquo;</div>
+    <span class="av-story__quote-mark" aria-hidden="true">&ldquo;</span>
+    <p class="av-story__quote-text" data-av-reveal="words">
+      {{ section.settings.quote1 | default: 'He flew when no one else dared. He built when the world said it was over.' }}
+    </p>
+    <p class="av-story__quote-attr" data-av-reveal="fade-up" data-av-delay="380">
+      {{ section.settings.quote1_attr | default: '— The Avión Legacy' }}
+    </p>
   </div>
 
   <!-- ================================================
        STATS STRIP
        ================================================ -->
-  <div class="av-story__chapter av-story__chapter--dark">
-    <div class="av-story__stats">
-      <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="0">
-        <span class="av-story__stat-number">{{ section.settings.stat1_num | default: '1970s' }}</span>
-        <span class="av-story__stat-label">{{ section.settings.stat1_label | default: 'When it started' }}</span>
-      </div>
-      <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="150">
-        <span class="av-story__stat-number">{{ section.settings.stat2_num | default: '100%' }}</span>
-        <span class="av-story__stat-label">{{ section.settings.stat2_label | default: 'Oregon craft' }}</span>
-      </div>
-      <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="300">
-        <span class="av-story__stat-number">{{ section.settings.stat3_num | default: '50yr' }}</span>
-        <span class="av-story__stat-label">{{ section.settings.stat3_label | default: 'Of legacy' }}</span>
-      </div>
+  <div class="av-story__stats">
+    <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="0">
+      <span class="av-story__stat-number">{{ section.settings.stat1_num | default: '1970s' }}</span>
+      <span class="av-story__stat-label">{{ section.settings.stat1_label | default: 'When it started' }}</span>
+    </div>
+    <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="160">
+      <span class="av-story__stat-number">{{ section.settings.stat2_num | default: '100%' }}</span>
+      <span class="av-story__stat-label">{{ section.settings.stat2_label | default: 'Oregon craft' }}</span>
+    </div>
+    <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="320">
+      <span class="av-story__stat-number">{{ section.settings.stat3_num | default: '50yr' }}</span>
+      <span class="av-story__stat-label">{{ section.settings.stat3_label | default: 'Of legacy' }}</span>
     </div>
   </div>
 
   <!-- ================================================
        CLOSING CTA
        ================================================ -->
-  <div class="av-story__chapter av-story__chapter--dark">
-    <div class="av-story__close">
+  <div class="av-story__close">
+    <div class="av-story__close-inner">
+      <span class="av-story__close-label" data-av-reveal="fade-up">
+        The Legacy Continues
+      </span>
       <h2 class="av-story__close-title" data-av-reveal="words">
         {{ section.settings.close_title | default: 'THE LEGACY CONTINUES' }}
       </h2>
-      <p class="av-story__close-body" data-av-reveal="fade-up" data-av-delay="300">
+      <p class="av-story__close-body" data-av-reveal="fade-up" data-av-delay="320">
         {{ section.settings.close_body | default: 'Avión Legacy Cannabis carries forward the spirit of a man who never stopped believing in freedom. Every product is a testament to that belief.' }}
       </p>
       {%- if section.settings.close_cta_url != blank -%}
         <a
           href="{{ section.settings.close_cta_url }}"
-          class="av-story__close-cta av-magnetic"
+          class="av-story__close-cta"
           data-av-reveal="fade-up"
           data-av-delay="500"
         >
@@ -661,31 +872,32 @@
   "tag": "section",
   "settings": [
     { "type": "header", "content": "Hero" },
-    { "type": "image_picker", "id": "hero_image", "label": "Hero background image" },
-    { "type": "text",    "id": "hero_label", "label": "Eyebrow label",   "default": "Avión Legacy Cannabis" },
-    { "type": "text",    "id": "hero_title", "label": "Hero title",      "default": "THE STORY" },
-    { "type": "textarea","id": "hero_sub",   "label": "Hero subtitle",   "default": "A legacy built on courage, risk, and the relentless belief that the rules were wrong." },
+    { "type": "image_picker", "id": "story_image", "label": "Story image (hero + panel)" },
+    { "type": "text", "id": "hero_label",      "label": "Eyebrow",     "default": "Avión Legacy Cannabis" },
+    { "type": "text", "id": "hero_title",      "label": "Title line 1","default": "THE" },
+    { "type": "text", "id": "hero_title_line2","label": "Title line 2 (offset)","default": "STORY" },
+    { "type": "textarea", "id": "hero_sub",    "label": "Subtitle",    "default": "A legacy built on courage, risk, and the relentless belief that the rules were wrong." },
 
     { "type": "header", "content": "Chapter 1 — The Man" },
-    { "type": "text",    "id": "ch1_title",  "label": "Title",    "default": "THE MAN BEHIND THE LEGACY" },
-    { "type": "richtext","id": "ch1_body",   "label": "Body text" },
-    { "type": "image_picker", "id": "ch1_image", "label": "Image" },
+    { "type": "text",    "id": "ch1_eyebrow", "label": "Eyebrow", "default": "Chapter One" },
+    { "type": "text",    "id": "ch1_title",   "label": "Title",   "default": "THE MAN BEHIND THE LEGACY" },
+    { "type": "richtext","id": "ch1_body",    "label": "Body text" },
 
-    { "type": "header", "content": "Pull Quote 1" },
+    { "type": "header", "content": "Pull Quote" },
     { "type": "textarea","id": "quote1",     "label": "Quote",       "default": "He flew when no one else dared. He built when the world said it was over." },
     { "type": "text",   "id": "quote1_attr", "label": "Attribution", "default": "— The Avión Legacy" },
 
     { "type": "header", "content": "Chapter 2 — The Fall" },
-    { "type": "text",    "id": "ch2_title",  "label": "Title",    "default": "THE CRASH THAT CHANGED EVERYTHING" },
-    { "type": "richtext","id": "ch2_body",   "label": "Body text" },
-    { "type": "image_picker", "id": "ch2_image", "label": "Image" },
+    { "type": "text",    "id": "ch2_eyebrow", "label": "Eyebrow", "default": "Chapter Two" },
+    { "type": "text",    "id": "ch2_title",   "label": "Title",   "default": "THE CRASH THAT CHANGED EVERYTHING" },
+    { "type": "richtext","id": "ch2_body",    "label": "Body text" },
 
     { "type": "header", "content": "Chapter 3 — Reinvention" },
-    { "type": "text",    "id": "ch3_title",  "label": "Title",    "default": "REINVENTION" },
-    { "type": "richtext","id": "ch3_body",   "label": "Body text" },
-    { "type": "image_picker", "id": "ch3_image", "label": "Image" },
+    { "type": "text",    "id": "ch3_eyebrow", "label": "Eyebrow", "default": "Chapter Three" },
+    { "type": "text",    "id": "ch3_title",   "label": "Title",   "default": "REINVENTION" },
+    { "type": "richtext","id": "ch3_body",    "label": "Body text" },
 
-    { "type": "header", "content": "Stats Strip" },
+    { "type": "header", "content": "Stats" },
     { "type": "text", "id": "stat1_num",   "label": "Stat 1 number", "default": "1970s" },
     { "type": "text", "id": "stat1_label", "label": "Stat 1 label",  "default": "When it started" },
     { "type": "text", "id": "stat2_num",   "label": "Stat 2 number", "default": "100%" },
@@ -694,15 +906,13 @@
     { "type": "text", "id": "stat3_label", "label": "Stat 3 label",  "default": "Of legacy" },
 
     { "type": "header", "content": "Closing" },
-    { "type": "text",    "id": "close_title",    "label": "Closing title",       "default": "THE LEGACY CONTINUES" },
-    { "type": "textarea","id": "close_body",     "label": "Closing body",        "default": "Avión Legacy Cannabis carries forward the spirit of a man who never stopped believing in freedom." },
-    { "type": "url",     "id": "close_cta_url",  "label": "CTA button URL" },
-    { "type": "text",    "id": "close_cta_text", "label": "CTA button text",     "default": "Explore the collection" }
+    { "type": "text",    "id": "close_title",    "label": "Title",    "default": "THE LEGACY CONTINUES" },
+    { "type": "textarea","id": "close_body",     "label": "Body",     "default": "Avión Legacy Cannabis carries forward the spirit of a man who never stopped believing in freedom. Every product is a testament to that belief." },
+    { "type": "url",     "id": "close_cta_url",  "label": "CTA URL" },
+    { "type": "text",    "id": "close_cta_text", "label": "CTA text", "default": "Explore the collection" }
   ],
   "presets": [
-    {
-      "name": "Avion Our Story"
-    }
+    { "name": "Avion Our Story" }
   ]
 }
 {% endschema %}
