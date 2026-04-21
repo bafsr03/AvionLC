@@ -1,56 +1,33 @@
 /* ============================================================
-   AVION NAVBAR — Premium CSS override for existing header
-   Transparent → frosted glass · Animated links · Refined layout
+   AVION NAVBAR — Visual overrides for Shopify Pitch header
+   Glass scroll effect · Animated links · Brand palette
+   Does NOT override Shopify's positioning/height/padding.
+   Shopify's enable_sticky_header handles all layout.
    ============================================================ */
 
 /* ----------------------------------------------------------
-   BASE HEADER SHELL
+   SCROLL GLASS STATE
+   JS adds .av-header-scrolled to #header-group when scrolled
    ---------------------------------------------------------- */
-#header-group {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-}
-
-/* The main header element */
-.header {
-  padding: 0 clamp(20px, 4vw, 48px) !important;
-  min-height: 72px !important;
-  border-bottom: none !important;
+#header-group.av-header-scrolled .header {
+  background: rgba(22, 19, 16, 0.96) !important;
+  backdrop-filter: blur(20px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
+  box-shadow:
+    0 1px 0 rgba(247, 179, 43, 0.08),
+    0 4px 28px rgba(0, 0, 0, 0.28) !important;
   transition:
     background 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    backdrop-filter 0.5s ease;
-  will-change: background;
-  align-items: center;
+    box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
-/* Scrolled state — JS adds .av-header-scrolled to #header-group */
-#header-group.av-header-scrolled .header {
-  background: rgba(26, 22, 18, 0.92) !important;
-  backdrop-filter: blur(24px) saturate(1.8) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(1.8) !important;
-  box-shadow: 0 1px 0 rgba(247, 179, 43, 0.12),
-              0 8px 32px rgba(0, 0, 0, 0.28) !important;
-}
-
-/* Bottom gold accent line (visible when scrolled) */
-#header-group .header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: clamp(20px, 4vw, 48px);
-  right: clamp(20px, 4vw, 48px);
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(247, 179, 43, 0.25), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-#header-group.av-header-scrolled .header::after {
-  opacity: 1;
+/* Initial transparent state for dark hero sections */
+#header-group:not(.av-header-scrolled) .header {
+  background: transparent !important;
+  box-shadow: none !important;
+  transition:
+    background 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
 /* ----------------------------------------------------------
@@ -58,75 +35,68 @@
    ---------------------------------------------------------- */
 .header__logo img,
 .header__logo svg {
-  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-  max-height: 44px !important;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .header__logo:hover img,
 .header__logo:hover svg {
-  opacity: 0.8;
+  opacity: 0.75;
   transform: scale(0.97);
 }
 
 /* ----------------------------------------------------------
-   NAV LINKS
+   NAV LINKS — typography refinements only
    ---------------------------------------------------------- */
-.header__menu-item,
-.header-menu__link,
-[class*="header-menu"] a,
-.header__inline-menu a {
+.header__menu-item > a,
+.header__inline-menu a,
+.header-menu__link {
   font-family: "Source Serif 4", serif !important;
-  font-size: 0.8125rem !important;
-  letter-spacing: 0.12em !important;
+  font-size: 0.775rem !important;
+  letter-spacing: 0.1em !important;
   text-transform: uppercase !important;
   font-weight: 400 !important;
   position: relative;
-  transition: color 0.3s ease, opacity 0.3s ease !important;
-  padding-bottom: 3px !important;
+  padding-bottom: 2px !important;
+  transition: opacity 0.25s ease !important;
 }
 
-/* Animated underline for nav links */
-.header__menu-item::after,
-.header-menu__link::after,
-[class*="header-menu"] a::after,
-.header__inline-menu a::after {
+.header__menu-item > a:hover,
+.header__inline-menu a:hover,
+.header-menu__link:hover {
+  opacity: 0.65;
+}
+
+/* Animated gold underline on hover */
+.header__menu-item > a::after,
+.header__inline-menu a::after,
+.header-menu__link::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: -1px;
   left: 0;
   width: 100%;
   height: 1px;
   background: #F7B32B;
-  transform-origin: right center;
   transform: scaleX(0);
+  transform-origin: right center;
   transition: transform 0.4s cubic-bezier(0.9, 0, 0.1, 1);
+  pointer-events: none;
 }
 
-.header__menu-item:hover::after,
-.header-menu__link:hover::after,
-[class*="header-menu"] a:hover::after,
-.header__inline-menu a:hover::after {
+.header__menu-item > a:hover::after,
+.header__inline-menu a:hover::after,
+.header-menu__link:hover::after {
   transform-origin: left center;
   transform: scaleX(1);
 }
 
 /* ----------------------------------------------------------
-   ACTION ICONS (cart, search, account)
+   ACTION ICONS
    ---------------------------------------------------------- */
-.header__icons,
-.header__icon {
-  gap: 8px !important;
-}
-
 .header__icon,
 .header__action {
-  width: 40px !important;
-  height: 40px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border-radius: 50% !important;
   transition: background 0.25s ease !important;
+  border-radius: 50% !important;
 }
 
 .header__icon:hover,
@@ -139,83 +109,56 @@
 .cart-count {
   background: #F7B32B !important;
   color: #1C1916 !important;
-  font-family: "Source Serif 4", serif !important;
-  font-size: 0.6rem !important;
   font-weight: 700 !important;
-  width: 16px !important;
-  height: 16px !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  position: absolute !important;
-  top: 2px !important;
-  right: 2px !important;
 }
 
 /* ----------------------------------------------------------
-   MOBILE HAMBURGER
-   ---------------------------------------------------------- */
-.header__icon--menu svg line,
-.header__icon--menu svg rect {
-  transition: all 0.3s ease;
-}
-
-/* Mobile header layout */
-@media (max-width: 989px) {
-  .header {
-    min-height: 60px !important;
-    padding: 0 20px !important;
-  }
-}
-
-/* ----------------------------------------------------------
-   MOBILE DRAWER MENU — elevated styling
-   ---------------------------------------------------------- */
-.menu-drawer {
-  background: #1C1916 !important;
-  color: #FFF3DC !important;
-}
-
-.menu-drawer__navigation a,
-.menu-drawer__menu-item {
-  font-family: "Young Serif", serif !important;
-  font-size: clamp(1.5rem, 5vw, 2.5rem) !important;
-  letter-spacing: -0.01em !important;
-  text-transform: none !important;
-  color: #FFF3DC !important;
-  border-bottom: 1px solid rgba(255, 243, 220, 0.06) !important;
-  padding: 18px 0 !important;
-  transition: color 0.3s ease, padding-left 0.3s ease !important;
-}
-
-.menu-drawer__navigation a:hover,
-.menu-drawer__menu-item:hover {
-  color: #F7B32B !important;
-  padding-left: 12px !important;
-}
-
-.menu-drawer__close-button svg {
-  stroke: #FFF3DC !important;
-}
-
-.menu-drawer__inner-container {
-  padding: 32px 28px !important;
-}
-
-/* ----------------------------------------------------------
-   ANNOUNCEMENT BAR — if present
+   ANNOUNCEMENT BAR
    ---------------------------------------------------------- */
 .announcement-bar {
   background: #F7B32B !important;
   color: #1C1916 !important;
   font-family: "Source Serif 4", serif !important;
-  font-size: 0.75rem !important;
+  font-size: 0.72rem !important;
   letter-spacing: 0.12em !important;
   text-transform: uppercase !important;
 }
 
 /* ----------------------------------------------------------
-   HEADER SCROLL LISTENER — injected as inline style
-   handled by avion-navbar-scroll.js (below the fold)
+   MOBILE DRAWER
    ---------------------------------------------------------- */
+.menu-drawer,
+.menu-drawer__container {
+  background: #1C1916 !important;
+  color: #FFF3DC !important;
+}
+
+.menu-drawer__navigation a,
+.menu-drawer__menu-item,
+.menu-drawer__submenu-open-button {
+  font-family: "Young Serif", serif !important;
+  font-size: clamp(1.4rem, 5vw, 2.2rem) !important;
+  letter-spacing: -0.01em !important;
+  text-transform: none !important;
+  color: #FFF3DC !important;
+  border-bottom: 1px solid rgba(255, 243, 220, 0.06) !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  transition: color 0.25s ease, padding-left 0.25s ease !important;
+}
+
+.menu-drawer__navigation a:hover,
+.menu-drawer__menu-item:hover {
+  color: #F7B32B !important;
+  padding-left: 10px !important;
+}
+
+.menu-drawer__close-button svg,
+.menu-drawer__close-button path,
+.menu-drawer__close-button line {
+  stroke: #FFF3DC !important;
+}
+
+.menu-drawer__inner-container {
+  padding: 28px 24px !important;
+}

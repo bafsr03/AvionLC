@@ -9,8 +9,9 @@
     color: #FFF3DC;
     min-height: 100vh;
     position: relative;
-    overflow: hidden;
-    padding-top: 72px; /* header offset */
+    /* overflow-x only — don't clip form content vertically */
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   /* Film grain overlay */
@@ -143,7 +144,7 @@
     pointer-events: none;
   }
 
-  .av-contact__rule--top    { top: 72px; }
+  .av-contact__rule--top    { top: clamp(64px, 8vw, 88px); }
   .av-contact__rule--bottom { bottom: 0; }
 
   /* Two-column layout */
@@ -152,7 +153,10 @@
     z-index: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: calc(100vh - 72px);
+    min-height: 100vh;
+    /* Push content down past sticky header */
+    padding-top: clamp(64px, 8vw, 88px);
+    box-sizing: border-box;
   }
 
   /* Vertical center divider */
@@ -169,11 +173,11 @@
 
   /* ---- LEFT PANEL ---- */
   .av-contact__left {
-    padding: clamp(48px, 7vw, 100px) clamp(28px, 5vw, 72px);
+    padding: clamp(40px, 5vw, 72px) clamp(28px, 5vw, 72px) clamp(48px, 6vw, 80px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 60px;
+    gap: 48px;
   }
 
   .av-contact__kicker {
@@ -260,7 +264,7 @@
 
   /* ---- RIGHT PANEL ---- */
   .av-contact__right {
-    padding: clamp(48px, 7vw, 100px) clamp(28px, 5vw, 72px);
+    padding: clamp(40px, 5vw, 72px) clamp(28px, 5vw, 72px) clamp(48px, 6vw, 80px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -428,42 +432,41 @@
   /* ---- MOBILE ---- */
   @media (max-width: 899px) {
     .av-contact__radar,
-    .av-contact__coords {
+    .av-contact__coords,
+    .av-contact__bg-glyph {
       display: none;
-    }
-    .av-contact {
-      padding-top: 60px;
     }
     .av-contact__grid {
       grid-template-columns: 1fr;
       min-height: auto;
+      padding-top: clamp(56px, 8vw, 72px);
     }
     .av-contact__divider { display: none; }
     .av-contact__left {
-      padding: 60px 24px 48px;
-      gap: 48px;
+      padding: 40px 24px 40px;
+      gap: 36px;
       border-bottom: 1px solid rgba(255, 243, 220, 0.07);
     }
     .av-contact__right {
-      padding: 48px 24px 80px;
+      padding: 40px 24px 72px;
     }
     .av-contact__heading {
-      font-size: clamp(3.5rem, 14vw, 6rem);
-    }
-    .av-contact__bg-glyph {
-      display: none;
+      font-size: clamp(3.2rem, 12vw, 5.5rem);
     }
     .av-contact__row {
       grid-template-columns: 1fr;
-      gap: 44px;
+      gap: 40px;
     }
     .av-contact__actions {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
     }
     .av-contact__submit {
       width: 100%;
       justify-content: center;
+    }
+    .av-contact__note {
+      text-align: center;
     }
   }
 
@@ -472,6 +475,9 @@
     .av-contact__right {
       padding-left: 20px;
       padding-right: 20px;
+    }
+    .av-contact__heading {
+      font-size: clamp(2.8rem, 14vw, 4.5rem);
     }
   }
 {%- endstyle -%}

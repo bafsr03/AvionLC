@@ -33,13 +33,13 @@
 
   /* ---- TOP BRAND BAR ---- */
   .av-footer__brand-bar {
-    padding: clamp(72px, 10vw, 120px) 0 clamp(48px, 6vw, 72px);
+    padding: clamp(40px, 5vw, 64px) 0 clamp(28px, 3.5vw, 44px);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     border-bottom: 1px solid rgba(255, 243, 220, 0.07);
-    gap: 24px;
+    gap: 16px;
   }
 
   .av-footer__logo-wrap {
@@ -48,10 +48,10 @@
   }
 
   .av-footer__logo-wrap img {
-    height: clamp(40px, 6vw, 60px);
+    height: clamp(32px, 4vw, 48px);
     width: auto;
     filter: brightness(0) invert(1);
-    opacity: 0.85;
+    opacity: 0.9;
     transition: opacity 0.3s ease;
   }
 
@@ -61,11 +61,11 @@
 
   .av-footer__brand-tagline {
     font-family: "Young Serif", serif;
-    font-size: clamp(1.4rem, 3vw, 2.6rem);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    color: rgba(255, 243, 220, 0.88);
-    max-width: 560px;
+    font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: rgba(255, 243, 220, 0.85);
+    max-width: 480px;
     margin: 0;
   }
 
@@ -90,8 +90,8 @@
   .av-footer__grid {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 2fr;
-    gap: clamp(32px, 4vw, 72px);
-    padding: clamp(56px, 7vw, 88px) 0 clamp(48px, 6vw, 72px);
+    gap: clamp(24px, 3vw, 48px);
+    padding: clamp(36px, 4.5vw, 56px) 0 clamp(32px, 4vw, 48px);
     border-bottom: 1px solid rgba(255, 243, 220, 0.07);
   }
 
@@ -107,10 +107,10 @@
 
   /* About column */
   .av-footer__about-text {
-    font-size: 0.92rem;
-    line-height: 1.75;
-    color: rgba(255, 243, 220, 0.45);
-    margin: 0 0 28px;
+    font-size: 0.9rem;
+    line-height: 1.72;
+    color: rgba(255, 243, 220, 0.65);
+    margin: 0 0 24px;
     max-width: 280px;
   }
 
@@ -125,8 +125,8 @@
   }
 
   .av-footer__link-list a {
-    font-size: 0.9rem;
-    color: rgba(255, 243, 220, 0.6);
+    font-size: 0.88rem;
+    color: rgba(255, 243, 220, 0.72);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -158,8 +158,8 @@
   .av-footer__newsletter-body {
     font-size: 0.88rem;
     line-height: 1.65;
-    color: rgba(255, 243, 220, 0.45);
-    margin: 0 0 28px;
+    color: rgba(255, 243, 220, 0.62);
+    margin: 0 0 24px;
   }
 
   .av-footer__newsletter-form {
@@ -264,7 +264,7 @@
 
   .av-footer__copyright {
     font-size: 0.72rem;
-    color: rgba(255, 243, 220, 0.25);
+    color: rgba(255, 243, 220, 0.45);
     letter-spacing: 0.06em;
     margin: 0;
   }
@@ -277,14 +277,14 @@
 
   .av-footer__legal-links a {
     font-size: 0.7rem;
-    color: rgba(255, 243, 220, 0.25);
+    color: rgba(255, 243, 220, 0.45);
     text-decoration: none;
     letter-spacing: 0.06em;
     transition: color 0.25s ease;
   }
 
   .av-footer__legal-links a:hover {
-    color: rgba(255, 243, 220, 0.65);
+    color: rgba(255, 243, 220, 0.8);
   }
 
   /* Social icons */
@@ -320,25 +320,32 @@
 
   /* Age gate notice */
   .av-footer__age-gate {
-    font-size: 0.65rem;
-    color: rgba(255, 243, 220, 0.2);
+    font-size: 0.62rem;
+    color: rgba(255, 243, 220, 0.3);
     text-align: center;
-    padding: 20px 0 24px;
+    padding: 14px 24px 18px;
     letter-spacing: 0.06em;
-    border-top: 1px solid rgba(255, 243, 220, 0.04);
+    border-top: 1px solid rgba(255, 243, 220, 0.05);
   }
 
   /* ---- MOBILE ---- */
   @media (max-width: 989px) {
     .av-footer__grid {
       grid-template-columns: 1fr 1fr;
+      gap: clamp(20px, 4vw, 36px);
+    }
+    .av-footer__brand-tagline {
+      font-size: clamp(1.2rem, 3.5vw, 2rem);
     }
   }
 
   @media (max-width: 599px) {
+    .av-footer__inner {
+      padding: 0 clamp(16px, 5vw, 28px);
+    }
     .av-footer__grid {
       grid-template-columns: 1fr;
-      gap: 48px;
+      gap: 36px;
     }
     .av-footer__about-text {
       max-width: 100%;
@@ -346,11 +353,14 @@
     .av-footer__bottom {
       flex-direction: column;
       align-items: flex-start;
-      gap: 16px;
+      gap: 14px;
     }
     .av-footer__newsletter-btn {
       width: 100%;
       text-align: center;
+    }
+    .av-footer__col-label {
+      font-size: 0.55rem;
     }
   }
 {%- endstyle -%}
