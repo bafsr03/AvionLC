@@ -19,25 +19,26 @@
         "location": "Oregon, United States"
       }
     },
-    "pattern_avion_37VkjC": {
+    "pattern_avion_ANVdPk": {
       "type": "pattern-avion",
       "name": "Avión Pattern Separador",
       "settings": {
-        "bg_color": "#FFF3DC",
-        "pattern_height": 50,
+        "pattern_image": "shopify://shop_images/Pattern-our.png",
+        "bg_color": "#3a3a3c",
+        "pattern_height": 45,
         "pattern_height_mobile": 35,
         "opacity": 100,
         "scroll_direction": "right",
         "scroll_speed": 50,
-        "spacing_top": 60,
-        "spacing_bottom": 60,
-        "spacing_top_mobile": 40,
-        "spacing_bottom_mobile": 40
+        "spacing_top": 0,
+        "spacing_bottom": 0,
+        "spacing_top_mobile": 0,
+        "spacing_bottom_mobile": 0
       }
     }
   },
   "order": [
     "avion-contact",
-    "pattern_avion_37VkjC"
+    "pattern_avion_ANVdPk"
   ]
 }
