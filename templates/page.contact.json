@@ -19,16 +19,25 @@
         "location": "Oregon, United States"
       }
     },
-    "avion_hero_poster_7tHw68": {
-      "type": "avion-hero-poster",
-      "name": "Marquee Avión Final",
+    "pattern_avion_37VkjC": {
+      "type": "pattern-avion",
+      "name": "Avión Pattern Separador",
       "settings": {
-        "marquee_text": "NOSTALGIA CRAFT CULTURE LEGACY"
+        "bg_color": "#FFF3DC",
+        "pattern_height": 50,
+        "pattern_height_mobile": 35,
+        "opacity": 100,
+        "scroll_direction": "right",
+        "scroll_speed": 50,
+        "spacing_top": 60,
+        "spacing_bottom": 60,
+        "spacing_top_mobile": 40,
+        "spacing_bottom_mobile": 40
       }
     }
   },
   "order": [
     "avion-contact",
-    "avion_hero_poster_7tHw68"
+    "pattern_avion_37VkjC"
   ]
 }
