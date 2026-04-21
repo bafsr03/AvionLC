@@ -1,8 +1,14 @@
 {%- style -%}
+  #shopify-section-{{ section.id }} {
+    position: relative;
+    z-index: 50;
+    pointer-events: none;
+  }
+
   .floating-icon-section-{{ section.id }} {
     position: relative;
     height: 0;
-    z-index: 0;
+    z-index: 50;
     pointer-events: none;
     overflow: visible;
   }

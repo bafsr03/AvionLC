@@ -31,61 +31,6 @@
     padding: 0 clamp(20px, 4vw, 48px);
   }
 
-  /* ---- TOP BRAND BAR ---- */
-  .av-footer__brand-bar {
-    padding: clamp(40px, 5vw, 64px) 0 clamp(28px, 3.5vw, 44px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 243, 220, 0.07);
-    gap: 16px;
-  }
-
-  .av-footer__logo-wrap {
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  .av-footer__logo-wrap img {
-    height: clamp(32px, 4vw, 48px);
-    width: auto;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
-  }
-
-  .av-footer__logo-wrap:hover img {
-    opacity: 1;
-  }
-
-  .av-footer__brand-tagline {
-    font-family: "Young Serif", serif;
-    font-size: clamp(1.2rem, 2.2vw, 1.9rem);
-    line-height: 1.2;
-    letter-spacing: -0.015em;
-    color: rgba(255, 243, 220, 0.85);
-    max-width: 480px;
-    margin: 0;
-  }
-
-  .av-footer__brand-sub {
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(255, 243, 220, 0.3);
-    margin: 0;
-  }
-
-  /* Gold separator */
-  .av-footer__gold-line {
-    width: 48px;
-    height: 1px;
-    background: #F7B32B;
-    margin: 0 auto;
-    opacity: 0.5;
-  }
-
   /* ---- MAIN GRID ---- */
   .av-footer__grid {
     display: grid;
@@ -106,6 +51,32 @@
   }
 
   /* About column */
+  .av-footer__logo-wrap {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .av-footer__logo-wrap img {
+    height: clamp(32px, 4vw, 48px);
+    width: auto;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+
+  .av-footer__logo-wrap:hover img {
+    opacity: 1;
+  }
+  
+  .av-footer__brand-tagline {
+    font-family: "Young Serif", serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: rgba(255, 243, 220, 0.85);
+    margin: 0 0 16px;
+    max-width: 280px;
+  }
+
   .av-footer__about-text {
     font-size: 0.9rem;
     line-height: 1.72;
@@ -334,9 +305,6 @@
       grid-template-columns: 1fr 1fr;
       gap: clamp(20px, 4vw, 36px);
     }
-    .av-footer__brand-tagline {
-      font-size: clamp(1.2rem, 3.5vw, 2rem);
-    }
   }
 
   @media (max-width: 599px) {
@@ -368,41 +336,35 @@
 <footer class="av-footer">
   <div class="av-footer__inner">
 
-    <!-- ============ BRAND BAR ============ -->
-    <div class="av-footer__brand-bar">
-      {%- if settings.logo != blank -%}
-        <a href="{{ routes.root_url }}" class="av-footer__logo-wrap" aria-label="{{ shop.name }}">
-          <img
-            src="{{ settings.logo | image_url: width: 400 }}"
-            alt="{{ shop.name }}"
-            width="200"
-            height="60"
-            loading="lazy"
-          >
-        </a>
-      {%- else -%}
-        <a href="{{ routes.root_url }}" class="av-footer__logo-wrap" aria-label="{{ shop.name }}">
-          <span style="font-family: 'Young Serif', serif; font-size: 1.6rem; color: #FFF3DC; letter-spacing: -0.02em;">{{ shop.name }}</span>
-        </a>
-      {%- endif -%}
-
-      {%- if section.settings.tagline != blank -%}
-        <p class="av-footer__brand-tagline">{{ section.settings.tagline }}</p>
-      {%- endif -%}
-
-      <div class="av-footer__gold-line"></div>
-
-      {%- if section.settings.subline != blank -%}
-        <p class="av-footer__brand-sub">{{ section.settings.subline }}</p>
-      {%- endif -%}
-    </div>
-
     <!-- ============ MAIN GRID ============ -->
     <div class="av-footer__grid">
 
       <!-- Col 1: About -->
-      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="0">
-        <p class="av-footer__col-label">About</p>
+      <div class="av-footer__col">
+        {%- if settings.logo != blank -%}
+          <a href="{{ routes.root_url }}" class="av-footer__logo-wrap" aria-label="{{ shop.name }}">
+            <img
+              src="{{ settings.logo | image_url: width: 400 }}"
+              alt="{{ shop.name }}"
+              width="200"
+              height="60"
+              loading="lazy"
+            >
+          </a>
+        {%- else -%}
+          <a href="{{ routes.root_url }}" class="av-footer__logo-wrap" aria-label="{{ shop.name }}">
+            <span style="font-family: 'Young Serif', serif; font-size: 1.6rem; color: #FFF3DC; letter-spacing: -0.02em;">{{ shop.name }}</span>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.tagline != blank -%}
+          <p class="av-footer__brand-tagline">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+        
+        {%- if section.settings.subline != blank -%}
+          <p class="av-footer__brand-sub" style="margin-bottom: 24px;">{{ section.settings.subline }}</p>
+        {%- endif -%}
+
         <p class="av-footer__about-text">{{ section.settings.about_text | default: 'Avión Legacy Cannabis honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream.' }}</p>
         <div class="av-footer__social">
           {%- if section.settings.instagram_url != blank -%}
@@ -429,7 +391,7 @@
       </div>
 
       <!-- Col 2: Shop -->
-      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="100">
+      <div class="av-footer__col">
         <p class="av-footer__col-label">Shop</p>
         <ul class="av-footer__link-list">
           {%- for link in section.settings.shop_menu.links -%}
@@ -444,7 +406,7 @@
       </div>
 
       <!-- Col 3: Company -->
-      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="200">
+      <div class="av-footer__col">
         <p class="av-footer__col-label">Company</p>
         <ul class="av-footer__link-list">
           {%- for link in section.settings.company_menu.links -%}
@@ -459,8 +421,8 @@
       </div>
 
       <!-- Col 4: Newsletter -->
-      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="300">
-        <p class="av-footer__col-label">Stay in the loop</p>
+      <div class="av-footer__col">
+        <p class="av-footer__col-label">Join our email list</p>
         <p class="av-footer__newsletter-body">
           {{ section.settings.newsletter_text | default: 'Early access to drops, behind-the-scenes stories, and news from the legacy.' }}
         </p>
