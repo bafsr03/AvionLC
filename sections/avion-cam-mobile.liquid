@@ -1,0 +1,64 @@
+{% comment %}
+  Avion Mobile Camera
+  ────────────────────
+  Controls the mobile-only (< 768 px) camera for the 3D hero.
+  Add this section to any page that uses the "Avion 3D Hero" section.
+  Desktop camera is completely unaffected.
+
+  HOW TO EDIT (once):
+    1. Open the page with  ?theatre-mobile  appended to the URL
+    2. In Chrome DevTools → toggle mobile emulation (Cmd+Shift+M)
+    3. Adjust position / target / fov in the Studio panel — live preview
+    4. Run  __exportMobileCamState()  in the DevTools console
+    5. Copy the JSON, paste it into "Mobile Camera State JSON" below, Save
+{% endcomment %}
+
+<script>
+  /* Inject saved state BEFORE the module script loads so Theatre.js picks it up */
+  window.AvionHero = window.AvionHero || {};
+  window.AvionHero.theatreStateMobile = (function () {
+    var raw = {% if section.settings.theatre_state != blank %}{{ section.settings.theatre_state | json }}{% else %}'{}'{% endif %};
+    try { return JSON.parse(raw); } catch (e) { return {}; }
+  })();
+</script>
+
+<script type="module" src="{{ 'avion-theatre-mobile.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Avion Mobile Camera",
+  "tag": "div",
+  "class": "avion-cam-mobile",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Sets the 3D hero camera position on screens narrower than 768 px. The desktop camera (controlled by the Theatre.js state in the main Avion 3D Hero section) is not affected."
+    },
+    {
+      "type": "header",
+      "content": "How to edit"
+    },
+    {
+      "type": "paragraph",
+      "content": "1. Open the page with ?theatre-mobile in the URL. 2. Enable Chrome mobile emulation (Cmd+Shift+M). 3. Adjust the Camera in the Studio panel — changes apply live. 4. Run __exportMobileCamState() in the DevTools Console. 5. Paste the JSON into the field below and Save."
+    },
+    {
+      "type": "header",
+      "content": "Saved state"
+    },
+    {
+      "type": "textarea",
+      "id": "theatre_state",
+      "label": "Mobile Camera State JSON",
+      "default": "{}",
+      "info": "Paste the JSON output from __exportMobileCamState() here. Leave as {} to use the default mobile position."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avion Mobile Camera"
+    }
+  ]
+}
+{% endschema %}

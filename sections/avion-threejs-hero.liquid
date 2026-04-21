@@ -14,6 +14,18 @@
   this automatically for the active page.
 {% endcomment %}
 
+{%- comment %} Resolve backdrop URLs — fall back to bundled asset if settings are blank ── {%- endcomment %}
+{%- if section.settings.backdrop_desktop_url != blank -%}
+  {%- assign ldr_bg_desktop = section.settings.backdrop_desktop_url -%}
+{%- else -%}
+  {%- assign ldr_bg_desktop = 'backdrop.png' | asset_url -%}
+{%- endif -%}
+{%- if section.settings.backdrop_mobile_url != blank -%}
+  {%- assign ldr_bg_mobile = section.settings.backdrop_mobile_url -%}
+{%- else -%}
+  {%- assign ldr_bg_mobile = ldr_bg_desktop -%}
+{%- endif -%}
+
 {% style %}
 
   /* ── Stacking fix ────────────────────────────────────────────────────────
@@ -38,40 +50,176 @@
     position: fixed;
     inset: 0;
     z-index: 9000;
-    background: #010714;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.6s ease;
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
   }
   #avion-loading.avion-loading--hidden {
     opacity: 0;
     pointer-events: none;
   }
+
+  /* Backdrop photo — pixel-perfect cover, no overflow */
+  .avion-loading-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("{{ ldr_bg_desktop }}");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(0.82) brightness(0.7);
+    z-index: 0;
+  }
+  @media (max-width: 640px) {
+    .avion-loading-bg {
+      background-image: url("{{ ldr_bg_mobile }}");
+      /* Portrait crop: keep subject centred vertically */
+      background-position: center center;
+    }
+  }
+
+  /* Vignette — darker at edges, lighter through centre so backdrop logo shows */
+  .avion-loading-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse 80% 65% at 50% 42%, transparent 25%, rgba(2,7,3,0.68) 100%),
+      linear-gradient(180deg, rgba(2,7,3,0.15) 0%, rgba(2,7,3,0.55) 100%);
+  }
+
+  /* Film grain */
+  .avion-loading-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    pointer-events: none;
+  }
+
+  /* Push controls to bottom — lets the backdrop (with its logo) breathe above */
+  #avion-loading {
+    align-items: flex-end;
+    padding-bottom: clamp(6vh, 9vh, 11vh);
+  }
+
+  /* Content strip */
   .avion-loading-inner {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    width: 260px;
+    width: min(480px, 88vw);
+    gap: 0;
   }
+
+  /* Divider */
+  .avion-loading-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(190,206,128,0.45) 50%,
+      transparent 100%);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: avionLdrIn 0.7s ease 0.35s forwards;
+  }
+
+  /* Progress track */
   .avion-loading-bar {
-    height: 2px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 14px;
+    position: relative;
+    width: 100%;
+    height: 1px;
+    background: rgba(190,206,128,0.14);
+    margin-bottom: 1.1rem;
+    opacity: 0;
+    animation: avionLdrIn 0.7s ease 0.45s forwards;
   }
+
   #avion-loading-fill {
+    position: absolute;
+    left: 0; top: 0;
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #6d28d9, #0ea5e9);
-    border-radius: 2px;
-    transition: width 0.2s ease;
+    max-width: 100%;
+    background: linear-gradient(90deg, #7a5c14 0%, #bece80 100%);
+    box-shadow: 0 0 10px rgba(190,206,128,0.65), 0 0 24px rgba(190,206,128,0.25);
+    transition: width 0.28s ease;
   }
+
+  /* Plane glyph rides the leading edge */
+  #avion-loading-fill::after {
+    content: '✈';
+    position: absolute;
+    right: -0.6em;
+    top: 50%;
+    transform: translateY(-62%);
+    font-size: 0.78rem;
+    color: rgba(252,220,80,0.92);
+    filter: drop-shadow(0 0 6px rgba(252,220,80,0.7));
+    line-height: 1;
+  }
+
+  /* Percentage */
+  .avion-loading-pct-display {
+    opacity: 0;
+    animation: avionLdrIn 0.7s ease 0.55s forwards;
+    margin-bottom: 0.45rem;
+    font-variant-numeric: tabular-nums;
+  }
+  #avion-loading-pct {
+    font-family: 'Young Serif', Georgia, serif;
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    font-weight: 400;
+    color: rgba(238,235,218,0.92);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  /* Label */
   .avion-loading-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(241,245,249,0.45);
+    color: rgba(190,206,128,0.48);
     font-family: system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    animation: avionLdrIn 0.7s ease 0.65s forwards;
+  }
+
+  @keyframes avionLdrIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Mobile overrides ──────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    #avion-loading {
+      padding-bottom: clamp(5vh, 8vh, 10vh);
+    }
+    .avion-loading-inner {
+      width: 90vw;
+    }
+    .avion-loading-bg {
+      /* On portrait mobile keep subject centred */
+      background-position: center center;
+    }
+    #avion-loading-pct {
+      font-size: clamp(2.2rem, 10vw, 2.8rem);
+    }
+    .avion-loading-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.22em;
+    }
   }
 
   /* ── Canvas ──────────────────────────────────────────────────────────── */
@@ -174,17 +322,58 @@
   }
 </script>
 
+{%- comment %} Preload backdrop — tells browser to fetch it at top priority before CSS parses {%- endcomment %}
+<link rel="preload" as="image" href="{{ ldr_bg_desktop }}" media="(min-width: 641px)" fetchpriority="high">
+<link rel="preload" as="image" href="{{ ldr_bg_mobile }}" media="(max-width: 640px)" fetchpriority="high">
+
 {%- comment %} Loading screen ─────────────────────────────────────────────── {%- endcomment %}
 <div id="avion-loading">
+  <div class="avion-loading-bg"></div>
+  <div class="avion-loading-vignette"></div>
+  <div class="avion-loading-grain"></div>
   <div class="avion-loading-inner">
+    <div class="avion-loading-divider"></div>
     <div class="avion-loading-bar">
       <div id="avion-loading-fill"></div>
     </div>
-    <p class="avion-loading-label">
-      Loading <span id="avion-loading-pct">0%</span>
-    </p>
+    <div class="avion-loading-pct-display">
+      <span id="avion-loading-pct">0%</span>
+    </div>
+    <p class="avion-loading-label">Loading experience</p>
   </div>
 </div>
+
+{%- comment %} Cap loading progress at 100 — GLTFLoader onProgress can report loaded > total {%- endcomment %}
+<script>
+(function () {
+  var fill = document.getElementById('avion-loading-fill');
+  var pct  = document.getElementById('avion-loading-pct');
+
+  /* Watch fill's style attribute and clamp width to 100% */
+  if (fill) {
+    new MutationObserver(function () {
+      var w = parseFloat(fill.style.width);
+      if (!isNaN(w) && w > 100) fill.style.width = '100%';
+    }).observe(fill, { attributes: true, attributeFilter: ['style'] });
+  }
+
+  /* Intercept textContent setter on the percentage span */
+  if (pct) {
+    Object.defineProperty(pct, 'textContent', {
+      configurable: true,
+      get: function () {
+        return pct.firstChild ? pct.firstChild.nodeValue : '';
+      },
+      set: function (v) {
+        var n = parseInt(v, 10);
+        var capped = (isNaN(n) ? v : Math.min(100, n) + '%');
+        if (pct.firstChild) { pct.firstChild.nodeValue = capped; }
+        else { pct.appendChild(document.createTextNode(capped)); }
+      }
+    });
+  }
+})();
+</script>
 
 {%- comment %} WebGL canvas ───────────────────────────────────────────────── {%- endcomment %}
 <canvas id="avion-webgl"></canvas>
@@ -237,6 +426,26 @@
   "tag": "div",
   "class": "avion-threejs-hero",
   "settings": [
+    {
+      "type": "header",
+      "content": "Loading Screen Backdrop"
+    },
+    {
+      "type": "paragraph",
+      "content": "Upload images via Admin → Content → Files. Copy the CDN URL and paste below. Desktop: 1920×1080 WebP (~200 KB). Mobile: 750×1334 WebP (~120 KB)."
+    },
+    {
+      "type": "text",
+      "id": "backdrop_desktop_url",
+      "label": "Desktop backdrop URL",
+      "info": "Shown on screens wider than 640 px. Leave blank to use the bundled backdrop.png."
+    },
+    {
+      "type": "text",
+      "id": "backdrop_mobile_url",
+      "label": "Mobile backdrop URL",
+      "info": "Shown on screens 640 px and narrower. Falls back to the desktop image if blank."
+    },
     {
       "type": "header",
       "content": "Logo"

@@ -68,6 +68,7 @@
 
   const project = getProject('Avion Hero', { state: hasState ? savedState : undefined });
   const sheet   = project.sheet('Scene');
+  const mobileSheet = project.sheet('Mobile Camera');
 
   const SEQ_DURATION = 10; // seconds — maps to scroll 0 → 1
 
@@ -83,6 +84,21 @@
       x: types.number(-0.02, { range: [-50, 50] }),
       y: types.number(-0.26, { range: [-20, 20] }),
       z: types.number( 3.60, { range: [-50, 50] }),
+    },
+    target: {
+      x: types.number(0, { range: [-20, 20] }),
+      y: types.number(0, { range: [-20, 20] }),
+      z: types.number(0, { range: [-20, 20] }),
+    },
+    fov: types.number(50, { range: [10, 120] }),
+  });
+
+  // ── Mobile Camera (< 768 px) — separate sheet so desktop is untouched ──────
+  const oMobileCam = mobileSheet.object('Camera', {
+    position: {
+      x: types.number( 2.80, { range: [-50, 50] }),
+      y: types.number(-0.08, { range: [-20, 20] }),
+      z: types.number( 4.80, { range: [-50, 50] }),
     },
     target: {
       x: types.number(0, { range: [-20, 20] }),
@@ -160,8 +176,16 @@
     // Advance Theatre.js sequence to match scroll
     sheet.sequence.position = (window.__AvionXs ?? 0) * SEQ_DURATION;
 
-    // ── Camera ──────────────────────────────────────────────────────────────
+    // ── Camera (desktop) ────────────────────────────────────────────────────
     window.__AvionCamProps = val(oCam.props);
+
+    // ── Camera (mobile — applied only on screens < 768 px) ──────────────────
+    const mv = val(oMobileCam.props);
+    window.__AvionCamMobile = {
+      position: { x: mv.position.x, y: mv.position.y, z: mv.position.z },
+      target:   { x: mv.target.x,   y: mv.target.y,   z: mv.target.z   },
+      fov:      mv.fov,
+    };
 
     // ── Scene objects (available once avion-hero.js has set up the scene) ──
     const S = window.__AvionScene;
@@ -232,16 +256,17 @@
 
     console.info(
       '%c[AvionTheatre] Studio ready!\n\n' +
-      '  Objects in the sheet:\n' +
+      '  Sheet: Scene  (desktop)\n' +
       '    Camera · Atmosphere · Ambient Light · Sun Light\n' +
       '    Fill Light · Sky (Hemi) · Post FX\n' +
       '    Stars · Clouds · Particles\n\n' +
+      '  Sheet: Mobile Camera  (< 768 px only)\n' +
+      '    Camera — position XYZ · target XYZ · fov\n\n' +
       '  Workflow:\n' +
-      '    1. Scroll to a position\n' +
-      '    2. Expand an object in Studio, right-click a value → Add keyframe\n' +
+      '    1. Select the sheet you want in the Studio top-bar\n' +
+      '    2. Expand an object, right-click a value → Add keyframe\n' +
       '    3. Adjust the value — changes apply live\n' +
-      '    4. Repeat at other scroll positions to animate\n' +
-      '    5. Run  __exportAvionState()  when done\n',
+      '    4. Run  __exportAvionState()  when done\n',
       'color:#6d28d9;font-weight:bold;font-size:12px'
     );
   }
