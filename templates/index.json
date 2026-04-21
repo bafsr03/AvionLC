@@ -12,6 +12,8 @@
     "avion_threejs_hero_main": {
       "type": "avion-threejs-hero",
       "settings": {
+        "backdrop_desktop_url": "https://cdn.shopify.com/s/files/1/0905/4227/6792/files/desktopBackdrop.png?v=1776734375",
+        "backdrop_mobile_url": "https://cdn.shopify.com/s/files/1/0905/4227/6792/files/desktopBackdrop.png?v=1776734375",
         "logo_image": "shopify://shop_images/Asset_3.png",
         "show_scroll_hint": true,
         "glb_url": "https://cdn.shopify.com/3d/models/60375093d66f3e13/avionproto.glb",
