@@ -75,15 +75,7 @@
     margin-bottom: 25px;
   }
 
-  .reveal-v15 {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s ease-out;
-  }
-  .reveal-v15.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* reveal handled by avion-animations.js */
 
   @media (max-width: 1100px) {
     .avion-grid-v15 {
@@ -104,21 +96,36 @@
 <section class="avion-story-final-v15">
   <div class="avion-grid-v15">
     
-    <div class="text-col-v15 reveal-v15">
-      <h2>{{ section.settings.title }}</h2>
-      <div class="rte">
+    <div class="text-col-v15">
+      <h2
+        data-av-reveal="words"
+        data-av-delay="0"
+      >{{ section.settings.title }}</h2>
+      <div
+        class="rte"
+        data-av-reveal="fade-up"
+        data-av-delay="400"
+      >
         {{ section.settings.text_left }}
       </div>
     </div>
 
-    <div class="jerry-col-v15">
+    <div
+      class="jerry-col-v15"
+      data-av-curtain
+      data-av-curtain-color="#FFF3DC"
+    >
       {% if section.settings.image_jerry != blank %}
         <img src="{{ section.settings.image_jerry | image_url: width: 1400 }}" alt="Jerry Wilson">
       {% endif %}
     </div>
 
-    <div class="text-col-v15 reveal-v15" style="transition-delay: 0.3s;">
-      <div class="rte">
+    <div class="text-col-v15">
+      <div
+        class="rte"
+        data-av-reveal="fade-up"
+        data-av-delay="200"
+      >
         {{ section.settings.text_right }}
       </div>
     </div>
@@ -126,17 +133,6 @@
   </div>
 </section>
 
-<script>
-  const observerV15 = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal-v15').forEach(el => observerV15.observe(el));
-</script>
 
 {% schema %}
 {

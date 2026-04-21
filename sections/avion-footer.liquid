@@ -1,0 +1,610 @@
+{%- style -%}
+  /* ============================================================
+     AVION FOOTER — Premium brand footer
+     Dark coal · Gold accents · 4-column layout · Grain texture
+     ============================================================ */
+
+  .av-footer {
+    background: #161310;
+    color: #FFF3DC;
+    position: relative;
+    overflow: hidden;
+    font-family: "Source Serif 4", serif;
+  }
+
+  /* Grain */
+  .av-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .av-footer__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+
+  /* ---- TOP BRAND BAR ---- */
+  .av-footer__brand-bar {
+    padding: clamp(72px, 10vw, 120px) 0 clamp(48px, 6vw, 72px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 243, 220, 0.07);
+    gap: 24px;
+  }
+
+  .av-footer__logo-wrap {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .av-footer__logo-wrap img {
+    height: clamp(40px, 6vw, 60px);
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+  }
+
+  .av-footer__logo-wrap:hover img {
+    opacity: 1;
+  }
+
+  .av-footer__brand-tagline {
+    font-family: "Young Serif", serif;
+    font-size: clamp(1.4rem, 3vw, 2.6rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: rgba(255, 243, 220, 0.88);
+    max-width: 560px;
+    margin: 0;
+  }
+
+  .av-footer__brand-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 243, 220, 0.3);
+    margin: 0;
+  }
+
+  /* Gold separator */
+  .av-footer__gold-line {
+    width: 48px;
+    height: 1px;
+    background: #F7B32B;
+    margin: 0 auto;
+    opacity: 0.5;
+  }
+
+  /* ---- MAIN GRID ---- */
+  .av-footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    gap: clamp(32px, 4vw, 72px);
+    padding: clamp(56px, 7vw, 88px) 0 clamp(48px, 6vw, 72px);
+    border-bottom: 1px solid rgba(255, 243, 220, 0.07);
+  }
+
+  .av-footer__col-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba(247, 179, 43, 0.55);
+    margin: 0 0 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 243, 220, 0.06);
+  }
+
+  /* About column */
+  .av-footer__about-text {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: rgba(255, 243, 220, 0.45);
+    margin: 0 0 28px;
+    max-width: 280px;
+  }
+
+  /* Nav link lists */
+  .av-footer__link-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .av-footer__link-list a {
+    font-size: 0.9rem;
+    color: rgba(255, 243, 220, 0.6);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease, gap 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .av-footer__link-list a::before {
+    content: '—';
+    font-size: 0.65em;
+    color: rgba(247, 179, 43, 0);
+    transition: color 0.3s ease, transform 0.3s ease;
+    transform: translateX(-8px);
+    display: inline-block;
+  }
+
+  .av-footer__link-list a:hover {
+    color: #FFF3DC;
+    gap: 12px;
+  }
+
+  .av-footer__link-list a:hover::before {
+    color: #F7B32B;
+    transform: translateX(0);
+  }
+
+  /* Newsletter column */
+  .av-footer__newsletter-body {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: rgba(255, 243, 220, 0.45);
+    margin: 0 0 28px;
+  }
+
+  .av-footer__newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .av-footer__newsletter-input-wrap {
+    position: relative;
+    border-bottom: 1px solid rgba(255, 243, 220, 0.2);
+    transition: border-color 0.35s ease;
+  }
+
+  .av-footer__newsletter-input-wrap:focus-within {
+    border-bottom-color: #F7B32B;
+  }
+
+  .av-footer__newsletter-input-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #F7B32B;
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .av-footer__newsletter-input-wrap:focus-within::after {
+    width: 100%;
+  }
+
+  .av-footer__newsletter-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 10px 0 14px;
+    font-family: "Source Serif 4", serif;
+    font-size: 0.95rem;
+    color: #FFF3DC;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .av-footer__newsletter-input::placeholder {
+    color: rgba(255, 243, 220, 0.22);
+    font-style: italic;
+  }
+
+  .av-footer__newsletter-btn {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid rgba(247, 179, 43, 0.35);
+    color: #F7B32B;
+    font-family: "Source Serif 4", serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .av-footer__newsletter-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #F7B32B;
+    transform: translateX(-102%);
+    transition: transform 0.4s cubic-bezier(0.9, 0, 0.1, 1);
+    z-index: -1;
+  }
+
+  .av-footer__newsletter-btn:hover {
+    color: #161310;
+    border-color: #F7B32B;
+  }
+
+  .av-footer__newsletter-btn:hover::before {
+    transform: translateX(0);
+  }
+
+  /* ---- BOTTOM BAR ---- */
+  .av-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 28px 0;
+  }
+
+  .av-footer__bottom-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .av-footer__copyright {
+    font-size: 0.72rem;
+    color: rgba(255, 243, 220, 0.25);
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .av-footer__legal-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .av-footer__legal-links a {
+    font-size: 0.7rem;
+    color: rgba(255, 243, 220, 0.25);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.25s ease;
+  }
+
+  .av-footer__legal-links a:hover {
+    color: rgba(255, 243, 220, 0.65);
+  }
+
+  /* Social icons */
+  .av-footer__social {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .av-footer__social-link {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 243, 220, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 243, 220, 0.45);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .av-footer__social-link:hover {
+    border-color: rgba(247, 179, 43, 0.45);
+    color: #F7B32B;
+    background: rgba(247, 179, 43, 0.07);
+  }
+
+  .av-footer__social-link svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  /* Age gate notice */
+  .av-footer__age-gate {
+    font-size: 0.65rem;
+    color: rgba(255, 243, 220, 0.2);
+    text-align: center;
+    padding: 20px 0 24px;
+    letter-spacing: 0.06em;
+    border-top: 1px solid rgba(255, 243, 220, 0.04);
+  }
+
+  /* ---- MOBILE ---- */
+  @media (max-width: 989px) {
+    .av-footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .av-footer__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .av-footer__about-text {
+      max-width: 100%;
+    }
+    .av-footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .av-footer__newsletter-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+{%- endstyle -%}
+
+<footer class="av-footer">
+  <div class="av-footer__inner">
+
+    <!-- ============ BRAND BAR ============ -->
+    <div class="av-footer__brand-bar">
+      {%- if settings.logo != blank -%}
+        <a href="{{ routes.root_url }}" class="av-footer__logo-wrap" aria-label="{{ shop.name }}">
+          <img
+            src="{{ settings.logo | image_url: width: 400 }}"
+            alt="{{ shop.name }}"
+            width="200"
+            height="60"
+            loading="lazy"
+          >
+        </a>
+      {%- else -%}
+        <a href="{{ routes.root_url }}" class="av-footer__logo-wrap" aria-label="{{ shop.name }}">
+          <span style="font-family: 'Young Serif', serif; font-size: 1.6rem; color: #FFF3DC; letter-spacing: -0.02em;">{{ shop.name }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.tagline != blank -%}
+        <p class="av-footer__brand-tagline">{{ section.settings.tagline }}</p>
+      {%- endif -%}
+
+      <div class="av-footer__gold-line"></div>
+
+      {%- if section.settings.subline != blank -%}
+        <p class="av-footer__brand-sub">{{ section.settings.subline }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- ============ MAIN GRID ============ -->
+    <div class="av-footer__grid">
+
+      <!-- Col 1: About -->
+      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="0">
+        <p class="av-footer__col-label">About</p>
+        <p class="av-footer__about-text">{{ section.settings.about_text | default: 'Avión Legacy Cannabis honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream.' }}</p>
+        <div class="av-footer__social">
+          {%- if section.settings.instagram_url != blank -%}
+            <a href="{{ section.settings.instagram_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.facebook_url != blank -%}
+            <a href="{{ section.settings.facebook_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.tiktok_url != blank -%}
+            <a href="{{ section.settings.tiktok_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.03a8.16 8.16 0 004.77 1.52V7.12a4.85 4.85 0 01-1-.43z"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.twitter_url != blank -%}
+            <a href="{{ section.settings.twitter_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Col 2: Shop -->
+      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="100">
+        <p class="av-footer__col-label">Shop</p>
+        <ul class="av-footer__link-list">
+          {%- for link in section.settings.shop_menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="/collections/all">All Products</a></li>
+            <li><a href="/collections/cannabis">Cannabis</a></li>
+            <li><a href="/collections/merch">Merch</a></li>
+            <li><a href="/collections/accessories">Accessories</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <!-- Col 3: Company -->
+      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="200">
+        <p class="av-footer__col-label">Company</p>
+        <ul class="av-footer__link-list">
+          {%- for link in section.settings.company_menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="/pages/our-story">Our Story</a></li>
+            <li><a href="/pages/contact">Contact</a></li>
+            <li><a href="/blogs/news">Journal</a></li>
+            <li><a href="/pages/stockists">Stockists</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <!-- Col 4: Newsletter -->
+      <div class="av-footer__col" data-av-reveal="fade-up" data-av-delay="300">
+        <p class="av-footer__col-label">Stay in the loop</p>
+        <p class="av-footer__newsletter-body">
+          {{ section.settings.newsletter_text | default: 'Early access to drops, behind-the-scenes stories, and news from the legacy.' }}
+        </p>
+
+        {%- form 'customer', id: 'AvionFooterNewsletter', class: 'av-footer__newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter,footer-signup">
+
+          {%- if form.posted_successfully? -%}
+            <p style="font-size:0.85rem; color: #F7B32B; letter-spacing: 0.04em;">
+              ✓ You're on the list.
+            </p>
+          {%- else -%}
+            <div class="av-footer__newsletter-input-wrap">
+              <input
+                type="email"
+                id="av-footer-email"
+                name="contact[email]"
+                class="av-footer__newsletter-input"
+                placeholder="your@email.com"
+                autocomplete="email"
+                required
+              >
+            </div>
+            <button type="submit" class="av-footer__newsletter-btn">
+              Subscribe
+            </button>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+    </div>
+
+    <!-- ============ BOTTOM BAR ============ -->
+    <div class="av-footer__bottom">
+      <div class="av-footer__bottom-left">
+        <p class="av-footer__copyright">
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+        </p>
+        <nav class="av-footer__legal-links" aria-label="Legal">
+          {%- for link in section.settings.legal_menu.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- else -%}
+            <a href="/policies/privacy-policy">Privacy</a>
+            <a href="/policies/terms-of-service">Terms</a>
+            <a href="/policies/refund-policy">Returns</a>
+          {%- endfor -%}
+        </nav>
+      </div>
+      <p class="av-footer__copyright" style="opacity:0.18; font-style: italic;">
+        {{ section.settings.age_notice | default: '21+ only. Please consume responsibly.' }}
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Age gate notice -->
+  <div class="av-footer__age-gate">
+    {{ section.settings.legal_text | default: 'Avión Legacy Cannabis products are intended for adults 21 and over. Cannabis products are not available in all areas. Check your local laws before purchasing.' }}
+  </div>
+
+</footer>
+
+{% schema %}
+{
+  "name": "Avion Footer",
+  "tag": "section",
+  "class": "av-footer-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Brand tagline",
+      "default": "A legacy worth flying for."
+    },
+    {
+      "type": "text",
+      "id": "subline",
+      "label": "Brand sub-label",
+      "default": "Oregon · Est. 2024"
+    },
+    {
+      "type": "textarea",
+      "id": "about_text",
+      "label": "About paragraph",
+      "default": "Avión Legacy Cannabis honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream."
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu",
+      "label": "Shop menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "company_menu",
+      "label": "Company menu",
+      "default": "footer"
+    },
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Legal links menu",
+      "default": "footer"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Newsletter description",
+      "default": "Early access to drops, behind-the-scenes stories, and news from the legacy."
+    },
+    {
+      "type": "text",
+      "id": "age_notice",
+      "label": "Age notice",
+      "default": "21+ only. Please consume responsibly."
+    },
+    {
+      "type": "textarea",
+      "id": "legal_text",
+      "label": "Legal disclaimer",
+      "default": "Avión Legacy Cannabis products are intended for adults 21 and over. Cannabis products are not available in all areas. Check your local laws before purchasing."
+    },
+    {
+      "type": "header",
+      "content": "Social links"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "X / Twitter URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avion Footer"
+    }
+  ]
+}
+{% endschema %}

@@ -133,19 +133,27 @@
   }
 {%- endstyle -%}
 
-<section class="avion-reinvention-{{ section.id }}">
+<section class="avion-reinvention-{{ section.id }} av-grain">
   <div class="avion-reinvention__inner-{{ section.id }}">
     <div class="avion-reinvention__grid-{{ section.id }}">
       <div class="avion-reinvention__content-{{ section.id }}">
         {%- if section.settings.heading != blank -%}
           {%- assign tag = section.settings.heading_tag -%}
-          <{{ tag }} class="avion-reinvention__heading-{{ section.id }}">
+          <{{ tag }}
+            class="avion-reinvention__heading-{{ section.id }}"
+            data-av-reveal="words"
+            data-av-delay="100"
+          >
             {{ section.settings.heading | escape | newline_to_br }}
           </{{ tag }}>
         {%- endif -%}
 
         {%- if section.settings.body != blank -%}
-          <div class="avion-reinvention__richtext-{{ section.id }}">
+          <div
+            class="avion-reinvention__richtext-{{ section.id }}"
+            data-av-reveal="fade-up"
+            data-av-delay="380"
+          >
             {{ section.settings.body }}
           </div>
         {%- endif -%}
@@ -153,7 +161,11 @@
 
       <div class="avion-reinvention__media-{{ section.id }}">
         {%- if section.settings.image != blank -%}
-          <div class="avion-reinvention__frame-{{ section.id }}">
+          <div
+            class="avion-reinvention__frame-{{ section.id }}"
+            data-av-curtain
+            data-av-curtain-color="{{ section.settings.bg_color }}"
+          >
             <img
               class="avion-reinvention__img-{{ section.id }}"
               src="{{ section.settings.image | image_url: width: 2200 }}"

@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "avion-our-story": {
+      "type": "avion-our-story",
+      "settings": {
+        "hero_label": "Avión Legacy Cannabis",
+        "hero_title": "THE STORY",
+        "hero_sub": "A legacy built on courage, risk, and the relentless belief that the rules were wrong.",
+        "ch1_title": "THE MAN BEHIND THE LEGACY",
+        "ch2_title": "THE CRASH THAT CHANGED EVERYTHING",
+        "ch3_title": "REINVENTION",
+        "quote1": "He flew when no one else dared. He built when the world said it was over.",
+        "quote1_attr": "— The Avión Legacy",
+        "stat1_num": "1970s",
+        "stat1_label": "When it started",
+        "stat2_num": "100%",
+        "stat2_label": "Oregon craft",
+        "stat3_num": "50yr",
+        "stat3_label": "Of legacy",
+        "close_title": "THE LEGACY CONTINUES",
+        "close_body": "Avión Legacy Cannabis carries forward the spirit of a man who never stopped believing in freedom. Every product is a testament to that belief.",
+        "close_cta_text": "Explore the collection",
+        "close_cta_url": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "avion-our-story"
+  ]
+}

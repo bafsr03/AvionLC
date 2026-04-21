@@ -83,10 +83,14 @@
   }
 {%- endstyle -%}
 
-<section class="avion-legacy-split-{{ section.id }}">
+<section class="avion-legacy-split-{{ section.id }} av-grain">
   <div class="avion-legacy-split__inner-{{ section.id }}">
     <div class="avion-legacy-split__grid-{{ section.id }}">
-      <div class="avion-legacy-split__media-{{ section.id }}">
+      <div
+        class="avion-legacy-split__media-{{ section.id }}"
+        data-av-curtain
+        data-av-curtain-color="{{ section.settings.bg_color }}"
+      >
         {%- if section.settings.image != blank -%}
           <img
             class="avion-legacy-split__image-{{ section.id }}"
@@ -100,13 +104,21 @@
       <div class="avion-legacy-split__content-{{ section.id }}">
         {%- if section.settings.heading != blank -%}
           {%- assign tag = section.settings.heading_tag -%}
-          <{{ tag }} class="avion-legacy-split__heading-{{ section.id }}">
+          <{{ tag }}
+            class="avion-legacy-split__heading-{{ section.id }}"
+            data-av-reveal="words"
+            data-av-delay="200"
+          >
             {{ section.settings.heading | escape | newline_to_br }}
           </{{ tag }}>
         {%- endif -%}
 
         {%- if section.settings.body != blank -%}
-          <div class="avion-legacy-split__richtext-{{ section.id }}">
+          <div
+            class="avion-legacy-split__richtext-{{ section.id }}"
+            data-av-reveal="fade-up"
+            data-av-delay="520"
+          >
             {{ section.settings.body }}
           </div>
         {%- endif -%}
