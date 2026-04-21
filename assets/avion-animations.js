@@ -205,6 +205,36 @@
     for (var ci = 0; ci < curtainEls.length; ci++) {
       curtainObs.observe(curtainEls[ci]);
     }
+
+    /* ---- 5g. Reveal content already in the viewport on load ----
+       IntersectionObserver sometimes misses the first paint (Shopify editor, iOS Safari,
+       very large viewports). This prevents [data-av-reveal] staying at opacity:0 and
+       [data-av-curtain] covering the full image forever. */
+    function revealInitiallyVisible() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var vw = window.innerWidth || document.documentElement.clientWidth;
+
+      function inView(rect) {
+        return rect.bottom > 8 && rect.top < vh - 8 && rect.right > 0 && rect.left < vw;
+      }
+
+      var rev = document.querySelectorAll('[data-av-reveal]:not(.av-visible)');
+      for (var r = 0; r < rev.length; r++) {
+        if (inView(rev[r].getBoundingClientRect())) {
+          rev[r].classList.add('av-visible');
+        }
+      }
+
+      var cur = document.querySelectorAll('[data-av-curtain]:not(.av-curtain-visible)');
+      for (var c = 0; c < cur.length; c++) {
+        if (inView(cur[c].getBoundingClientRect())) {
+          cur[c].classList.add('av-curtain-visible');
+        }
+      }
+    }
+
+    revealInitiallyVisible();
+    window.requestAnimationFrame(revealInitiallyVisible);
   }
 
   /* ================================================================

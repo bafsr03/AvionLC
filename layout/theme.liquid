@@ -34,9 +34,14 @@
     {% endif %}
 
     {{ content_for_header }}
+
+    {%- comment -%} Contact page overrides must load after content_for_header (apps inject CSS there). {%- endcomment -%}
+    {%- if template.name == 'page' and template.suffix == 'contact' -%}
+      {{ 'avion-contact.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
   </head>
 
-  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}{% if template.name == 'page' and template.suffix == 'contact' %} template-page-contact{% endif %}">
     {% section 'custom-font' %}
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">

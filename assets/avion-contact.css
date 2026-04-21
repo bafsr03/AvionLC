@@ -1,0 +1,105 @@
+/**
+ * Avion Contact — loaded last on page.contact only (see layout/theme.liquid).
+ * Overrides Pitch base.css form + heading rules and any late-injected Shopify styles.
+ */
+body.template-page-contact {
+  background: #fff3dc;
+}
+
+#ContactPage.av-contact {
+  background: #fff3dc;
+  color: #1c1916;
+  position: relative;
+  z-index: 1;
+}
+
+#ContactPage.av-contact h1.av-contact__hero-title {
+  color: #1c1916 !important;
+  font-family: "Young Serif", serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: -0.03em !important;
+}
+
+#ContactPage.av-contact .av-contact__field label {
+  color: #1c1916 !important;
+  font-family: "Source Serif 4", serif !important;
+  text-transform: uppercase !important;
+}
+
+#ContactPage.av-contact .av-contact__input,
+#ContactPage.av-contact .av-contact__textarea {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #1c1916 !important;
+  -webkit-text-fill-color: #1c1916 !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(73, 73, 73, 0.28) !important;
+  border-radius: 0 !important;
+  font-family: "Source Serif 4", serif !important;
+  font-size: 1rem !important;
+  caret-color: #1c1916;
+}
+
+#ContactPage.av-contact .av-contact__input:hover,
+#ContactPage.av-contact .av-contact__textarea:hover,
+#ContactPage.av-contact .av-contact__input:focus,
+#ContactPage.av-contact .av-contact__textarea:focus,
+#ContactPage.av-contact .av-contact__input:focus-visible,
+#ContactPage.av-contact .av-contact__textarea:focus-visible {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #1c1916 !important;
+  -webkit-text-fill-color: #1c1916 !important;
+}
+
+#ContactPage.av-contact .av-contact__input:focus,
+#ContactPage.av-contact .av-contact__textarea:focus,
+#ContactPage.av-contact .av-contact__input:focus-visible,
+#ContactPage.av-contact .av-contact__textarea:focus-visible {
+  border-bottom-color: rgba(247, 179, 43, 0.35) !important;
+}
+
+#ContactPage.av-contact .av-contact__input::placeholder,
+#ContactPage.av-contact .av-contact__textarea::placeholder {
+  color: rgba(28, 25, 22, 0.18) !important;
+  -webkit-text-fill-color: rgba(28, 25, 22, 0.18) !important;
+  opacity: 1 !important;
+}
+
+#ContactPage.av-contact .av-contact__input:-webkit-autofill,
+#ContactPage.av-contact .av-contact__input:-webkit-autofill:hover,
+#ContactPage.av-contact .av-contact__input:-webkit-autofill:focus,
+#ContactPage.av-contact .av-contact__input:-webkit-autofill:active,
+#ContactPage.av-contact .av-contact__textarea:-webkit-autofill,
+#ContactPage.av-contact .av-contact__textarea:-webkit-autofill:hover,
+#ContactPage.av-contact .av-contact__textarea:-webkit-autofill:focus,
+#ContactPage.av-contact .av-contact__textarea:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #fff3dc inset !important;
+  box-shadow: 0 0 0 1000px #fff3dc inset !important;
+  -webkit-text-fill-color: #1c1916 !important;
+  caret-color: #1c1916;
+  transition: background-color 99999s ease-out 0s;
+}
+
+#ContactPage.av-contact button.av-contact__submit {
+  font-family: "Source Serif 4", serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  background: transparent !important;
+  color: #f7b32b !important;
+  border: 1px solid rgba(247, 179, 43, 0.38) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 17px 40px !important;
+}
+
+#ContactPage.av-contact button.av-contact__submit:hover {
+  color: #1c1916 !important;
+  background: transparent !important;
+  border-color: #f7b32b !important;
+}

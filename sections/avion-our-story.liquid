@@ -8,12 +8,38 @@
   .av-story {
     font-family: "Source Serif 4", serif;
     overflow: hidden;
+    color: #fff3dc;
+  }
+
+  /*
+    Pitch base.css sets h1/h2 to theme font + --font-h1-color / --font-h2-color.
+    Without these overrides, Our Story titles/body can inherit the wrong color (invisible on dark).
+  */
+  .av-story :is(h1, h2, h3) {
+    font-family: "Young Serif", serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+  }
+
+  .av-story__chapter-body :is(p, li) {
+    color: inherit !important;
+  }
+
+  .av-story__chapter-body a {
+    color: inherit !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .av-story__pullquote :is(p, span) {
+    color: inherit !important;
   }
 
   /* ---- OPENING HERO ---- */
   .av-story__hero {
     background: #1C1916;
-    min-height: 100vh;
+    min-height: min(92vh, 880px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,11 +98,11 @@
   }
 
   .av-story__hero-title {
-    font-family: "Young Serif", serif;
-    font-size: clamp(4.5rem, 12vw, 13rem);
-    line-height: 0.88;
-    letter-spacing: -0.03em;
-    color: #FFF3DC;
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(4.5rem, 12vw, 13rem) !important;
+    line-height: 0.88 !important;
+    letter-spacing: -0.03em !important;
+    color: #fff3dc !important;
     margin: 0 0 40px;
   }
 
@@ -171,14 +197,15 @@
   .av-story__num--left  { left: -2%; top: -10%; }
   .av-story__num--right { right: -2%; bottom: -10%; }
 
-  /* Split layout for chapters */
+  /* Split layout — text + bounded image column (image was effectively full-viewport tall) */
   .av-story__chapter-inner {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch;
-    min-height: 80vh;
+    grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.88fr);
+    align-items: center;
+    column-gap: clamp(20px, 4vw, 56px);
+    min-height: min(78vh, 820px);
     max-width: 1600px;
     margin: 0 auto;
     padding: 0 clamp(24px, 5vw, 80px);
@@ -224,12 +251,12 @@
   }
 
   .av-story__chapter-title {
-    font-family: "Young Serif", serif;
-    font-size: clamp(2.4rem, 5vw, 4.5rem);
-    line-height: 1.0;
-    letter-spacing: -0.02em;
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(2.4rem, 5vw, 4.5rem) !important;
+    line-height: 1.0 !important;
+    letter-spacing: -0.02em !important;
     margin: 0 0 28px;
-    color: inherit;
+    color: inherit !important;
   }
 
   .av-story__chapter-body {
@@ -248,12 +275,21 @@
     margin-bottom: 0;
   }
 
-  /* Image side */
+  /* Image side — cap height so the photo doesn’t dominate the entire viewport */
   .av-story__chapter-media {
     position: relative;
     overflow: hidden;
-    min-height: 60vh;
-    align-self: stretch;
+    width: 100%;
+    max-width: min(100%, 620px);
+    min-height: min(44vh, 480px);
+    max-height: min(58vh, 680px);
+    justify-self: end;
+    align-self: center;
+    border-radius: 3px;
+  }
+
+  .av-story__chapter--flipped .av-story__chapter-media {
+    justify-self: start;
   }
 
   .av-story__chapter-img {
@@ -322,11 +358,11 @@
   }
 
   .av-story__pullquote-text {
-    font-family: "Young Serif", serif;
-    font-size: clamp(1.8rem, 4vw, 4rem);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: inherit;
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(1.8rem, 4vw, 4rem) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    color: inherit !important;
     max-width: 900px;
     margin: 0 auto 40px;
   }
@@ -388,11 +424,11 @@
   }
 
   .av-story__close-title {
-    font-family: "Young Serif", serif;
-    font-size: clamp(2rem, 4.5vw, 5rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: #FFF3DC;
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(2rem, 4.5vw, 5rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.02em !important;
+    color: #fff3dc !important;
     margin: 0 0 32px;
   }
 
@@ -475,9 +511,12 @@
 
     .av-story__chapter-media {
       position: relative;
-      height: 60vw;
-      min-height: 240px;
+      width: 100%;
+      max-width: 100%;
       order: -1;
+      aspect-ratio: 16 / 10;
+      min-height: 220px;
+      max-height: min(52vh, 440px);
     }
 
     .av-story__chapter-text {
@@ -530,7 +569,11 @@
         {{ section.settings.hero_label | default: 'Avión Legacy Cannabis' }}
       </span>
       <h1 class="av-story__hero-title" data-av-reveal="words" data-av-delay="100">
-        {{ section.settings.hero_title | default: 'THE STORY' }}
+        {{- section.settings.hero_title | default: 'THE' -}}
+        {%- if section.settings.hero_title_line2 != blank -%}
+          <br>
+          {{- section.settings.hero_title_line2 -}}
+        {%- endif -%}
       </h1>
       <p class="av-story__hero-sub" data-av-reveal="fade-up" data-av-delay="500">
         {{ section.settings.hero_sub | default: 'A legacy built on courage, risk, and the relentless belief that the rules were wrong.' }}
@@ -729,7 +772,8 @@
     { "type": "header", "content": "Hero" },
     { "type": "image_picker", "id": "hero_image", "label": "Hero background image" },
     { "type": "text",    "id": "hero_label", "label": "Eyebrow label",   "default": "Avión Legacy Cannabis" },
-    { "type": "text",    "id": "hero_title", "label": "Hero title",      "default": "THE STORY" },
+    { "type": "text",    "id": "hero_title", "label": "Hero title line 1", "default": "THE" },
+    { "type": "text",    "id": "hero_title_line2", "label": "Hero title line 2", "default": "STORY" },
     { "type": "textarea","id": "hero_sub",   "label": "Hero subtitle",   "default": "A legacy built on courage, risk, and the relentless belief that the rules were wrong." },
 
     { "type": "header", "content": "Chapter 1 — The Man" },
