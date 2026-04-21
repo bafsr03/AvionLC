@@ -6,20 +6,29 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "avion-contact": {
       "type": "avion-contact",
       "settings": {
         "heading": "CONTACT",
-        "tagline": "Have a question, partnership inquiry, or just want to talk shop? We\u2019re here for it.",
+        "tagline": "Have a question, partnership inquiry, or just want to talk shop? We’re here for it.",
         "email": "hello@avionlegacy.com",
         "phone": "+1 (503) 555-0123",
         "location": "Oregon, United States"
       }
+    },
+    "avion_hero_poster_7tHw68": {
+      "type": "avion-hero-poster",
+      "name": "Marquee Avión Final",
+      "settings": {
+        "marquee_text": "NOSTALGIA CRAFT CULTURE LEGACY"
+      }
     }
   },
   "order": [
-    "avion-contact"
+    "avion-contact",
+    "avion_hero_poster_7tHw68"
   ]
 }
