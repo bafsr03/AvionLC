@@ -69,7 +69,7 @@
    3. BASE — all [data-av-reveal] elements start hidden
    (words type is an exception — handled below)
    ---------------------------------------------------------- */
-[data-av-reveal]:not([data-av-reveal="words"]):not([data-av-reveal="line"]) {
+.js [data-av-reveal]:not([data-av-reveal="words"]):not([data-av-reveal="line"]):not(.av-visible) {
   opacity: 0;
   will-change: transform, opacity;
 }

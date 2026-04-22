@@ -407,4 +407,20 @@
     boot();
   }
 
+  /* ----------------------------------------------------------------
+     11. SHOPIFY EDITOR INTEGRATION
+     Re-run reveal & curtain logic when sections are updated/added
+  ---------------------------------------------------------------- */
+  document.addEventListener('shopify:section:load', function() {
+    initCurtains();
+    initScrollReveal();
+    initParallax();
+    initStagger();
+  });
+
+  document.addEventListener('shopify:section:select', function() {
+    // Optionally trigger reveals immediately for the selected section
+    initScrollReveal();
+  });
+
 }());

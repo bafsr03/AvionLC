@@ -11,6 +11,19 @@
     color: #fff3dc;
   }
 
+  /* Reveal Fallback: ensure content is visible if JS doesn't fire */
+  .av-story [data-av-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  /* When JS is enabled, we hide them initially to allow the reveal animation */
+  .js .av-story [data-av-reveal]:not(.av-visible):not([data-av-reveal="words"]) {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
   /*
     Pitch base.css sets h1/h2 to theme font + --font-h1-color / --font-h2-color.
     Without these overrides, Our Story titles/body can inherit the wrong color (invisible on dark).
@@ -24,6 +37,20 @@
 
   .av-story__chapter-body :is(p, li) {
     color: inherit !important;
+  }
+
+  /* Force visibility in Shopify Editor to prevent "invisible text" during customization */
+  .shopify-design-mode [data-av-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .shopify-design-mode .av-word-inner {
+    transform: none !important;
+  }
+  .shopify-design-mode .av-img-curtain::after {
+    display: none !important;
   }
 
   .av-story__chapter-body a {
@@ -492,7 +519,8 @@
   }
 
   .av-story [data-av-reveal="fade-up"]:not(.av-visible) {
-    animation: av-story-fadein 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s both;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .av-story [data-av-reveal="words"]:not(.av-visible) .av-word-inner {
