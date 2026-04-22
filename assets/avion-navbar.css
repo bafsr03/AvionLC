@@ -1,38 +1,48 @@
 /* ============================================================
-   AVION NAVBAR — Visual overrides for Shopify Pitch header
-   Glass scroll effect · Animated links · Brand palette
-   Does NOT override Shopify's positioning/height/padding.
-   Shopify's enable_sticky_header handles all layout.
+   AVION NAVBAR — Editorial header overrides
+   Glass scroll · Active states · Dropdown · Mobile drawer
+   Palette: #1C1916 charcoal · #FFF3DC cream · #F7B32B amber
    ============================================================ */
 
-/* ----------------------------------------------------------
-   SCROLL GLASS STATE
-   JS adds .av-header-scrolled to #header-group when scrolled
-   ---------------------------------------------------------- */
+/* ================================================================
+   1. BASE HEADER — smooth transitions on all states
+   ================================================================ */
+
+#header-group .header {
+  transition:
+    background     0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color   0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow     0.45s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* ================================================================
+   2. TRANSPARENT STATE — dark heroes only
+   ================================================================ */
+
+#header-group:not(.av-header-scrolled) .header {
+  background:   transparent !important;
+  box-shadow:   none !important;
+  border-bottom: 1px solid transparent !important;
+}
+
+/* ================================================================
+   3. SCROLLED GLASS STATE
+   ================================================================ */
+
 #header-group.av-header-scrolled .header {
-  background: rgba(22, 19, 16, 0.96) !important;
-  backdrop-filter: blur(20px) saturate(1.5) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
+  background:    rgba(22, 19, 16, 0.96) !important;
+  backdrop-filter: blur(24px) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.6) !important;
+  border-bottom: 1px solid rgba(247, 179, 43, 0.12) !important;
   box-shadow:
     0 1px 0 rgba(247, 179, 43, 0.08),
-    0 4px 28px rgba(0, 0, 0, 0.28) !important;
-  transition:
-    background 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    0 8px 40px rgba(0, 0, 0, 0.32) !important;
 }
 
-/* Initial transparent state for dark hero sections */
-#header-group:not(.av-header-scrolled) .header {
-  background: transparent !important;
-  box-shadow: none !important;
-  transition:
-    background 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-}
+/* ================================================================
+   4. LOGO
+   ================================================================ */
 
-/* ----------------------------------------------------------
-   LOGO
-   ---------------------------------------------------------- */
 .header__logo img,
 .header__logo svg {
   transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -40,46 +50,41 @@
 
 .header__logo:hover img,
 .header__logo:hover svg {
-  opacity: 0.75;
-  transform: scale(0.97);
+  opacity: 0.72;
+  transform: scale(0.965);
 }
 
-/* ----------------------------------------------------------
-   NAV LINKS — typography refinements only
-   ---------------------------------------------------------- */
+/* ================================================================
+   5. NAV LINKS — typography + animated amber underline
+   ================================================================ */
+
 .header__menu-item > a,
 .header__inline-menu a,
 .header-menu__link {
-  font-family: "Source Serif 4", serif !important;
-  font-size: 0.775rem !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase !important;
-  font-weight: 400 !important;
-  position: relative;
-  padding-bottom: 2px !important;
-  transition: opacity 0.25s ease !important;
+  font-family:     "Source Serif 4", serif !important;
+  font-size:       0.72rem !important;
+  letter-spacing:  0.12em !important;
+  text-transform:  uppercase !important;
+  font-weight:     400 !important;
+  position:        relative;
+  padding-bottom:  3px !important;
+  transition:      color 0.25s ease, opacity 0.25s ease !important;
 }
 
-.header__menu-item > a:hover,
-.header__inline-menu a:hover,
-.header-menu__link:hover {
-  opacity: 0.65;
-}
-
-/* Animated gold underline on hover */
+/* Underline bar */
 .header__menu-item > a::after,
 .header__inline-menu a::after,
 .header-menu__link::after {
   content: '';
   position: absolute;
-  bottom: -1px;
+  bottom: -2px;
   left: 0;
   width: 100%;
   height: 1px;
   background: #F7B32B;
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform 0.4s cubic-bezier(0.9, 0, 0.1, 1);
+  transition: transform 0.38s cubic-bezier(0.9, 0, 0.1, 1);
   pointer-events: none;
 }
 
@@ -90,75 +95,329 @@
   transform: scaleX(1);
 }
 
-/* ----------------------------------------------------------
-   ACTION ICONS
-   ---------------------------------------------------------- */
+/* Active / current page — amber underline always visible */
+.header__menu-item > a[aria-current="page"]::after,
+.header__menu-item > a.active::after,
+.header__inline-menu a[aria-current="page"]::after,
+.header-menu__link[aria-current="page"]::after,
+.header-menu__link.is-active::after {
+  transform: scaleX(1) !important;
+  transform-origin: left center !important;
+  opacity: 0.62;
+}
+
+/* ================================================================
+   6. DROPDOWN / MEGA MENU — dark cinematic overlay
+   ================================================================ */
+
+.header-menu__dropdown,
+.mega-menu,
+[data-header-menu-dropdown] {
+  background: rgba(22, 19, 16, 0.97) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-top: 1px solid rgba(247, 179, 43, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 243, 220, 0.04) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.48) !important;
+}
+
+/* Dropdown links */
+.header-menu__dropdown a,
+.mega-menu a,
+.header-menu__submenu a {
+  font-family:    "Source Serif 4", serif !important;
+  font-size:      0.7rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color:          rgba(255, 243, 220, 0.7) !important;
+  transition:     color 0.22s ease, padding-left 0.22s ease !important;
+}
+
+.header-menu__dropdown a:hover,
+.mega-menu a:hover,
+.header-menu__submenu a:hover {
+  color:        #F7B32B !important;
+  padding-left: 6px !important;
+}
+
+/* Featured collection images inside dropdown */
+.featured-collection-block,
+.featured-collection-block img {
+  border-radius: 2px !important;
+  overflow: hidden;
+}
+
+.featured-collection-block img {
+  filter: brightness(0.82) saturate(0.7);
+  transition: filter 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.featured-collection-block:hover img {
+  filter: brightness(0.92) saturate(0.9) !important;
+  transform: scale(1.04) !important;
+}
+
+/* Collection label in dropdown */
+.featured-collection-block .featured-collection-title,
+.featured-collection-block [class*="title"],
+.featured-collection-block p,
+.featured-collection-block span {
+  font-family: "Young Serif", serif !important;
+  color: #FFF3DC !important;
+}
+
+/* ================================================================
+   7. ACTION ICONS (cart, account, search)
+   ================================================================ */
+
 .header__icon,
 .header__action {
-  transition: background 0.25s ease !important;
-  border-radius: 50% !important;
+  border-radius:  50% !important;
+  transition:     background 0.25s ease, transform 0.25s ease !important;
 }
 
 .header__icon:hover,
 .header__action:hover {
-  background: rgba(247, 179, 43, 0.1) !important;
+  background: rgba(247, 179, 43, 0.12) !important;
+  transform:  scale(1.08) !important;
 }
 
-/* Cart count badge */
+/* ================================================================
+   8. CART COUNT BADGE — amber with subtle pulse
+   ================================================================ */
+
 .cart-count-bubble,
 .cart-count {
-  background: #F7B32B !important;
-  color: #1C1916 !important;
+  background:  #F7B32B !important;
+  color:       #1C1916 !important;
   font-weight: 700 !important;
+  font-family: "Source Serif 4", serif !important;
+  font-size:   0.6rem !important;
 }
 
-/* ----------------------------------------------------------
-   ANNOUNCEMENT BAR
-   ---------------------------------------------------------- */
+/* Pulse on the cart icon when items are present */
+.header__icon--cart:has(.cart-count-bubble:not(:empty)) {
+  animation: av-cart-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes av-cart-pulse {
+  0%, 100%  { box-shadow: 0 0 0 0    rgba(247, 179, 43, 0); }
+  45%       { box-shadow: 0 0 0 6px  rgba(247, 179, 43, 0.18); }
+  65%       { box-shadow: 0 0 0 10px rgba(247, 179, 43, 0); }
+}
+
+/* ================================================================
+   9. ANNOUNCEMENT BAR
+   ================================================================ */
+
 .announcement-bar {
-  background: #F7B32B !important;
-  color: #1C1916 !important;
-  font-family: "Source Serif 4", serif !important;
-  font-size: 0.72rem !important;
-  letter-spacing: 0.12em !important;
+  background:     #F7B32B !important;
+  color:          #1C1916 !important;
+  font-family:    "Source Serif 4", serif !important;
+  font-size:      0.68rem !important;
+  letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
 }
 
-/* ----------------------------------------------------------
-   MOBILE DRAWER
-   ---------------------------------------------------------- */
+.announcement-bar a,
+.announcement-bar__link {
+  color:           #1C1916 !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ================================================================
+   10. LOCALE / COUNTRY SELECTOR
+   ================================================================ */
+
+.disclosure__button,
+.localization-form__select,
+[data-disclosure-toggle] {
+  font-family:    "Source Serif 4", serif !important;
+  font-size:      0.65rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  transition:     color 0.22s ease, opacity 0.22s ease !important;
+}
+
+.disclosure__button:hover,
+[data-disclosure-toggle]:hover {
+  color: #F7B32B !important;
+}
+
+/* Dropdown list */
+.disclosure__list-wrapper,
+.disclosure__list {
+  background:    rgba(22, 19, 16, 0.97) !important;
+  border:        1px solid rgba(247, 179, 43, 0.1) !important;
+  border-radius: 4px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow:    0 16px 40px rgba(0, 0, 0, 0.36) !important;
+}
+
+.disclosure__item a,
+.disclosure__item button {
+  font-family:    "Source Serif 4", serif !important;
+  font-size:      0.65rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color:          rgba(255, 243, 220, 0.65) !important;
+  transition:     color 0.2s ease !important;
+}
+
+.disclosure__item a:hover,
+.disclosure__item button:hover {
+  color: #F7B32B !important;
+}
+
+/* ================================================================
+   11. MOBILE HAMBURGER — amber accent lines
+   ================================================================ */
+
+.header__icon--menu .icon,
+.header__icon--menu svg {
+  transition: opacity 0.25s ease !important;
+}
+
+.header__icon--menu:hover .icon,
+.header__icon--menu:hover svg {
+  opacity: 0.65 !important;
+}
+
+/* Burger icon lines to amber on hover */
+.header__icon--menu:hover line,
+.header__icon--menu:hover path,
+.header__icon--menu:hover rect {
+  stroke: #F7B32B !important;
+  transition: stroke 0.25s ease !important;
+}
+
+/* ================================================================
+   12. MOBILE DRAWER
+   ================================================================ */
+
+/* Backdrop overlay */
+.menu-drawer-overlay,
+.overlay {
+  background: rgba(14, 11, 9, 0.72) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Drawer container */
 .menu-drawer,
 .menu-drawer__container {
   background: #1C1916 !important;
-  color: #FFF3DC !important;
+  color:      #FFF3DC !important;
+  border-right: 1px solid rgba(247, 179, 43, 0.08) !important;
 }
 
+/* Top area of drawer */
+.menu-drawer__inner-container {
+  padding: 32px 28px 28px !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Nav links in drawer */
 .menu-drawer__navigation a,
 .menu-drawer__menu-item,
 .menu-drawer__submenu-open-button {
-  font-family: "Young Serif", serif !important;
-  font-size: clamp(1.4rem, 5vw, 2.2rem) !important;
+  font-family:    "Young Serif", serif !important;
+  font-size:      clamp(1.3rem, 4.5vw, 2rem) !important;
   letter-spacing: -0.01em !important;
   text-transform: none !important;
-  color: #FFF3DC !important;
-  border-bottom: 1px solid rgba(255, 243, 220, 0.06) !important;
-  padding-top: 16px !important;
-  padding-bottom: 16px !important;
-  transition: color 0.25s ease, padding-left 0.25s ease !important;
+  color:          rgba(255, 243, 220, 0.88) !important;
+  border-bottom:  1px solid rgba(255, 243, 220, 0.05) !important;
+  padding-top:    18px !important;
+  padding-bottom: 18px !important;
+  transition:
+    color       0.25s ease,
+    padding-left 0.25s ease,
+    border-color 0.25s ease !important;
 }
 
 .menu-drawer__navigation a:hover,
-.menu-drawer__menu-item:hover {
+.menu-drawer__menu-item:hover,
+.menu-drawer__submenu-open-button:hover {
+  color:        #F7B32B !important;
+  padding-left: 12px !important;
+  border-bottom-color: rgba(247, 179, 43, 0.12) !important;
+}
+
+/* Active drawer link */
+.menu-drawer__navigation a[aria-current="page"] {
   color: #F7B32B !important;
-  padding-left: 10px !important;
+}
+
+/* Submenu links — smaller scale */
+.menu-drawer__submenu a {
+  font-size:      clamp(0.95rem, 3vw, 1.25rem) !important;
+  color:          rgba(255, 243, 220, 0.55) !important;
+  padding-top:    12px !important;
+  padding-bottom: 12px !important;
+}
+
+.menu-drawer__submenu a:hover {
+  color: #F7B32B !important;
+}
+
+/* Close button */
+.menu-drawer__close-button {
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+
+.menu-drawer__close-button:hover {
+  opacity:   0.65 !important;
+  transform: rotate(90deg) !important;
 }
 
 .menu-drawer__close-button svg,
 .menu-drawer__close-button path,
 .menu-drawer__close-button line {
-  stroke: #FFF3DC !important;
+  stroke: rgba(255, 243, 220, 0.8) !important;
 }
 
-.menu-drawer__inner-container {
-  padding: 28px 24px !important;
+/* Drawer footer — brand tagline */
+.menu-drawer__navigation::after {
+  content: 'Avio Supply Co.';
+  display: block;
+  margin-top: auto;
+  padding-top: 40px;
+  padding-left: 24px;
+  font-family: "Source Serif 4", serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(247, 179, 43, 0.3);
+}
+
+/* Amber accent bar at top of drawer */
+.menu-drawer__container::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(to right, #F7B32B, transparent);
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   13. REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  #header-group .header,
+  .header__logo img,
+  .header__logo svg,
+  .header__menu-item > a::after,
+  .header__inline-menu a::after,
+  .header-menu__link::after,
+  .header__icon,
+  .header__action,
+  .menu-drawer__navigation a,
+  .menu-drawer__menu-item {
+    transition: none !important;
+    animation:  none !important;
+  }
 }

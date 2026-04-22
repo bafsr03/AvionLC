@@ -374,7 +374,7 @@
           <p class="av-footer__brand-sub" style="margin-bottom: 24px;">{{ section.settings.subline }}</p>
         {%- endif -%}
 
-        <p class="av-footer__about-text">{{ section.settings.about_text | default: 'Avión Legacy Cannabis honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream.' }}</p>
+        <p class="av-footer__about-text">{{ section.settings.about_text | default: 'Avio Supply Co. honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream.' }}</p>
         <div class="av-footer__social">
           {%- if section.settings.instagram_url != blank -%}
             <a href="{{ section.settings.instagram_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
@@ -468,7 +468,7 @@
     <div class="av-footer__bottom">
       <div class="av-footer__bottom-left">
         <p class="av-footer__copyright">
-          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+          &copy; {{ 'now' | date: '%Y' }} Avio Supply Co. All rights reserved.
         </p>
         <nav class="av-footer__legal-links" aria-label="Legal">
           {%- for link in section.settings.legal_menu.links -%}
@@ -489,7 +489,7 @@
 
   <!-- Age gate notice -->
   <div class="av-footer__age-gate">
-    {{ section.settings.legal_text | default: 'Avión Legacy Cannabis products are intended for adults 21 and over. Cannabis products are not available in all areas. Check your local laws before purchasing.' }}
+    {{ section.settings.legal_text | default: 'Avio Supply Co. products are intended for adults 21 and over. Cannabis products are not available in all areas. Check your local laws before purchasing.' }}
   </div>
 
 </footer>
@@ -519,7 +519,7 @@
       "type": "textarea",
       "id": "about_text",
       "label": "About paragraph",
-      "default": "Avión Legacy Cannabis honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream."
+      "default": "Avio Supply Co. honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream."
     },
     {
       "type": "link_list",
@@ -555,7 +555,7 @@
       "type": "textarea",
       "id": "legal_text",
       "label": "Legal disclaimer",
-      "default": "Avión Legacy Cannabis products are intended for adults 21 and over. Cannabis products are not available in all areas. Check your local laws before purchasing."
+      "default": "Avio Supply Co. products are intended for adults 21 and over. Cannabis products are not available in all areas. Check your local laws before purchasing."
     },
     {
       "type": "header",
