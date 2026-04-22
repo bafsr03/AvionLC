@@ -1,16 +1,32 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "avion-our-story": {
       "type": "avion-our-story",
       "settings": {
+        "hero_image": "shopify://shop_images/jerry-chair.jpg",
         "hero_label": "Avión Legacy Cannabis",
         "hero_title": "THE STORY",
         "hero_sub": "A legacy built on courage, risk, and the relentless belief that the rules were wrong.",
         "ch1_title": "THE MAN BEHIND THE LEGACY",
-        "ch2_title": "THE CRASH THAT CHANGED EVERYTHING",
-        "ch3_title": "REINVENTION",
+        "ch1_body": "",
+        "ch1_image": "shopify://shop_images/oregon-business-magazine.jpg",
         "quote1": "He flew when no one else dared. He built when the world said it was over.",
         "quote1_attr": "— The Avión Legacy",
+        "ch2_title": "THE CRASH THAT CHANGED EVERYTHING",
+        "ch2_body": "",
+        "ch2_image": "shopify://shop_images/OUR_STORY_-_AVION-02_bba4f770-8c76-409f-91ec-2fd73b71a380.png",
+        "ch3_title": "REINVENTION",
+        "ch3_body": "",
+        "ch3_image": "shopify://shop_images/jerry-book_83454ccc-8b26-4052-ac47-ec3e3769a1db.jpg",
         "stat1_num": "1970s",
         "stat1_label": "When it started",
         "stat2_num": "100%",
@@ -19,8 +35,8 @@
         "stat3_label": "Of legacy",
         "close_title": "THE LEGACY CONTINUES",
         "close_body": "Avión Legacy Cannabis carries forward the spirit of a man who never stopped believing in freedom. Every product is a testament to that belief.",
-        "close_cta_text": "Explore the collection",
-        "close_cta_url": "/collections/all"
+        "close_cta_url": "/collections/all",
+        "close_cta_text": "Explore the collection"
       }
     }
   },
