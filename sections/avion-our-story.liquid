@@ -62,11 +62,12 @@
 
   .av-story__chapter-label {
     display: inline-block;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: #F7B32B;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    font-weight: 500;
   }
 
   .av-story__hero-title {
@@ -82,10 +83,10 @@
   .av-story__hero-sub {
     font-size: clamp(1rem, 2vw, 1.35rem);
     line-height: 1.6;
-    color: rgba(255, 243, 220, 0.7);
-    max-width: 620px;
+    color: rgba(255, 243, 220, 0.95);
+    max-width: 680px;
     margin: 0 auto;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   }
 
   /* Scroll indicator */
@@ -202,12 +203,12 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: #F7B32B;
     margin-bottom: 28px;
-    opacity: 0.9;
+    font-weight: 500;
   }
 
   .av-story__chapter-eyebrow::before {
@@ -521,13 +522,13 @@
     </div>
 
     <div class="av-story__hero-content">
-      <span class="av-story__chapter-label" data-av-reveal="fade-up">
+      <span class="av-story__chapter-label">
         {{ section.settings.hero_label | default: "Avión Legacy Cannabis" }}
       </span>
       <h1 class="av-story__hero-title" data-av-reveal="words" data-av-delay="100">
         {{- section.settings.hero_title | default: "THE STORY" -}}
       </h1>
-      <p class="av-story__hero-sub" data-av-reveal="fade-up" data-av-delay="500">
+      <p class="av-story__hero-sub">
         {{ section.settings.hero_sub | default: "A legacy built on courage, risk, and the relentless belief that the rules were wrong." }}
       </p>
     </div>
