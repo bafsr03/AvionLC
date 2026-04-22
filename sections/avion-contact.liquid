@@ -6,7 +6,7 @@
      ============================================================ */
 
   .av-contact {
-    background: #fff3dc;
+    background: #fff3dcff;
     color: #1C1916;
     font-family: "Source Serif 4", serif;
     overflow-x: hidden;
@@ -15,7 +15,7 @@
   /* ---- HERO STRIP ---- */
   .av-contact__hero {
     position: relative;
-    border-bottom: 1px solid #1C1916;
+    border-bottom: 1px solid rgba(255, 243, 220, 0.07);
     padding: clamp(80px, 10vw, 120px) clamp(28px, 6vw, 88px) clamp(56px, 7vw, 80px);
     overflow: hidden;
   }
@@ -40,7 +40,7 @@
     font-family: "Young Serif", serif;
     font-size: clamp(16rem, 32vw, 52rem);
     line-height: 1;
-    color: rgba(28, 25, 22, 0.07);
+    color: #1c191611;
     pointer-events: none;
     user-select: none;
     letter-spacing: -0.04em;
@@ -119,7 +119,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: rgba(247, 179, 43, 0.76);
+    background: #f7b32bc1;
     flex-shrink: 0;
     animation: av-contact-pulse 2.8s ease-in-out infinite;
   }
@@ -147,7 +147,7 @@
   /* ---- LEFT PANEL — info ---- */
   .av-contact__info-panel {
     padding: clamp(56px, 6vw, 80px) clamp(0px, 4vw, 48px) clamp(56px, 6vw, 80px) 0;
-    border-right: 1px solid rgba(28, 25, 22, 0.46);
+    border-right: 1px solid #1c191676;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -161,14 +161,29 @@
     color: #1C1916;
   }
 
-  /* Radar rings */
-  .av-contact__radar {
+  /* Info Media / Radar */
+  .av-contact__info-media {
     position: relative;
     width: 100%;
     max-width: 240px;
     aspect-ratio: 1;
     flex-shrink: 0;
     align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .av-contact__info-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .av-contact__radar {
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
 
   .av-contact__radar-ring {
@@ -260,7 +275,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(247, 179, 43, 0.6);
+    color: #f7b32b99;
   }
 
   .av-contact__info-value {
@@ -333,7 +348,7 @@
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(73, 73, 73, 0.28);
+    border-bottom: 1px solid #49494947;
     padding: 10px 0 12px;
     font-family: "Source Serif 4", serif;
     font-size: 1rem;
@@ -348,7 +363,7 @@
 
   .av-contact__input::placeholder,
   .av-contact__textarea::placeholder {
-    color: rgba(28, 25, 22, 0.18);
+    color: #1c19162f;
     font-style: italic;
   }
 
@@ -356,8 +371,6 @@
   .av-contact__textarea:focus {
     border-bottom-color: rgba(247, 179, 43, 0.35);
   }
-
-  /* Form/input overrides live in assets/avion-contact.css (loaded last in theme.liquid on contact). */
 
   /* Growing gold underline on focus */
   .av-contact__field::after {
@@ -434,7 +447,7 @@
 
   .av-contact__note {
     font-size: 0.7rem;
-    color: hsla(39, 100%, 93%, 0.22);
+    color: #fff3dc38;
     letter-spacing: 0.04em;
     line-height: 1.5;
   }
@@ -571,13 +584,19 @@
     <div class="av-contact__info-panel">
       <p class="av-contact__panel-label" data-av-reveal="fade-in">Contact info</p>
 
-      <!-- Radar rings decoration -->
-      <div class="av-contact__radar" aria-hidden="true">
-        <div class="av-contact__radar-ring"></div>
-        <div class="av-contact__radar-ring"></div>
-        <div class="av-contact__radar-ring"></div>
-        <div class="av-contact__radar-ring"></div>
-        <div class="av-contact__radar-ring"></div>
+      <!-- Info Media / Radar rings decoration -->
+      <div class="av-contact__info-media" data-av-reveal="fade-in">
+        {%- if section.settings.info_image != blank -%}
+          {{ section.settings.info_image | image_url: width: 600 | image_tag: class: 'av-contact__info-img', loading: 'lazy' }}
+        {%- else -%}
+          <div class="av-contact__radar" aria-hidden="true">
+            <div class="av-contact__radar-ring"></div>
+            <div class="av-contact__radar-ring"></div>
+            <div class="av-contact__radar-ring"></div>
+            <div class="av-contact__radar-ring"></div>
+            <div class="av-contact__radar-ring"></div>
+          </div>
+        {%- endif -%}
       </div>
 
       <div class="av-contact__info-list" data-av-stagger="120">
@@ -725,6 +744,12 @@
       "id": "heading",
       "label": "Heading",
       "default": "CONTACT"
+    },
+    {
+      "type": "image_picker",
+      "id": "info_image",
+      "label": "Info Image",
+      "info": "Replaces the radar rings"
     },
     {
       "type": "textarea",
