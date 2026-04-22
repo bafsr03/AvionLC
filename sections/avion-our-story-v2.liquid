@@ -1,0 +1,840 @@
+{%- style -%}
+  /* ============================================================
+     AVION OUR STORY — Immersive chapter-based narrative
+     Full-bleed sections · Kinetic type · Scroll reveals
+     ============================================================ */
+
+  /* ---- STORY WRAPPER ---- */
+  .av-story {
+    font-family: "Source Serif 4", serif;
+    overflow: hidden;
+    color: #fff3dc;
+  }
+
+  /*
+    Pitch base.css sets h1/h2 to theme font + --font-h1-color / --font-h2-color.
+    Without these overrides, Our Story titles/body can inherit the wrong color (invisible on dark).
+  */
+  .av-story :is(h1, h2, h3) {
+    font-family: "Young Serif", serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+  }
+
+  .av-story__chapter-body :is(p, li) {
+    color: inherit !important;
+  }
+
+  .av-story__chapter-body a {
+    color: inherit !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .av-story__pullquote :is(p, span) {
+    color: inherit !important;
+  }
+
+  /* ---- OPENING HERO ---- */
+  .av-story__hero {
+    background: #1C1916;
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .av-story__hero-media {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    background: #14110F;
+  }
+
+  .av-story__hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .av-story__hero.av-visible .av-story__hero-img {
+    transform: scale(1.05);
+  }
+
+  .av-story__hero-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(28,25,22,0.1) 0%, rgba(28,25,22,0) 20%);
+    pointer-events: none;
+  }
+
+  .av-story__hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(60px, 8vw, 120px) clamp(30px, 6vw, 100px);
+    text-align: left;
+    background: #1C1916;
+  }
+
+  .av-story__chapter-label {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    margin-bottom: clamp(24px, 4vw, 40px);
+  }
+
+  .av-story__hero-title {
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(3.5rem, 8vw, 8.5rem) !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.04em !important;
+    color: #fff3dc !important;
+    margin: 0 0 32px;
+  }
+
+  .av-story__hero-sub {
+    font-size: clamp(1rem, 1.4vw, 1.25rem);
+    line-height: 1.6;
+    color: rgba(255, 243, 220, 0.6);
+    max-width: 480px;
+    margin: 0;
+  }
+
+  /* Scroll indicator */
+  .av-story__scroll-cue {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+    color: rgba(255, 243, 220, 0.35);
+  }
+
+  .av-story__scroll-cue span {
+    font-size: 0.6rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .av-story__scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(247, 179, 43, 0.4), transparent);
+    animation: av-scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes av-scroll-pulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(0.7); }
+  }
+
+  /* ---- CHAPTER SECTION ---- */
+  .av-story__chapter {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Dark chapters */
+  .av-story__chapter--dark {
+    background: #1C1916;
+    color: #FFF3DC;
+  }
+
+  /* Light chapters */
+  .av-story__chapter--light {
+    background: #FFF3DC;
+    color: #3A3A3C;
+  }
+
+  /* Red/brand chapters */
+  .av-story__chapter--brand {
+    background: #9C2F2A;
+    color: #FFF3DC;
+  }
+
+  /* Grain on all chapters */
+  .av-story__chapter::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.02;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Giant chapter number in background */
+  .av-story__num {
+    position: absolute;
+    font-family: "Young Serif", serif;
+    font-size: clamp(14rem, 30vw, 40rem);
+    line-height: 1;
+    opacity: 0.03;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+    z-index: 0;
+  }
+
+  .av-story__num--left  { left: -2%; top: -10%; }
+  .av-story__num--right { right: -2%; bottom: -10%; }
+
+  /* Split layout — text + bounded image column (image was effectively full-viewport tall) */
+  .av-story__chapter-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.88fr);
+    align-items: center;
+    column-gap: clamp(20px, 4vw, 56px);
+    min-height: min(78vh, 820px);
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 clamp(24px, 5vw, 80px);
+  }
+
+  /* Alternate side for even chapters */
+  .av-story__chapter--flipped .av-story__chapter-inner {
+    direction: rtl;
+  }
+
+  .av-story__chapter--flipped .av-story__chapter-text,
+  .av-story__chapter--flipped .av-story__chapter-media {
+    direction: ltr;
+  }
+
+  .av-story__chapter-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(48px, 6vw, 80px) clamp(24px, 4vw, 64px);
+  }
+
+  .av-story__chapter-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    margin-bottom: 28px;
+    opacity: 0.9;
+  }
+
+  .av-story__chapter-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: #F7B32B;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .av-story__chapter-title {
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(2.4rem, 5vw, 4.5rem) !important;
+    line-height: 1.0 !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 0 28px;
+    color: inherit !important;
+  }
+
+  .av-story__chapter-body {
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    line-height: 1.8;
+    color: inherit;
+    opacity: 0.78;
+    max-width: 500px;
+  }
+
+  .av-story__chapter-body p {
+    margin: 0 0 16px;
+  }
+
+  .av-story__chapter-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Image side — cap height so the photo doesn’t dominate the entire viewport */
+  .av-story__chapter-media {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: min(100%, 620px);
+    min-height: min(44vh, 480px);
+    max-height: min(58vh, 680px);
+    justify-self: end;
+    align-self: center;
+    border-radius: 3px;
+  }
+
+  .av-story__chapter--flipped .av-story__chapter-media {
+    justify-self: start;
+  }
+
+  .av-story__chapter-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transform: scale(1.05);
+    transition: transform 8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .av-story__chapter:hover .av-story__chapter-img {
+    transform: scale(1);
+  }
+
+  /* Media overlay gradient */
+  .av-story__chapter-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(28,25,22,0.25), transparent 60%);
+    pointer-events: none;
+  }
+
+  .av-story__chapter--flipped .av-story__chapter-media::after {
+    background: linear-gradient(to left, rgba(28,25,22,0.25), transparent 60%);
+  }
+
+  .av-story__chapter--light .av-story__chapter-media::after {
+    background: linear-gradient(to right, rgba(255,243,220,0.25), transparent 60%);
+  }
+
+  /* Light + flipped: gradient must come from the opposite edge */
+  .av-story__chapter--light.av-story__chapter--flipped .av-story__chapter-media::after {
+    background: linear-gradient(to left, rgba(255,243,220,0.25), transparent 60%);
+  }
+
+  /* Eyebrow on light background — amber needs to be deeper for legibility */
+  .av-story__chapter--light .av-story__chapter-eyebrow {
+    color: #8B6914;
+  }
+
+  .av-story__chapter--light .av-story__chapter-eyebrow::before {
+    background: #8B6914;
+  }
+
+  /* ---- PULL QUOTE ---- */
+  .av-story__pullquote {
+    position: relative;
+    z-index: 1;
+    padding: clamp(80px, 10vw, 140px) clamp(24px, 8vw, 140px);
+    text-align: center;
+  }
+
+  .av-story__pullquote-mark {
+    font-family: "Young Serif", serif;
+    font-size: clamp(4rem, 8vw, 9rem);
+    line-height: 0.6;
+    color: #F7B32B;
+    opacity: 0.35;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .av-story__pullquote-text {
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(1.8rem, 4vw, 4rem) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    color: inherit !important;
+    max-width: 900px;
+    margin: 0 auto 40px;
+  }
+
+  .av-story__pullquote-attr {
+    font-family: "Source Serif 4", serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    opacity: 0.7;
+  }
+
+  /* ---- STATS STRIP ---- */
+  .av-story__stats {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(255, 243, 220, 0.08);
+    border-bottom: 1px solid rgba(255, 243, 220, 0.08);
+  }
+
+  .av-story__stat {
+    padding: clamp(40px, 5vw, 64px) clamp(24px, 4vw, 48px);
+    border-right: 1px solid rgba(255, 243, 220, 0.08);
+    text-align: center;
+  }
+
+  .av-story__stat:last-child {
+    border-right: none;
+  }
+
+  .av-story__stat-number {
+    font-family: "Young Serif", serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #F7B32B;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .av-story__stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 243, 220, 0.45);
+  }
+
+  /* ---- CLOSING SECTION ---- */
+  .av-story__close {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: clamp(80px, 12vw, 160px) clamp(24px, 8vw, 80px);
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .av-story__close-title {
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(2rem, 4.5vw, 5rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.02em !important;
+    color: #fff3dc !important;
+    margin: 0 0 32px;
+  }
+
+  .av-story__close-body {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.75;
+    color: rgba(255, 243, 220, 0.55);
+    max-width: 600px;
+    margin: 0 auto 48px;
+  }
+
+  .av-story__close-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: "Source Serif 4", serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    border: 1px solid rgba(247, 179, 43, 0.4);
+    padding: 18px 44px;
+    text-decoration: none;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .av-story__close-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #F7B32B;
+    transform: translateX(-102%);
+    transition: transform 0.4s cubic-bezier(0.9, 0, 0.1, 1);
+    z-index: -1;
+  }
+
+  .av-story__close-cta:hover {
+    color: #1C1916;
+    border-color: #F7B32B;
+  }
+
+  .av-story__close-cta:hover::before {
+    transform: translateX(0);
+  }
+
+  /* ---- REVEAL FALLBACK ----
+     If the IntersectionObserver doesn't fire (timing, theme editor,
+     lazy hydration), CSS animations reveal content after a short delay.
+     Once JS adds .av-visible the transition takes over cleanly. */
+  @keyframes av-story-fadein {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes av-story-slideup {
+    from { transform: translateY(115%); }
+    to   { transform: translateY(0); }
+  }
+
+  .av-story [data-av-reveal="fade-up"]:not(.av-visible) {
+    animation: av-story-fadein 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s both;
+  }
+
+  .av-story [data-av-reveal="words"]:not(.av-visible) .av-word-inner {
+    animation: av-story-slideup 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both;
+  }
+
+  /* ---- MOBILE ---- */
+  @media (max-width: 899px) {
+    .av-story__hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .av-story__hero-media {
+      order: -1;
+      aspect-ratio: 4/5;
+      max-height: 65svh;
+    }
+
+    .av-story__hero-content {
+      padding: 56px 24px 80px;
+    }
+
+    .av-story__hero-title {
+      font-size: clamp(3.2rem, 14vw, 5.5rem) !important;
+    }
+
+    .av-story__scroll-cue {
+      display: none !important;
+    }
+
+    .av-story__chapter-inner {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding: 0;
+    }
+
+    .av-story__chapter--flipped .av-story__chapter-inner {
+      direction: ltr;
+    }
+
+    .av-story__chapter-media {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      order: -1;
+      aspect-ratio: 16 / 10;
+      min-height: 220px;
+      max-height: min(52vh, 440px);
+    }
+
+    .av-story__chapter-text {
+      padding: 40px 24px 56px;
+    }
+
+    .av-story__chapter-media::after,
+    .av-story__chapter--flipped .av-story__chapter-media::after {
+      background: linear-gradient(to bottom, transparent 60%, rgba(28,25,22,0.4) 100%);
+    }
+
+    .av-story__stats {
+      grid-template-columns: 1fr;
+    }
+
+    .av-story__stat {
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 243, 220, 0.08);
+    }
+
+    .av-story__stat:last-child {
+      border-bottom: none;
+    }
+
+    .av-story__num { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .av-story__hero-title {
+      font-size: clamp(3.5rem, 16vw, 6rem);
+    }
+  }
+{%- endstyle -%}
+
+<div class="av-story">
+
+  <!-- ================================================
+       OPENING HERO (Split Redesign V2)
+       ================================================ -->
+  <div class="av-story__hero">
+    <div class="av-story__hero-media">
+      {%- if section.settings.hero_image != blank -%}
+        {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'av-story__hero-img', loading: 'eager', widths: '800, 1200, 1600, 2400' }}
+      {%- else -%}
+        <div class="av-story__hero-placeholder" style="background: #14110F; width: 100%; height: 100%;"></div>
+      {%- endif -%}
+    </div>
+
+    <div class="av-story__hero-content">
+      <span class="av-story__chapter-label" data-av-reveal="fade-up">
+        {{ section.settings.hero_label | default: 'Avión Legacy Cannabis' }}
+      </span>
+      <h1 class="av-story__hero-title" data-av-reveal="words" data-av-delay="100">
+        {{- section.settings.hero_title | default: 'THE' -}}
+        {%- if section.settings.hero_title_line2 != blank -%}
+          <br>
+          {{- section.settings.hero_title_line2 -}}
+        {%- endif -%}
+      </h1>
+      <p class="av-story__hero-sub" data-av-reveal="fade-up" data-av-delay="500">
+        {{ section.settings.hero_sub | default: 'A legacy built on courage, risk, and the relentless belief that the rules were wrong.' }}
+      </p>
+
+      <div class="av-story__scroll-cue" aria-hidden="true" style="position: relative; bottom: auto; left: auto; transform: none; align-items: flex-start; margin-top: 60px;">
+        <span style="font-size: 0.55rem; opacity: 0.5;">SCROLL TO EXPLORE</span>
+        <div class="av-story__scroll-line" style="height: 32px; width: 1px; margin-top: 8px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       CHAPTER 1 — The Man
+       ================================================ -->
+  {%- capture ch1_body_default -%}
+    <p>Jerry Wilson was not just a pilot. He was a risk-taker. A disruptor. A believer in freedom before it was fashionable.</p>
+    <p>In the 1970s and 80s, Jerry flew cannabis from Mexico and Colombia into the United States — not quietly, not carefully, but boldly.</p>
+  {%- endcapture -%}
+  <div class="av-story__chapter av-story__chapter--dark">
+    <div class="av-story__num av-story__num--right" aria-hidden="true">01</div>
+
+    <div class="av-story__chapter-inner">
+      <div class="av-story__chapter-text">
+        <p class="av-story__chapter-eyebrow">Chapter One</p>
+        <h2 class="av-story__chapter-title" data-av-reveal="words">
+          {{ section.settings.ch1_title | default: 'THE MAN BEHIND THE LEGACY' }}
+        </h2>
+        <div class="av-story__chapter-body" data-av-reveal="fade-up" data-av-delay="300">
+          {%- if section.settings.ch1_body != blank -%}
+            {{ section.settings.ch1_body }}
+          {%- else -%}
+            {{ ch1_body_default }}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="av-story__chapter-media" data-av-curtain data-av-curtain-color="#1C1916">
+        {%- if section.settings.ch1_image != blank -%}
+          <img
+            class="av-story__chapter-img"
+            src="{{ section.settings.ch1_image | image_url: width: 1400 }}"
+            alt="{{ section.settings.ch1_image.alt | escape | default: 'Chapter 1' }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       PULL QUOTE 1
+       ================================================ -->
+  <div class="av-story__chapter av-story__chapter--brand">
+    <div class="av-story__pullquote">
+      <span class="av-story__pullquote-mark" aria-hidden="true">"</span>
+      <p class="av-story__pullquote-text" data-av-reveal="words">
+        {{ section.settings.quote1 | default: 'He flew when no one else dared. He built when the world said it was over.' }}
+      </p>
+      <p class="av-story__pullquote-attr" data-av-reveal="fade-up" data-av-delay="300">
+        {{ section.settings.quote1_attr | default: '— The Avión Legacy' }}
+      </p>
+    </div>
+  </div>
+
+  <!-- ================================================
+       CHAPTER 2 — The Fall
+       ================================================ -->
+  {%- capture ch2_body_default -%}
+    <p>The law caught up. Conviction. Federal prison. A chapter that would define — not destroy — the man.</p>
+    <p>Jerry served his time with the same conviction he flew with: head up, eyes forward, already planning the next flight.</p>
+  {%- endcapture -%}
+  <div class="av-story__chapter av-story__chapter--light av-story__chapter--flipped">
+    <div class="av-story__num av-story__num--left" aria-hidden="true">02</div>
+
+    <div class="av-story__chapter-inner">
+      <div class="av-story__chapter-text">
+        <p class="av-story__chapter-eyebrow">Chapter Two</p>
+        <h2 class="av-story__chapter-title" data-av-reveal="words">
+          {{ section.settings.ch2_title | default: 'THE CRASH THAT CHANGED EVERYTHING' }}
+        </h2>
+        <div class="av-story__chapter-body" data-av-reveal="fade-up" data-av-delay="300">
+          {%- if section.settings.ch2_body != blank -%}
+            {{ section.settings.ch2_body }}
+          {%- else -%}
+            {{ ch2_body_default }}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="av-story__chapter-media" data-av-curtain data-av-curtain-color="#FFF3DC">
+        {%- if section.settings.ch2_image != blank -%}
+          <img
+            class="av-story__chapter-img"
+            src="{{ section.settings.ch2_image | image_url: width: 1400 }}"
+            alt="{{ section.settings.ch2_image.alt | escape | default: 'Chapter 2' }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       CHAPTER 3 — Reinvention
+       ================================================ -->
+  {%- capture ch3_body_default -%}
+    <p>Jerry didn't disappear after prison. He built Soloflex, a fitness company that redefined American advertising. He then invested in cannabis legalization, serving as chief petitioner in Oregon.</p>
+    <p>From outlaw to organizer. From risk to reform.</p>
+  {%- endcapture -%}
+  <div class="av-story__chapter av-story__chapter--dark">
+    <div class="av-story__num av-story__num--right" aria-hidden="true">03</div>
+
+    <div class="av-story__chapter-inner">
+      <div class="av-story__chapter-text">
+        <p class="av-story__chapter-eyebrow">Chapter Three</p>
+        <h2 class="av-story__chapter-title" data-av-reveal="words">
+          {{ section.settings.ch3_title | default: 'REINVENTION' }}
+        </h2>
+        <div class="av-story__chapter-body" data-av-reveal="fade-up" data-av-delay="300">
+          {%- if section.settings.ch3_body != blank -%}
+            {{ section.settings.ch3_body }}
+          {%- else -%}
+            {{ ch3_body_default }}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="av-story__chapter-media" data-av-curtain data-av-curtain-color="#1C1916">
+        {%- if section.settings.ch3_image != blank -%}
+          <img
+            class="av-story__chapter-img"
+            src="{{ section.settings.ch3_image | image_url: width: 1400 }}"
+            alt="{{ section.settings.ch3_image.alt | escape | default: 'Chapter 3' }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       STATS STRIP
+       ================================================ -->
+  <div class="av-story__chapter av-story__chapter--dark">
+    <div class="av-story__stats">
+      <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="0">
+        <span class="av-story__stat-number">{{ section.settings.stat1_num | default: '1970s' }}</span>
+        <span class="av-story__stat-label">{{ section.settings.stat1_label | default: 'When it started' }}</span>
+      </div>
+      <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="150">
+        <span class="av-story__stat-number">{{ section.settings.stat2_num | default: '100%' }}</span>
+        <span class="av-story__stat-label">{{ section.settings.stat2_label | default: 'Oregon craft' }}</span>
+      </div>
+      <div class="av-story__stat" data-av-reveal="fade-up" data-av-delay="300">
+        <span class="av-story__stat-number">{{ section.settings.stat3_num | default: '50yr' }}</span>
+        <span class="av-story__stat-label">{{ section.settings.stat3_label | default: 'Of legacy' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       CLOSING CTA
+       ================================================ -->
+  <div class="av-story__chapter av-story__chapter--dark">
+    <div class="av-story__close">
+      <h2 class="av-story__close-title" data-av-reveal="words">
+        {{ section.settings.close_title | default: 'THE LEGACY CONTINUES' }}
+      </h2>
+      <p class="av-story__close-body" data-av-reveal="fade-up" data-av-delay="300">
+        {{ section.settings.close_body | default: 'Avión Legacy Cannabis carries forward the spirit of a man who never stopped believing in freedom. Every product is a testament to that belief.' }}
+      </p>
+      {%- if section.settings.close_cta_url != blank -%}
+        <a
+          href="{{ section.settings.close_cta_url }}"
+          class="av-story__close-cta av-magnetic"
+          data-av-reveal="fade-up"
+          data-av-delay="500"
+        >
+          {{ section.settings.close_cta_text | default: 'Explore the collection' }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Avion Our Story V2",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero background image" },
+    { "type": "text",    "id": "hero_label", "label": "Eyebrow label",   "default": "Avión Legacy Cannabis" },
+    { "type": "text",    "id": "hero_title", "label": "Hero title line 1", "default": "THE" },
+    { "type": "text",    "id": "hero_title_line2", "label": "Hero title line 2", "default": "STORY" },
+    { "type": "textarea","id": "hero_sub",   "label": "Hero subtitle",   "default": "A legacy built on courage, risk, and the relentless belief that the rules were wrong." },
+
+    { "type": "header", "content": "Chapter 1 — The Man" },
+    { "type": "text",    "id": "ch1_title",  "label": "Title",    "default": "THE MAN BEHIND THE LEGACY" },
+    { "type": "richtext","id": "ch1_body",   "label": "Body text" },
+    { "type": "image_picker", "id": "ch1_image", "label": "Image" },
+
+    { "type": "header", "content": "Pull Quote 1" },
+    { "type": "textarea","id": "quote1",     "label": "Quote",       "default": "He flew when no one else dared. He built when the world said it was over." },
+    { "type": "text",   "id": "quote1_attr", "label": "Attribution", "default": "— The Avión Legacy" },
+
+    { "type": "header", "content": "Chapter 2 — The Fall" },
+    { "type": "text",    "id": "ch2_title",  "label": "Title",    "default": "THE CRASH THAT CHANGED EVERYTHING" },
+    { "type": "richtext","id": "ch2_body",   "label": "Body text" },
+    { "type": "image_picker", "id": "ch2_image", "label": "Image" },
+
+    { "type": "header", "content": "Chapter 3 — Reinvention" },
+    { "type": "text",    "id": "ch3_title",  "label": "Title",    "default": "REINVENTION" },
+    { "type": "richtext","id": "ch3_body",   "label": "Body text" },
+    { "type": "image_picker", "id": "ch3_image", "label": "Image" },
+
+    { "type": "header", "content": "Stats Strip" },
+    { "type": "text", "id": "stat1_num",   "label": "Stat 1 number", "default": "1970s" },
+    { "type": "text", "id": "stat1_label", "label": "Stat 1 label",  "default": "When it started" },
+    { "type": "text", "id": "stat2_num",   "label": "Stat 2 number", "default": "100%" },
+    { "type": "text", "id": "stat2_label", "label": "Stat 2 label",  "default": "Oregon craft" },
+    { "type": "text", "id": "stat3_num",   "label": "Stat 3 number", "default": "50yr" },
+    { "type": "text", "id": "stat3_label", "label": "Stat 3 label",  "default": "Of legacy" },
+
+    { "type": "header", "content": "Closing" },
+    { "type": "text",    "id": "close_title",    "label": "Closing title",       "default": "THE LEGACY CONTINUES" },
+    { "type": "textarea","id": "close_body",     "label": "Closing body",        "default": "Avión Legacy Cannabis carries forward the spirit of a man who never stopped believing in freedom." },
+    { "type": "url",     "id": "close_cta_url",  "label": "CTA button URL" },
+    { "type": "text",    "id": "close_cta_text", "label": "CTA button text",     "default": "Explore the collection" }
+  ],
+  "presets": [
+    {
+      "name": "Avion Our Story"
+    }
+  ]
+}
+{% endschema %}
