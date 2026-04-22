@@ -65,9 +65,13 @@
     font-size: 0.75rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: #F7B32B;
+    color: #F7B32B !important;
     margin-bottom: 24px;
-    font-weight: 500;
+    font-weight: 600;
+    opacity: 1 !important;
+    transform: none !important;
+    position: relative;
+    z-index: 5;
   }
 
   .av-story__hero-title {
@@ -81,12 +85,16 @@
   }
 
   .av-story__hero-sub {
-    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
     line-height: 1.6;
-    color: rgba(255, 243, 220, 0.95);
-    max-width: 680px;
+    color: #FFF3DC !important;
+    max-width: 720px;
     margin: 0 auto;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    opacity: 1 !important;
+    transform: none !important;
+    position: relative;
+    z-index: 5;
   }
 
   /* Scroll indicator */
@@ -203,12 +211,14 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: #F7B32B;
+    color: #F7B32B !important;
     margin-bottom: 28px;
-    font-weight: 500;
+    font-weight: 600;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .av-story__chapter-eyebrow::before {
