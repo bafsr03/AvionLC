@@ -161,9 +161,11 @@ body.template-page-contact {
   color: #1c1916 !important;
 }
 
-/* Radar — always visible */
+/* Info Media & Radar — always visible */
+#ContactPage.av-contact .av-contact__info-media,
 #ContactPage.av-contact .av-contact__radar {
   opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Form fields — always show after delay */
