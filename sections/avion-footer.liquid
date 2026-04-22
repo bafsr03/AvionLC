@@ -166,7 +166,7 @@
 
   .av-footer__newsletter-input {
     width: 100%;
-    background: transparent;
+    background: transparent !important;
     border: none;
     padding: 10px 0 14px;
     font-family: "Source Serif 4", serif;
@@ -174,6 +174,15 @@
     color: #FFF3DC;
     outline: none;
     -webkit-appearance: none;
+  }
+
+  /* Prevent white background on autofill */
+  .av-footer__newsletter-input:-webkit-autofill,
+  .av-footer__newsletter-input:-webkit-autofill:hover,
+  .av-footer__newsletter-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #FFF3DC !important;
+    -webkit-box-shadow: 0 0 0px 1000px #161310 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
 
   .av-footer__newsletter-input::placeholder {
