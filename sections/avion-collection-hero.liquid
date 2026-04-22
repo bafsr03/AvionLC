@@ -1,0 +1,255 @@
+{%- style -%}
+  /* ============================================================
+     AVION COLLECTION HERO — Cinematic immersive banner
+     Dark atmospheric · Word-split reveals · Amber accents
+     ============================================================ */
+
+  .av-col-hero {
+    background: #1C1916;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: {{ section.settings.hero_height }}vh;
+    min-height: {{ section.settings.hero_height }}svh;
+    padding: clamp(80px, 12vw, 140px) 24px clamp(80px, 10vw, 120px);
+    color: #FFF3DC;
+    font-family: "Source Serif 4", serif;
+  }
+
+  /* ---- Background image ---- */
+  .av-col-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .av-col-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_position | default: 'center' }};
+    filter: brightness({{ section.settings.image_brightness | divided_by: 100.0 }}) saturate(0.65);
+    transform: scale(1.04);
+    transition: transform 2.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* Radial vignette over bg */
+  .av-col-hero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 90% 110% at 50% 55%, rgba(28,25,22,0.25) 0%, rgba(28,25,22,0.94) 100%);
+    pointer-events: none;
+  }
+
+  /* ---- Decorative ghost number ---- */
+  .av-col-hero__bg-num {
+    position: absolute;
+    font-family: "Young Serif", serif;
+    font-size: clamp(18rem, 48vw, 80rem);
+    line-height: 0.82;
+    opacity: 0.025;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.06em;
+    color: #F7B32B;
+    right: -4%;
+    bottom: -12%;
+    z-index: 0;
+    white-space: nowrap;
+  }
+
+  /* ---- Side decorative lines ---- */
+  .av-col-hero__side {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1px;
+    width: clamp(36px, 7vw, 96px);
+    background: linear-gradient(to right, rgba(247,179,43,0.28), transparent);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .av-col-hero__side--l { left: clamp(24px, 5vw, 72px); }
+  .av-col-hero__side--r {
+    right: clamp(24px, 5vw, 72px);
+    transform: translateY(-50%) scaleX(-1);
+  }
+
+  /* ---- Main content ---- */
+  .av-col-hero__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1040px;
+    width: 100%;
+  }
+
+  /* Eyebrow */
+  .av-col-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    margin-bottom: 38px;
+  }
+  .av-col-hero__eyebrow::before,
+  .av-col-hero__eyebrow::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: #F7B32B;
+    opacity: 0.48;
+    flex-shrink: 0;
+  }
+
+  /* Title */
+  .av-col-hero__title {
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(4rem, 14vw, 10.5rem) !important;
+    line-height: 0.87 !important;
+    letter-spacing: -0.03em !important;
+    color: #FFF3DC !important;
+    margin: 0 0 48px;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.45);
+  }
+
+  /* Amber divider */
+  .av-col-hero__divider {
+    display: block;
+    width: 64px;
+    height: 1px;
+    background: linear-gradient(to right, rgba(247,179,43,0.85), rgba(247,179,43,0.05));
+    margin: 0 auto 38px;
+  }
+
+  /* Subtitle */
+  .av-col-hero__sub {
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+    line-height: 1.72;
+    color: rgba(255,243,220,0.52);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  }
+
+  /* ---- Shopify theme editor ---- */
+  .shopify-design-mode .av-col-hero [data-av-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .shopify-design-mode .av-col-hero .av-word-inner {
+    transform: none !important;
+  }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 749px) {
+    .av-col-hero {
+      min-height: {{ section.settings.hero_height_mobile }}svh;
+      padding: 72px 20px 72px;
+    }
+    .av-col-hero__title {
+      font-size: clamp(3.2rem, 18vw, 6rem) !important;
+      margin-bottom: 36px;
+    }
+    .av-col-hero__eyebrow::before,
+    .av-col-hero__eyebrow::after { width: 22px; }
+    .av-col-hero__side  { display: none; }
+    .av-col-hero__bg-num { opacity: 0.018; }
+  }
+{%- endstyle -%}
+
+<section class="av-col-hero av-grain">
+
+  {%- if section.settings.hero_image != blank -%}
+    <div class="av-col-hero__bg">
+      {{ section.settings.hero_image
+         | image_url: width: 2400
+         | image_tag:
+           loading: 'eager',
+           fetchpriority: 'high',
+           widths: '800, 1200, 1600, 2400',
+           alt: ''
+      }}
+    </div>
+  {%- endif -%}
+
+  <span class="av-col-hero__bg-num" aria-hidden="true">
+    {{- collection.products_count | default: '∞' -}}
+  </span>
+
+  <span class="av-col-hero__side av-col-hero__side--l" aria-hidden="true"></span>
+  <span class="av-col-hero__side av-col-hero__side--r" aria-hidden="true"></span>
+
+  <div class="av-col-hero__inner">
+
+    <p class="av-col-hero__eyebrow" data-av-reveal="fade-up">
+      {{- section.settings.eyebrow | default: 'Avión Legacy Cannabis' -}}
+    </p>
+
+    <h1 class="av-col-hero__title" data-av-reveal="words" data-av-delay="120">
+      {{- collection.title | default: section.settings.fallback_title | default: 'Our Products' -}}
+    </h1>
+
+    <span class="av-col-hero__divider" data-av-reveal="fade-up" data-av-delay="340" aria-hidden="true"></span>
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="av-col-hero__sub" data-av-reveal="fade-up" data-av-delay="480">
+        {{- section.settings.subtitle -}}
+      </p>
+    {%- elsif collection.description != blank -%}
+      <p class="av-col-hero__sub" data-av-reveal="fade-up" data-av-delay="480">
+        {{- collection.description | strip_html | truncate: 180 -}}
+      </p>
+    {%- endif -%}
+
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Avion Collection Hero",
+  "tag": "section",
+  "enabled_on": { "templates": ["collection"] },
+  "settings": [
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "hero_image", "label": "Background image" },
+    {
+      "type": "range", "id": "image_brightness",
+      "label": "Image brightness (%)", "min": 10, "max": 80, "step": 5, "default": 40
+    },
+    {
+      "type": "select", "id": "image_position", "label": "Image focal point",
+      "options": [
+        { "value": "center",       "label": "Center"       },
+        { "value": "top",          "label": "Top"          },
+        { "value": "bottom",       "label": "Bottom"       },
+        { "value": "center left",  "label": "Left"         },
+        { "value": "center right", "label": "Right"        }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Content" },
+    { "type": "text",     "id": "eyebrow",         "label": "Eyebrow label",                                   "default": "Avión Legacy Cannabis"                                                  },
+    { "type": "text",     "id": "fallback_title",   "label": "Fallback title (when no collection context)",     "default": "Our Products"                                                           },
+    { "type": "textarea", "id": "subtitle",         "label": "Custom subtitle (leave blank to auto-pull from collection description)" },
+    { "type": "textarea", "id": "default_subtitle", "label": "Default subtitle (used when no custom or collection description)",       "default": "Cultivated from the spirit of a man who never stopped believing in freedom." },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "hero_height",        "label": "Desktop height (vh)",  "min": 40, "max": 100, "step": 5, "default": 65 },
+    { "type": "range", "id": "hero_height_mobile", "label": "Mobile height (svh)",  "min": 35, "max": 100, "step": 5, "default": 55 }
+  ],
+  "presets": [{ "name": "Avion Collection Hero" }]
+}
+{% endschema %}

@@ -1,0 +1,429 @@
+/* ============================================================
+   AVION STORE — Editorial Collection & Product Page
+   Palette: Charcoal #1C1916 · Cream #FFF3DC · Amber #F7B32B · Red #CC4137
+   ============================================================ */
+
+/* ================================================================
+   1. COLLECTION — CSS COUNTER SETUP
+   Amber numbered badges that surface on card hover
+   ================================================================ */
+
+.product-grid-container {
+  counter-reset: av-card-counter;
+}
+
+.product-grid__item {
+  counter-increment: av-card-counter;
+  position: relative;
+}
+
+/* Amber number badge — top-left of each card, fades in on hover */
+.product-grid__item .card-wrapper::before {
+  content: counter(av-card-counter, decimal-leading-zero);
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 20;
+  font-family: "Young Serif", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: #F7B32B;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
+  line-height: 1;
+}
+
+.product-grid__item .card-wrapper:hover::before {
+  opacity: 0.95;
+}
+
+/* On mobile: badges always faintly visible (no hover state) */
+@media (max-width: 749px) {
+  .product-grid__item .card-wrapper::before { opacity: 0.45; }
+}
+
+/* ================================================================
+   2. COLLECTION — CARD BASE
+   position:relative needed for pseudo-element anchoring
+   ================================================================ */
+
+.card-wrapper {
+  position: relative;
+}
+
+/* ================================================================
+   3. COLLECTION — AMBER BOTTOM SWEEP
+   A golden line that expands from left on card hover
+   ================================================================ */
+
+.product-grid__item .card-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #F7B32B;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.52s cubic-bezier(0.9, 0, 0.1, 1);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.product-grid__item .card-wrapper:hover::after {
+  transform: scaleX(1);
+}
+
+/* ================================================================
+   4. COLLECTION — CINEMATIC IMAGE OVERLAY
+   Dark gradient rises from bottom of card image on hover
+   ================================================================ */
+
+.card-gallery,
+.card__media,
+.media--hover-effect,
+.card__image-wrapper {
+  position: relative;
+}
+
+.card-gallery::after,
+.card__media::after,
+.media--hover-effect::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(28, 25, 22, 0.5) 0%,
+    rgba(28, 25, 22, 0.1) 36%,
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-wrapper:hover .card-gallery::after,
+.card-wrapper:hover .card__media::after,
+.card-wrapper:hover .media--hover-effect::after {
+  opacity: 1;
+}
+
+/* Disable on mobile (persists after tap, looks odd) */
+@media (max-width: 749px) {
+  .card-gallery::after,
+  .card__media::after,
+  .media--hover-effect::after { display: none; }
+}
+
+/* ================================================================
+   5. COLLECTION — CARD IMAGE ZOOM ENHANCEMENT
+   Pairs with av-img-zoom class added by avion-animations.js
+   ================================================================ */
+
+.av-img-zoom img,
+.card-gallery img {
+  transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.card-wrapper:hover .av-img-zoom img,
+.card-wrapper:hover .card-gallery img {
+  transform: scale(1.06) !important;
+}
+
+/* ================================================================
+   6. COLLECTION — CARD LIFT WITH WARM SHADOW
+   Enhances existing av-card-hover with an amber-tinted shadow
+   ================================================================ */
+
+@media (hover: hover) {
+  .av-card-hover:hover {
+    transform: translateY(-6px) !important;
+    box-shadow:
+      0 24px 52px rgba(28, 25, 22, 0.16),
+      0 4px 16px rgba(247, 179, 43, 0.07) !important;
+  }
+}
+
+/* ================================================================
+   7. COLLECTION — FILTER BAR BRAND ALIGNMENT
+   ================================================================ */
+
+.facets-block-wrapper,
+.facets__label,
+.facets__button {
+  font-family: "Source Serif 4", serif;
+}
+
+.active-facets__button {
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.active-facets__button:hover {
+  background: rgba(247, 179, 43, 0.1) !important;
+  border-color: rgba(247, 179, 43, 0.45) !important;
+  color: #F7B32B !important;
+}
+
+/* ================================================================
+   8. COLLECTION — STAGGER CARD ENTRY (subtle delay cascade)
+   ================================================================ */
+
+.product-grid__item:nth-child(4n+2) .card-wrapper { transition-delay: 55ms;  }
+.product-grid__item:nth-child(4n+3) .card-wrapper { transition-delay: 110ms; }
+.product-grid__item:nth-child(4n+4) .card-wrapper { transition-delay: 165ms; }
+
+/* ================================================================
+   9. PRODUCT PAGE — EDITORIAL TITLE TYPOGRAPHY
+   Young Serif for the product h1 — cinematic editorial feel
+   ================================================================ */
+
+main[data-template*="product"] .product-details h1 {
+  font-family: "Young Serif", serif !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.08 !important;
+}
+
+/* ================================================================
+   10. PRODUCT PAGE — AMBER ACCENT LINE
+   Thin gold marker at the top of the product details column
+   ================================================================ */
+
+main[data-template*="product"] .product-details {
+  position: relative;
+}
+
+main[data-template*="product"] .product-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: #F7B32B;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ================================================================
+   11. PRODUCT PAGE — GRAIN ATMOSPHERE
+   Barely-there film texture over the product section
+   ================================================================ */
+
+main[data-template*="product"] .product-information {
+  position: relative;
+}
+
+main[data-template*="product"] .product-information::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.012;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ================================================================
+   12. PRODUCT PAGE — ADD-TO-CART AMBER TRANSFORMATION
+   The primary buy button becomes amber on hover
+   ================================================================ */
+
+main[data-template*="product"] .product-information .button,
+main[data-template*="product"] .product-information [class*="button"],
+.product-information [name='add'] {
+  transition:
+    background-color 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color     0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color            0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform        0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow       0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* Amber add-to-cart button */
+.product-information [name='add'] {
+  border-radius: 999px !important;
+  background: #F7B32B !important;
+  color: #1C1916 !important;
+  border: 2px solid #1C1916 !important;
+  font-family: "Source Serif 4", serif !important;
+  font-size: 0.76rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+}
+
+@media (hover: hover) {
+  .product-information [name='add']:hover {
+    background: #e8a422 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 32px rgba(247, 179, 43, 0.28) !important;
+  }
+}
+
+/* ================================================================
+   13. PRODUCT PAGE — VARIANT PICKER AMBER ACCENTS
+   ================================================================ */
+
+.product-information .variant-picker__option-label {
+  font-family: "Source Serif 4", serif !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+.product-information fieldset.variant-picker__option {
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Pill option buttons */
+.product-information .variant-option__value {
+  border-radius: 999px !important;
+  border: 1.5px solid rgba(58, 58, 60, 0.2) !important;
+  font-family: "Source Serif 4", serif !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.1em !important;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    transform 0.22s ease !important;
+}
+
+@media (hover: hover) {
+  .product-information .variant-option__value:hover {
+    border-color: #F7B32B !important;
+    background: rgba(247, 179, 43, 0.08) !important;
+    transform: translateY(-1px);
+  }
+}
+
+.product-information .variant-option__value--selected,
+.product-information input:checked + .variant-option__value {
+  background: #F7B32B !important;
+  border-color: #F7B32B !important;
+  color: #1C1916 !important;
+  font-weight: 700 !important;
+}
+
+/* ================================================================
+   14. PRODUCT PAGE — IMAGE GALLERY DEPTH
+   Subtle inner-edge gradient giving depth on the media column
+   ================================================================ */
+
+@media (min-width: 750px) {
+  main[data-template*="product"] .product-information--media-left .product-information__media {
+    position: relative;
+  }
+
+  main[data-template*="product"] .product-information--media-left .product-information__media::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 32px;
+    background: linear-gradient(to right, transparent, rgba(255, 243, 220, 0.025));
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+/* ================================================================
+   15. PRODUCT RECOMMENDATIONS — HEADING TYPOGRAPHY
+   ================================================================ */
+
+main[data-template*="product"] .product-recommendations h2,
+main[data-template*="product"] .product-recommendations h3 {
+  font-family: "Young Serif", serif !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* ================================================================
+   16. PRODUCT PAGE — BREADCRUMB
+   Styled to match Avion editorial palette
+   ================================================================ */
+
+.av-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0 12px 24px;
+  font-family: "Source Serif 4", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(28, 25, 22, 0.38);
+  flex-wrap: wrap;
+}
+
+.av-breadcrumb a {
+  color: rgba(28, 25, 22, 0.45);
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.av-breadcrumb a:hover {
+  color: #F7B32B;
+}
+
+.av-breadcrumb__sep {
+  color: rgba(247, 179, 43, 0.45);
+  font-size: 0.58rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.av-breadcrumb span:last-child {
+  color: rgba(28, 25, 22, 0.7);
+  font-weight: 600;
+}
+
+/* ================================================================
+   17. PRODUCT PAGE — STICKY DETAILS ENFORCEMENT
+   Ensures info column stays visible while image gallery scrolls
+   ================================================================ */
+
+@media (min-width: 750px) {
+  main[data-template*="product"] .product-details {
+    position: sticky !important;
+    top: calc(var(--sticky-header-offset, var(--header-height, 72px)) + 24px) !important;
+    align-self: start !important;
+    max-height: calc(100vh - var(--sticky-header-offset, var(--header-height, 72px)) - 48px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  main[data-template*="product"] .product-details::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ================================================================
+   18. REDUCED MOTION — respect prefers-reduced-motion
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .product-grid__item .card-wrapper::before,
+  .product-grid__item .card-wrapper::after,
+  .card-gallery::after,
+  .card__media::after,
+  .media--hover-effect::after,
+  .av-img-zoom img,
+  .card-gallery img {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  main[data-template*="product"] .product-information .button,
+  main[data-template*="product"] .product-information [class*="button"],
+  .product-information [name='add'],
+  .product-information .variant-option__value {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,232 @@
+{%- style -%}
+  /* ============================================================
+     AVION PRODUCT HERITAGE — Brand pillars strip
+     Dark cinematic · Pull quote · Three stat columns
+     ============================================================ */
+
+  .av-ph {
+    background: #1C1916;
+    color: #FFF3DC;
+    position: relative;
+    overflow: hidden;
+    font-family: "Source Serif 4", serif;
+    padding: clamp(72px, 10vw, 120px) clamp(24px, 6vw, 80px);
+  }
+
+  /* ---- Watermark background text ---- */
+  .av-ph__watermark {
+    position: absolute;
+    font-family: "Young Serif", serif;
+    font-size: clamp(12rem, 26vw, 34rem);
+    line-height: 0.85;
+    opacity: 0.022;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+    color: #F7B32B;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    z-index: 0;
+  }
+
+  /* ---- Inner content ---- */
+  .av-ph__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(36px, 5vw, 56px);
+  }
+
+  /* ---- Eyebrow ---- */
+  .av-ph__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    opacity: 0.85;
+  }
+  .av-ph__eyebrow::before,
+  .av-ph__eyebrow::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: #F7B32B;
+    opacity: 0.48;
+    flex-shrink: 0;
+  }
+
+  /* ---- Pull quote ---- */
+  .av-ph__quote {
+    font-family: "Young Serif", serif !important;
+    font-size: clamp(2rem, 4.5vw, 4rem) !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.02em !important;
+    color: #FFF3DC !important;
+    text-align: center;
+    max-width: 820px;
+    margin: 0;
+  }
+
+  /* ---- Divider line ---- */
+  .av-ph__rule {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: rgba(255,243,220,0.07);
+  }
+
+  /* ---- Three pillars grid ---- */
+  .av-ph__pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    padding-top: clamp(16px, 3vw, 32px);
+  }
+
+  .av-ph__pillar {
+    padding: 0 clamp(16px, 3.5vw, 52px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    border-right: 1px solid rgba(255,243,220,0.07);
+  }
+  .av-ph__pillar:last-child { border-right: none; }
+
+  /* Big amber number */
+  .av-ph__pillar-num {
+    font-family: "Young Serif", serif;
+    font-size: clamp(2.8rem, 5vw, 5.2rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #F7B32B;
+    opacity: 0.72;
+    display: block;
+  }
+
+  /* Small caps label */
+  .av-ph__pillar-label {
+    font-size: 0.56rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255,243,220,0.36);
+    display: block;
+  }
+
+  /* Description text */
+  .av-ph__pillar-text {
+    font-size: clamp(0.82rem, 1.1vw, 0.98rem);
+    line-height: 1.6;
+    color: rgba(255,243,220,0.54);
+    display: block;
+    max-width: 210px;
+  }
+
+  /* ---- Shopify editor ---- */
+  .shopify-design-mode .av-ph [data-av-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .shopify-design-mode .av-ph .av-word-inner {
+    transform: none !important;
+  }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 749px) {
+    .av-ph__pillars {
+      grid-template-columns: 1fr;
+      padding-top: 0;
+    }
+    .av-ph__pillar {
+      border-right: none;
+      border-bottom: 1px solid rgba(255,243,220,0.07);
+      padding: clamp(28px, 5vw, 40px) 16px;
+    }
+    .av-ph__pillar:last-child { border-bottom: none; }
+    .av-ph__quote {
+      font-size: clamp(1.6rem, 7vw, 2.4rem) !important;
+    }
+  }
+{%- endstyle -%}
+
+<section class="av-ph av-grain">
+
+  <span class="av-ph__watermark" aria-hidden="true">
+    {{- section.settings.bg_text | default: 'LEGACY' -}}
+  </span>
+
+  <div class="av-ph__inner">
+
+    <p class="av-ph__eyebrow" data-av-reveal="fade-up">
+      {{- section.settings.eyebrow | default: 'The Avión Standard' -}}
+    </p>
+
+    <blockquote class="av-ph__quote" data-av-reveal="words" data-av-delay="150">
+      {{- section.settings.quote | default: 'Grown with intention. Harvested by legacy.' -}}
+    </blockquote>
+
+    <span class="av-ph__rule" aria-hidden="true"></span>
+
+    <div class="av-ph__pillars">
+
+      <div class="av-ph__pillar" data-av-reveal="fade-up" data-av-delay="200">
+        <span class="av-ph__pillar-num">{{ section.settings.pillar1_num | default: '50' }}</span>
+        <span class="av-ph__pillar-label">{{ section.settings.pillar1_label | default: 'Years of legacy' }}</span>
+        <span class="av-ph__pillar-text">{{ section.settings.pillar1_text | default: 'Rooted in decades of craft and defiance' }}</span>
+      </div>
+
+      <div class="av-ph__pillar" data-av-reveal="fade-up" data-av-delay="340">
+        <span class="av-ph__pillar-num">{{ section.settings.pillar2_num | default: '100%' }}</span>
+        <span class="av-ph__pillar-label">{{ section.settings.pillar2_label | default: 'Oregon grown' }}</span>
+        <span class="av-ph__pillar-text">{{ section.settings.pillar2_text | default: 'Sun-kissed terroir, locally mastered' }}</span>
+      </div>
+
+      <div class="av-ph__pillar" data-av-reveal="fade-up" data-av-delay="480">
+        <span class="av-ph__pillar-num">{{ section.settings.pillar3_num | default: '∞' }}</span>
+        <span class="av-ph__pillar-label">{{ section.settings.pillar3_label | default: 'The Avión standard' }}</span>
+        <span class="av-ph__pillar-text">{{ section.settings.pillar3_text | default: "Every batch held to an uncompromising bar most won't dare set" }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Avion Product Heritage",
+  "tag": "section",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",  "label": "Eyebrow",      "default": "The Avión Standard"                          },
+    { "type": "textarea", "id": "quote",    "label": "Pull quote",   "default": "Grown with intention. Harvested by legacy." },
+    { "type": "text",     "id": "bg_text",  "label": "BG watermark", "default": "LEGACY"                                     },
+    { "type": "header", "content": "Pillar 1" },
+    { "type": "text",     "id": "pillar1_num",   "label": "Number",      "default": "50"                                              },
+    { "type": "text",     "id": "pillar1_label", "label": "Label",       "default": "Years of legacy"                                 },
+    { "type": "textarea", "id": "pillar1_text",  "label": "Description", "default": "Rooted in decades of craft and defiance"         },
+    { "type": "header", "content": "Pillar 2" },
+    { "type": "text",     "id": "pillar2_num",   "label": "Number",      "default": "100%"                                            },
+    { "type": "text",     "id": "pillar2_label", "label": "Label",       "default": "Oregon grown"                                    },
+    { "type": "textarea", "id": "pillar2_text",  "label": "Description", "default": "Sun-kissed terroir, locally mastered"            },
+    { "type": "header", "content": "Pillar 3" },
+    { "type": "text",     "id": "pillar3_num",   "label": "Number",      "default": "∞"                                               },
+    { "type": "text",     "id": "pillar3_label", "label": "Label",       "default": "The Avión standard"                              },
+    { "type": "textarea", "id": "pillar3_text",  "label": "Description", "default": "Every batch held to an uncompromising standard"  }
+  ],
+  "presets": [{ "name": "Avion Product Heritage" }]
+}
+{% endschema %}

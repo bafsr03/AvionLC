@@ -38,13 +38,18 @@
   endcase
 %}
 
+{{ 'avion-store.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'avion-store.js' | asset_url }}" defer></script>
+
 <script type="application/ld+json">
   {{ closest.product | structured_data }}
 </script>
 
+{% comment %} Breadcrumb — hidden {% endcomment %}
+
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="product-information section section--{{ content_width }} spacing-style color-{{ section.settings.color_scheme }} relative"
+  class="product-information section section--{{ content_width }} spacing-style color-{{ section.settings.color_scheme }} relative av-page-enter av-page-enter--delay-1"
   style="{% render 'spacing-style', settings: section.settings %} --gap: {{ section.settings.gap }}px;"
 >
   {% if section.settings.desktop_media_position == 'left' and product_has_media %}
