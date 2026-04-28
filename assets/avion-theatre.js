@@ -148,7 +148,7 @@
 
   // Post processing
   const oPost = sheet.object('Post FX', {
-    exposure:       types.number(1.5,  { range: [0, 5]  }),
+    exposure:       types.number(0.85,  { range: [0, 5]  }),
     bloomStrength:  types.number(0.25, { range: [0, 3]  }),
     bloomRadius:    types.number(0.3,  { range: [0, 1]  }),
     bloomThreshold: types.number(0.95, { range: [0, 1]  }),
