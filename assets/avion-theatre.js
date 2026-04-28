@@ -171,77 +171,100 @@
     size:    types.number(0.06, { range: [0.01, 1] }),
   });
 
-  /* ── Tick: scroll → timeline → apply all props ──────────────────────────── */
-  const tick = () => {
-    // Advance Theatre.js sequence to match scroll
-    sheet.sequence.position = (window.__AvionXs ?? 0) * SEQ_DURATION;
+  /* ── Listeners: Theatre → Three (Direct Mapping) ────────────────────────── */
+  
+  // Camera desktop
+  oCam.onValuesChange((v) => { window.__AvionCamProps = v; });
 
-    // ── Camera (desktop) ────────────────────────────────────────────────────
-    window.__AvionCamProps = val(oCam.props);
-
-    // ── Camera (mobile — applied only on screens < 768 px) ──────────────────
-    const mv = val(oMobileCam.props);
+  // Camera mobile
+  oMobileCam.onValuesChange((mv) => {
     window.__AvionCamMobile = {
       position: { x: mv.position.x, y: mv.position.y, z: mv.position.z },
       target:   { x: mv.target.x,   y: mv.target.y,   z: mv.target.z   },
       fov:      mv.fov,
     };
+  });
 
-    // ── Scene objects (available once avion-hero.js has set up the scene) ──
+  // Atmosphere
+  oAtm.onValuesChange((v) => {
     const S = window.__AvionScene;
-    if (S) {
-      const atm   = val(oAtm.props);
-      const amb   = val(oAmb.props);
-      const sun   = val(oSun.props);
-      const fill  = val(oFill.props);
-      const hemi  = val(oHemi.props);
-      const post  = val(oPost.props);
-      const stars = val(oStars.props);
-      const clouds= val(oClouds.props);
-      const parts = val(oParts.props);
-
-      // Atmosphere
-      if (S.fog) {
-        S.fog.density = atm.fogDensity;
-        S.fog.color.setRGB(atm.fogColor.r, atm.fogColor.g, atm.fogColor.b);
-      }
-      if (!S.scene.background?.isTexture) {
-        S.scene.background.setRGB(atm.bgColor.r, atm.bgColor.g, atm.bgColor.b);
-      }
-
-      // Lights
-      S.ambient.intensity = amb.intensity;
-      S.ambient.color.setRGB(amb.color.r, amb.color.g, amb.color.b);
-
-      S.sun.intensity = sun.intensity;
-      S.sun.color.setRGB(sun.color.r, sun.color.g, sun.color.b);
-      S.sun.position.set(sun.posX, sun.posY, sun.posZ);
-
-      S.fill.intensity = fill.intensity;
-      S.fill.color.setRGB(fill.color.r, fill.color.g, fill.color.b);
-      S.fill.position.set(fill.posX, fill.posY, fill.posZ);
-
-      S.hemi.intensity = hemi.intensity;
-      S.hemi.color.setRGB(hemi.skyColor.r, hemi.skyColor.g, hemi.skyColor.b);
-      S.hemi.groundColor.setRGB(hemi.groundColor.r, hemi.groundColor.g, hemi.groundColor.b);
-
-      // Post processing
-      S.renderer.toneMappingExposure = post.exposure;
-      S.bloom.strength  = post.bloomStrength;
-      S.bloom.radius    = post.bloomRadius;
-      S.bloom.threshold = post.bloomThreshold;
-
-      // Stars / clouds / particles (written to globals, render loop reads them)
-      window.__AvionStarsOpacity    = stars.opacity;
-      S.starsMat.size               = stars.size;
-      window.__AvionCloudMult       = clouds.opacity;
-      window.__AvionParticlesOpacity = parts.opacity;
-      S.particlesMat.size           = parts.size;
+    if (!S) return;
+    if (S.fog) {
+      S.fog.density = v.fogDensity;
+      S.fog.color.setRGB(v.fogColor.r, v.fogColor.g, v.fogColor.b);
     }
+    if (!S.scene.background?.isTexture) S.scene.background.setRGB(v.bgColor.r, v.bgColor.g, v.bgColor.b);
+  });
 
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
+  // Lights
+  oAmb.onValuesChange((v) => {
+    const S = window.__AvionScene;
+    if (S?.ambient) {
+      S.ambient.intensity = v.intensity;
+      S.ambient.color.setRGB(v.color.r, v.color.g, v.color.b);
+    }
+  });
+
+  oSun.onValuesChange((v) => {
+    const S = window.__AvionScene;
+    if (S?.sun) {
+      S.sun.intensity = v.intensity;
+      S.sun.color.setRGB(v.color.r, v.color.g, v.color.b);
+      S.sun.position.set(v.posX, v.posY, v.posZ);
+    }
+  });
+
+  oFill.onValuesChange((v) => {
+    const S = window.__AvionScene;
+    if (S?.fill) {
+      S.fill.intensity = v.intensity;
+      S.fill.color.setRGB(v.color.r, v.color.g, v.color.b);
+      S.fill.position.set(v.posX, v.posY, v.posZ);
+    }
+  });
+
+  oHemi.onValuesChange((v) => {
+    const S = window.__AvionScene;
+    if (S?.hemi) {
+      S.hemi.intensity = v.intensity;
+      S.hemi.color.setRGB(v.skyColor.r, v.skyColor.g, v.skyColor.b);
+      S.hemi.groundColor.setRGB(v.groundColor.r, v.groundColor.g, v.groundColor.b);
+    }
+  });
+
+  // Post FX
+  oPost.onValuesChange((v) => {
+    const S = window.__AvionScene;
+    if (S?.renderer) S.renderer.toneMappingExposure = v.exposure;
+    if (S?.bloom) {
+      S.bloom.strength = v.bloomStrength;
+      S.bloom.radius = v.bloomRadius;
+      S.bloom.threshold = v.bloomThreshold;
+    }
+  });
+
+  // Environment elements
+  oStars.onValuesChange((v) => {
+    window.__AvionStarsOpacity = v.opacity;
+    if (window.__AvionScene?.starsMat) window.__AvionScene.starsMat.size = v.size;
+  });
+
+  oClouds.onValuesChange((v) => { window.__AvionCloudMult = v.opacity; });
+
+  oParts.onValuesChange((v) => {
+    window.__AvionParticlesOpacity = v.opacity;
+    if (window.__AvionScene?.particlesMat) window.__AvionScene.particlesMat.size = v.size;
+  });
+
+  /* ── Readiness ──────────────────────────────────────────────────────────── */
+  project.ready.then(() => {
+    console.log('[AvionTheatre] Project Ready. Enabling updates.');
+    
+    /* ── Expose Sequence function for avion-hero.js ────────────────────────── */
+    window.__AvionUpdateTheatre = (currentXs) => {
+      sheet.sequence.position = currentXs * SEQ_DURATION;
+    };
+  });
 
   /* ── Export helper ───────────────────────────────────────────────────────── */
   if (useStudio) {
