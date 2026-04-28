@@ -233,8 +233,9 @@
 
   /* ── Hero overlay (logo reveal) ──────────────────────────────────────── */
   #avion-hero-overlay {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    width: 100%; height: 100vh;
+    top: 0; left: 0;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -269,16 +270,9 @@
     0%, 100% { transform: translateY(0); }
     50%       { transform: translateY(10px); }
   }
-
-  /* ── Scroll zones (provide scroll height — no visual footprint) ──────── */
-  #avion-animation-zone {
-    height: {{ section.settings.animation_zone_vh }}vh;
-    position: relative;
-    z-index: 1;
-    pointer-events: none;
-  }
-  #avion-pause-zone {
-    height: {{ section.settings.pause_zone_vh }}vh;
+  /* ── Spacer to keep hero fullscreen ────────────────────────────────────────── */
+  #avion-hero-spacer {
+    height: 100vh;
     position: relative;
     z-index: 1;
     pointer-events: none;
@@ -393,15 +387,10 @@
             sizes: 'clamp(180px, 35vw, 380px)'
       }}
     {%- endif -%}
-    {%- if section.settings.show_scroll_hint -%}
-      <div class="avion-scroll-hint">↓</div>
-    {%- endif -%}
   </div>
 </div>
 
-{%- comment %} Scroll zones — pure height, drive the animation scrub ──────── {%- endcomment %}
-<div id="avion-animation-zone"></div>
-<div id="avion-pause-zone"></div>
+<div id="avion-hero-spacer"></div>
 <div id="avion-section-bridge"></div>
 
 {%- comment %} Three.js bundle ─────────────────────────────────────────────── {%- endcomment %}
