@@ -1,4 +1,4 @@
-const UNLOCK_EVENTS = ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'];
+const UNLOCK_EVENTS = ['pointerdown', 'touchstart', 'keydown'];
 const AUDIO_MAX_VOLUME = 0.5;
 const AUDIO_FADE_IN_PORTION = 0.08;
 const AUDIO_FADE_OUT_START = 0.74;
@@ -132,6 +132,7 @@ export function createAvionHeroCoordinator(config = {}) {
   let sceneReady = false;
   let startTime = null;
   let interactionSeen = !requiresInteraction;
+  let interactionTargets = [];
 
   function maybeStart(nowSeconds) {
     if (!sceneReady || startTime !== null || !interactionSeen) {
@@ -148,15 +149,26 @@ export function createAvionHeroCoordinator(config = {}) {
       audio.prime();
     }
 
-    UNLOCK_EVENTS.forEach((eventName) => {
-      window.removeEventListener(eventName, handleUnlock);
+    interactionTargets.forEach((target) => {
+      UNLOCK_EVENTS.forEach((eventName) => {
+        target.removeEventListener(eventName, handleUnlock);
+      });
     });
+    window.removeEventListener('keydown', handleUnlock);
   }
 
   if (requiresInteraction) {
-    UNLOCK_EVENTS.forEach((eventName) => {
-      window.addEventListener(eventName, handleUnlock, { passive: true });
+    interactionTargets = ['#avion-webgl', '#avion-hero-overlay', '#avion-hero-spacer']
+      .map((selector) => document.querySelector(selector))
+      .filter(Boolean);
+
+    interactionTargets.forEach((target) => {
+      UNLOCK_EVENTS.forEach((eventName) => {
+        target.addEventListener(eventName, handleUnlock, { passive: true });
+      });
     });
+
+    window.addEventListener('keydown', handleUnlock, { passive: true });
   }
 
   return {
