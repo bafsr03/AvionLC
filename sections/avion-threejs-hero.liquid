@@ -312,7 +312,8 @@
     animTiming: [
       { start: {{ section.settings.anim0_start | divided_by: 100.0 }}, end: {{ section.settings.anim0_end | divided_by: 100.0 }} },
       { start: {{ section.settings.anim1_start | divided_by: 100.0 }}, end: {{ section.settings.anim1_end | divided_by: 100.0 }} }
-    ]
+    ],
+    soundUrl: {{ section.settings.sound_url | default: '' | json }}
   }
 </script>
 
@@ -466,6 +467,16 @@
       "id": "exr_url",
       "label": "Sky environment URL (.exr)",
       "info": "Upload your .exr file via Admin → Content → Files and paste the CDN URL here. Leave blank for a procedural sky."
+    },
+    {
+      "type": "header",
+      "content": "Sound"
+    },
+    {
+      "type": "text",
+      "id": "sound_url",
+      "label": "Airplane sound URL (mp3/wav)",
+      "info": "Upload your sound file via Admin → Content → Files and paste the CDN URL here. If blank, a procedural engine sound will be used."
     },
     {
       "type": "header",
