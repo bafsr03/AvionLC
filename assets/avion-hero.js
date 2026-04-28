@@ -4062,4 +4062,144 @@ const AvionSound = (function(){
 let prevR=0;
 function Ol(){requestAnimationFrame(Ol);const r=xg.getElapsedTime();const delta=Math.min(r-prevR,.05);prevR=r;if(avionLoadTime!==null){const tElapsed=r-avionLoadTime;const animDuration=8;const logoDelay=4;Bl=Math.min(Math.max(tElapsed/animDuration,0),1);if(Ga){Ga.style.opacity=String(Math.min(Math.max((tElapsed-logoDelay)/1.5,0),1));}}const _t0=window.AvionHero?.animTiming?.[0];const _inF=_t0?(Xs>=_t0.start-0.06&&Xs<=_t0.end+0.06):null;if(Xs+=(Bl-Xs)*(_inF===false?0.11:0.05),Vs+=(Nl-Vs)*.04,Ws+=(Fl-Ws)*.04,er&&io>0){const timing=window.AvionHero?.animTiming;if(timing&&timing.length>=2){window.__AvionActions.forEach(item=>{item.ac.paused=!1;const isDrop=item.name.toLowerCase().includes('pallet')||item.name.toLowerCase().includes('drop');const t=isDrop?timing[1]:timing[0];if(t){let lp=0;if(Xs<=t.start){lp=0;}else if(Xs>=t.end){lp=1;}else{let _p=(Xs-t.start)/(t.end-t.start);lp=1-(1-_p)*(1-_p);}/* Clamp just below duration: LoopRepeat wraps time=duration back to 0,
    which would snap the airplane to frame-0 exactly at the transition.      */item.ac.time=lp<1?lp*item.duration:item.duration-1e-6;/* Cumulative weight: once an action's window opens, keep it at 1.
-   This lets anim0 (airplane) hold its last pose while anim1 (drop) plays.  */item.ac.setEffectiveWeight(Xs>=t.start?1:0);}});er.update(0);}else{window.__AvionActions.forEach(item=>{item.ac.paused=!1;item.ac.time=Xs<1?Xs*item.duration:item.duration-1e-6;item.ac.setEffectiveWeight(1);});er.update(0);}}window.__AvionXs=Xs;AvionSound.update(Xs);if(Yt){Yt.updateWorldMatrix(!0,!1);qt.position.setFromMatrixPosition(Yt.matrixWorld);qt.quaternion.setFromRotationMatrix(Yt.matrixWorld);Yt.fov&&qt.fov!==Yt.fov&&(qt.fov=Yt.fov,qt.updateProjectionMatrix());}else{const e=Ll*Math.PI/180;qt.position.set(Il+Math.sin(e)*Zi+Vs*(Zi*.04),Pl-Ws*(Zi*.02),Math.cos(e)*Zi);qt.lookAt(0,0,0);}if(window.__AvionCamProps){const p=window.__AvionCamProps,mx=Vs*0.08,my=Ws*0.05;qt.position.set(p.position.x+mx,p.position.y-my,p.position.z);qt.lookAt(p.target.x+mx*0.4,p.target.y-my*0.4,p.target.z);qt.fov!==p.fov&&(qt.fov=p.fov,qt.updateProjectionMatrix());}if(window.__AvionCamMobile&&window.innerWidth<768){const p=window.__AvionCamMobile,mx=Vs*0.08,my=Ws*0.05;qt.position.set(p.position.x+mx,p.position.y-my,p.position.z);qt.lookAt(p.target.x+mx*0.4,p.target.y-my*0.4,p.target.z);p.fov!=null&&qt.fov!==p.fov&&(qt.fov=p.fov,qt.updateProjectionMatrix());}tn&&!ro&&(tn.position.set(Math.sin(r*.35)*.06,Math.sin(r*.55)*.09,0),tn.rotation.set(Math.sin(r*.45)*.012,0,Math.sin(r*.65)*.009),tn.scale.setScalar(no)),to&&!ro&&(to.rotation.z+=.18),So.forEach(e=>{e.position.x+=e.userData.ds*delta;if(e.position.x>e.userData.xMax)e.position.x=e.userData.xMin;else if(e.position.x<e.userData.xMin)e.position.x=e.userData.xMax;e.lookAt(qt.position);e.material.opacity=e.userData.baseOpacity*(window.__AvionCloudMult??.7)}),eo.material.opacity=window.__AvionStarsOpacity??0,qr.material.opacity=window.__AvionParticlesOpacity??.2,eo.rotation.y=r*.006,qr.position.z=r*.4%60,qr.rotation.y=r*.01,ts.render()}window.__AvionScene={scene:Lt,camera:qt,renderer:_n,composer:ts,bloom:El,ambient:mg,sun:Ui,fill:Al,hemi:gg,stars:eo,starsMat:eo.material,clouds:So,particles:qr,particlesMat:qr.material,fog:Lt.fog};window.__AvionStarsOpacity=0;window.__AvionParticlesOpacity=.2;window.__AvionCloudMult=.90;(function(){  const sc=window.AvionHero?.sceneConfig;  if(!sc)return;  const S=window.__AvionScene;  if(sc.bgColor&&!S.scene.background?.isTexture)S.scene.background.set(sc.bgColor);  if(sc.fogColor)S.fog.color.set(sc.fogColor);  if(sc.fogDensity!=null)S.fog.density=sc.fogDensity;  if(sc.ambColor)S.ambient.color.set(sc.ambColor);  if(sc.ambIntensity!=null)S.ambient.intensity=sc.ambIntensity;  if(sc.sunColor)S.sun.color.set(sc.sunColor);  if(sc.sunIntensity!=null)S.sun.intensity=sc.sunIntensity;  if(sc.sunPos)S.sun.position.set(sc.sunPos.x,sc.sunPos.y,sc.sunPos.z);  if(sc.fillColor)S.fill.color.set(sc.fillColor);  if(sc.fillIntensity!=null)S.fill.intensity=sc.fillIntensity;  if(sc.fillPos)S.fill.position.set(sc.fillPos.x,sc.fillPos.y,sc.fillPos.z);  if(sc.hemiSky)S.hemi.color.set(sc.hemiSky);  if(sc.hemiGround)S.hemi.groundColor.set(sc.hemiGround);  if(sc.hemiIntensity!=null)S.hemi.intensity=sc.hemiIntensity;  if(sc.bloomStrength!=null)S.bloom.strength=sc.bloomStrength;  if(sc.bloomRadius!=null)S.bloom.radius=sc.bloomRadius;  if(sc.bloomThreshold!=null)S.bloom.threshold=sc.bloomThreshold;  if(sc.exposure!=null)S.renderer.toneMappingExposure=sc.exposure;  if(sc.starsOpacity!=null)window.__AvionStarsOpacity=sc.starsOpacity;  if(sc.particlesOpacity!=null)window.__AvionParticlesOpacity=sc.particlesOpacity;  if(sc.cloudsOpacity!=null)window.__AvionCloudMult=sc.cloudsOpacity;})();Ol();
+   This lets anim0 (airplane) hold its last pose while anim1 (drop) plays.  */item.ac.setEffectiveWeight(Xs>=t.start?1:0);}});er.update(0);}else{window.__AvionActions.forEach(item=>{item.ac.paused=!1;item.ac.time=Xs<1?Xs*item.duration:item.duration-1e-6;item.ac.setEffectiveWeight(1);});er.update(0);}}window.__AvionXs=Xs;AvionSound.update(Xs);if(Yt){Yt.updateWorldMatrix(!0,!1);qt.position.setFromMatrixPosition(Yt.matrixWorld);qt.quaternion.setFromRotationMatrix(Yt.matrixWorld);Yt.fov&&qt.fov!==Yt.fov&&(qt.fov=Yt.fov,qt.updateProjectionMatrix());}else{const e=Ll*Math.PI/180;qt.position.set(Il+Math.sin(e)*Zi+Vs*(Zi*.04),Pl-Ws*(Zi*.02),Math.cos(e)*Zi);qt.lookAt(0,0,0);}if(window.__AvionCamProps){const p=window.__AvionCamProps,mx=Vs*0.08,my=Ws*0.05;qt.position.set(p.position.x+mx,p.position.y-my,p.position.z);qt.lookAt(p.target.x+mx*0.4,p.target.y-my*0.4,p.target.z);qt.fov!==p.fov&&(qt.fov=p.fov,qt.updateProjectionMatrix());}if(window.__AvionCamMobile&&window.innerWidth<768){const p=window.__AvionCamMobile,mx=Vs*0.08,my=Ws*0.05;qt.position.set(p.position.x+mx,p.position.y-my,p.position.z);qt.lookAt(p.target.x+mx*0.4,p.target.y-my*0.4,p.target.z);p.fov!=null&&qt.fov!==p.fov&&(qt.fov=p.fov,qt.updateProjectionMatrix());}tn&&!ro&&(tn.position.set(Math.sin(r*.35)*.06,Math.sin(r*.55)*.09,0),tn.rotation.set(Math.sin(r*.45)*.012,0,Math.sin(r*.65)*.009),tn.scale.setScalar(no)),to&&!ro&&(to.rotation.z+=.18),So.forEach(e=>{e.position.x+=e.userData.ds*delta;if(e.position.x>e.userData.xMax)e.position.x=e.userData.xMin;else if(e.position.x<e.userData.xMin)e.position.x=e.userData.xMax;e.lookAt(qt.position);e.material.opacity=e.userData.baseOpacity*(window.__AvionCloudMult??.7)}),eo.material.opacity=window.__AvionStarsOpacity??0,qr.material.opacity=window.__AvionParticlesOpacity??.2,eo.rotation.y=r*.006,qr.position.z=r*.4%60,qr.rotation.y=r*.01,ts.render()}window.__AvionScene={scene:Lt,camera:qt,renderer:_n,composer:ts,bloom:El,ambient:mg,sun:Ui,fill:Al,hemi:gg,stars:eo,starsMat:eo.material,clouds:So,particles:qr,particlesMat:qr.material,fog:Lt.fog};window.__AvionStarsOpacity=0;window.__AvionParticlesOpacity=.2;window.__AvionCloudMult=.90;(function(){  const sc=window.AvionHero?.sceneConfig;  if(!sc)return;  const S=window.__AvionScene;  if(sc.bgColor&&!S.scene.background?.isTexture)S.scene.background.set(sc.bgColor);  if(sc.fogColor)S.fog.color.set(sc.fogColor);  if(sc.fogDensity!=null)S.fog.density=sc.fogDensity;  if(sc.ambColor)S.ambient.color.set(sc.ambColor);  if(sc.ambIntensity!=null)S.ambient.intensity=sc.ambIntensity;  if(sc.sunColor)S.sun.color.set(sc.sunColor);  if(sc.sunIntensity!=null)S.sun.intensity=sc.sunIntensity;  if(sc.sunPos)S.sun.position.set(sc.sunPos.x,sc.sunPos.y,sc.sunPos.z);  if(sc.fillColor)S.fill.color.set(sc.fillColor);  if(sc.fillIntensity!=null)S.fill.intensity=sc.fillIntensity;  if(sc.fillPos)S.fill.position.set(sc.fillPos.x,sc.fillPos.y,sc.fillPos.z);  if(sc.hemiSky)S.hemi.color.set(sc.hemiSky);  if(sc.hemiGround)S.hemi.groundColor.set(sc.hemiGround);  if(sc.hemiIntensity!=null)S.hemi.intensity=sc.hemiIntensity;  if(sc.bloomStrength!=null)S.bloom.strength=sc.bloomStrength;  if(sc.bloomRadius!=null)S.bloom.radius=sc.bloomRadius;  if(sc.bloomThreshold!=null)S.bloom.threshold=sc.bloomThreshold;  if(sc.exposure!=null)S.renderer.toneMappingExposure=sc.exposure;  if(sc.starsOpacity!=null)window.__AvionStarsOpacity=sc.starsOpacity;  if(sc.particlesOpacity!=null)window.__AvionParticlesOpacity=sc.particlesOpacity;  if(sc.cloudsOpacity!=null)window.__AvionCloudMult=sc.cloudsOpacity;})();
+
+/* ═══════════════════════════════════════════════════════════
+   AVION SCENE DEBUG PANEL  —  Ctrl + Shift + D  to toggle
+   Tweak every light, bloom, fog and cloud setting live.
+   Hit "Copy sceneConfig" to get JSON you can paste into source.
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  let panel = null;
+
+  // env map intensity seed — updated when slider moves
+  let _envInt = 0.52;
+
+  const params = [
+    { label: 'Exposure',         get: () => _n.toneMappingExposure,       set: v => { _n.toneMappingExposure = v; },                                                     min: 0.3,   max: 3,     step: 0.05   },
+    { label: 'Bloom Strength',   get: () => El.strength,                  set: v => { El.strength = v; },                                                                min: 0,     max: 0.5,   step: 0.01   },
+    { label: 'Bloom Radius',     get: () => El.radius,                    set: v => { El.radius = v; },                                                                  min: 0,     max: 1,     step: 0.02   },
+    { label: 'Bloom Threshold',  get: () => El.threshold,                 set: v => { El.threshold = v; },                                                               min: 0,     max: 1,     step: 0.02   },
+    { label: 'Ambient Int.',     get: () => mg.intensity,                 set: v => { mg.intensity = v; },                                                               min: 0,     max: 5,     step: 0.1    },
+    { label: 'Sun Intensity',    get: () => Ui.intensity,                 set: v => { Ui.intensity = v; },                                                               min: 0,     max: 10,    step: 0.1    },
+    { label: 'Sun X',            get: () => Ui.position.x,               set: v => { Ui.position.x = v; },                                                              min: -100,  max: 100,   step: 1      },
+    { label: 'Sun Y',            get: () => Ui.position.y,               set: v => { Ui.position.y = v; },                                                              min: -100,  max: 100,   step: 1      },
+    { label: 'Sun Z',            get: () => Ui.position.z,               set: v => { Ui.position.z = v; },                                                              min: -100,  max: 100,   step: 1      },
+    { label: 'Fill Intensity',   get: () => Al.intensity,                set: v => { Al.intensity = v; },                                                               min: 0,     max: 5,     step: 0.1    },
+    { label: 'Fill X',           get: () => Al.position.x,              set: v => { Al.position.x = v; },                                                              min: -80,   max: 80,    step: 1      },
+    { label: 'Fill Z',           get: () => Al.position.z,              set: v => { Al.position.z = v; },                                                              min: -80,   max: 80,    step: 1      },
+    { label: 'Hemi Intensity',   get: () => gg.intensity,                set: v => { gg.intensity = v; },                                                               min: 0,     max: 5,     step: 0.1    },
+    { label: 'Fog Density',      get: () => Lt.fog.density,              set: v => { Lt.fog.density = v; },                                                             min: 0,     max: 0.025, step: 0.0002 },
+    { label: 'Env Map Int.',     get: () => _envInt,                     set: v => { _envInt = v; if (tn) tn.traverse(m => { if (m.isMesh && m.material) m.material.envMapIntensity = v; }); }, min: 0, max: 2, step: 0.05 },
+    { label: 'Cloud Opacity',    get: () => window.__AvionCloudMult ?? 0.9, set: v => { window.__AvionCloudMult = v; },                                                 min: 0,     max: 2,     step: 0.05   },
+  ];
+
+  function fmt(v, step) {
+    return (+v).toFixed(step < 0.001 ? 4 : step < 0.1 ? 2 : step < 1 ? 1 : 0);
+  }
+
+  function buildPanel() {
+    panel = document.createElement('div');
+    panel.style.cssText = [
+      'position:fixed;top:12px;right:12px;z-index:99999',
+      'background:rgba(8,8,12,0.93);color:#e6e6e6',
+      'padding:14px 16px;border-radius:10px;width:310px',
+      'max-height:92vh;overflow-y:auto',
+      'font:12px/1.75 ui-monospace,monospace',
+      'box-shadow:0 6px 32px rgba(0,0,0,0.7)',
+      'border:1px solid rgba(255,255,255,0.09)',
+    ].join(';');
+
+    // ── Header ──
+    const hdr = document.createElement('div');
+    hdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;';
+    hdr.innerHTML = '<span style="font-weight:700;font-size:13px;letter-spacing:.06em;opacity:.95">⚙ AVION SCENE TUNER</span>';
+    const x = document.createElement('span');
+    x.textContent = '✕';
+    x.style.cssText = 'cursor:pointer;opacity:.5;font-size:15px;line-height:1;padding:2px 4px;';
+    x.onmouseenter = () => x.style.opacity = '1';
+    x.onmouseleave = () => x.style.opacity = '.5';
+    x.onclick = () => panel.style.display = 'none';
+    hdr.appendChild(x);
+    panel.appendChild(hdr);
+
+    // ── Sliders ──
+    params.forEach(p => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:108px 1fr 48px;align-items:center;gap:6px;margin-bottom:2px;';
+
+      const lbl = document.createElement('span');
+      lbl.textContent = p.label;
+      lbl.style.cssText = 'font-size:11px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+
+      const inp = document.createElement('input');
+      inp.type = 'range';
+      inp.min = p.min; inp.max = p.max; inp.step = p.step;
+      inp.value = p.get();
+      inp.style.cssText = 'accent-color:#6aabff;width:100%;cursor:pointer;';
+
+      const val = document.createElement('span');
+      val.textContent = fmt(p.get(), p.step);
+      val.style.cssText = 'font-size:11px;text-align:right;opacity:.9;font-variant-numeric:tabular-nums;';
+
+      inp.addEventListener('input', () => {
+        const v = parseFloat(inp.value);
+        p.set(v);
+        val.textContent = fmt(v, p.step);
+      });
+
+      row.appendChild(lbl); row.appendChild(inp); row.appendChild(val);
+      panel.appendChild(row);
+    });
+
+    // ── Copy config ──
+    const btn = document.createElement('button');
+    btn.textContent = '📋  Copy sceneConfig JSON';
+    btn.style.cssText = [
+      'margin-top:14px;width:100%;padding:7px 10px',
+      'background:rgba(106,171,255,0.15);color:#8ec6ff',
+      'border:1px solid rgba(106,171,255,0.3);border-radius:6px',
+      'cursor:pointer;font:12px ui-monospace,monospace;letter-spacing:.03em',
+    ].join(';');
+    btn.onclick = () => {
+      const cfg = {
+        exposure:        +_n.toneMappingExposure.toFixed(3),
+        bloomStrength:   +El.strength.toFixed(3),
+        bloomRadius:     +El.radius.toFixed(3),
+        bloomThreshold:  +El.threshold.toFixed(3),
+        ambIntensity:    +mg.intensity.toFixed(2),
+        sunIntensity:    +Ui.intensity.toFixed(2),
+        sunPos:          { x: +Ui.position.x.toFixed(1), y: +Ui.position.y.toFixed(1), z: +Ui.position.z.toFixed(1) },
+        fillIntensity:   +Al.intensity.toFixed(2),
+        fillPos:         { x: +Al.position.x.toFixed(1), y: +Al.position.y.toFixed(1), z: +Al.position.z.toFixed(1) },
+        hemiIntensity:   +gg.intensity.toFixed(2),
+        fogDensity:      +Lt.fog.density.toFixed(5),
+        cloudsOpacity:   +(window.__AvionCloudMult ?? 0.9).toFixed(2),
+      };
+      navigator.clipboard.writeText(JSON.stringify(cfg, null, 2)).then(() => {
+        btn.textContent = '✓  Copied!';
+        setTimeout(() => btn.textContent = '📋  Copy sceneConfig JSON', 2000);
+      });
+    };
+    panel.appendChild(btn);
+
+    // ── Hint ──
+    const hint = document.createElement('div');
+    hint.style.cssText = 'margin-top:8px;font-size:10px;opacity:.35;text-align:center;line-height:1.4;';
+    hint.textContent = 'Ctrl+Shift+D to hide\nPaste JSON into source code or window.AvionHero.sceneConfig';
+    panel.appendChild(hint);
+
+    document.body.appendChild(panel);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+      e.preventDefault();
+      if (!panel) { buildPanel(); return; }
+      panel.style.display = panel.style.display === 'none' ? '' : 'none';
+    }
+  });
+})();
+/* ── END AVION DEBUG PANEL ── */
+
+Ol();
