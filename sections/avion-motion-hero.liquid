@@ -125,9 +125,11 @@
   opacity: 0;
   z-index: 10;
   pointer-events: none;
-  will-change: transform;   /* opacity is on its own separate animation */
+  will-change: transform;
+  transition: opacity 0.45s ease-out;
 }
 
+.amh__plane--flying,
 .amh__plane--visible { opacity: 1; }
 
 .amh__plane-img {
@@ -147,59 +149,8 @@
     drop-shadow(0 2px  4px rgba(0,0,0,0.20));
 }
 
-/* ── Phase 1 — Continuous flight path ────────────────────── */
-/*
-  The plane artwork points right, so positive rotation keeps the nose down
-  during the incoming dive. One transform animation carries the plane from
-  entry through the loop and into its final position, avoiding visible pauses
-  between manoeuvres.
-
-  No scale: the plane enters at full display size. The dramatic translate
-  offset provides the "coming from distance" read without any GPU
-  texture-size changes that scale() can cause.
-*/
-.amh__plane--flying {
-  animation:
-    amh-flight  4.8s linear           forwards,
-    amh-fade-in 0.45s ease-out        forwards;
-}
-
-/* Fade-in is intentionally a separate animation so the compositor
-   can handle opacity independently from the transform track. */
-@keyframes amh-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes amh-flight {
-  0% {
-    transform: translate(calc(-50% - 50vw), calc(-50% - 30vh)) rotate(38deg);
-  }
-  18% {
-    transform: translate(calc(-50% - 24vw), calc(-50% - 12vh)) rotate(23deg);
-  }
-  33% {
-    transform: translate(calc(-50% -  5vw), calc(-50% -  2vh)) rotate(4deg);
-  }
-  43% {
-    transform: translate(calc(-50% +  8vw), calc(-50% -  6vh)) rotate(-42deg);
-  }
-  54% {
-    transform: translate(calc(-50% + 10vw), calc(-50% - 17vh)) rotate(-126deg);
-  }
-  65% {
-    transform: translate(calc(-50% -  4vw), calc(-50% - 20vh)) rotate(-214deg);
-  }
-  77% {
-    transform: translate(calc(-50% - 13vw), calc(-50% -  8vh)) rotate(-304deg);
-  }
-  90% {
-    transform: translate(calc(-50% -  4vw), calc(-50% -  1vh)) rotate(-350deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
-}
+/* Main flight is driven by requestAnimationFrame so the plane follows a
+   continuous curve instead of interpolating between hand-placed keyframes. */
 
 /* ── Phase 3 — Idle bob (infinite) ────────────────────────── */
 .amh__plane--idle {
@@ -334,37 +285,6 @@
   .amh__logo-wrap     { top: 53%; }
   .amh__logo-img      { width: clamp(170px, 64vw, 270px); }
   .amh__logo-backdrop { top: 53%; width: 94%; height: 36%; }
-
-  /* Mobile flight: tighter loop and earlier logo position for the tall poster. */
-  @keyframes amh-flight {
-    0% {
-      transform: translate(calc(-50% - 42vw), calc(-50% - 22vh)) rotate(36deg);
-    }
-    18% {
-      transform: translate(calc(-50% - 22vw), calc(-50% - 10vh)) rotate(22deg);
-    }
-    33% {
-      transform: translate(calc(-50% -  4vw), calc(-50% -  2vh)) rotate(4deg);
-    }
-    43% {
-      transform: translate(calc(-50% +  7vw), calc(-50% -  5vh)) rotate(-42deg);
-    }
-    54% {
-      transform: translate(calc(-50% +  8vw), calc(-50% - 13vh)) rotate(-126deg);
-    }
-    65% {
-      transform: translate(calc(-50% -  3vw), calc(-50% - 15vh)) rotate(-214deg);
-    }
-    77% {
-      transform: translate(calc(-50% - 10vw), calc(-50% -  6vh)) rotate(-304deg);
-    }
-    90% {
-      transform: translate(calc(-50% -  3vw), calc(-50% -  1vh)) rotate(-350deg);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(-360deg);
-    }
-  }
 }
 
 /* ── Reduced motion ──────────────────────────────────────── */
@@ -489,23 +409,98 @@
   /* ── Animation sequence ───────────────────────────────── */
   if (!plane) return;
 
+  function cubicPoint(p0, p1, p2, p3, t) {
+    var inv = 1 - t;
+    var inv2 = inv * inv;
+    var t2 = t * t;
+
+    return {
+      x: inv2 * inv * p0.x + 3 * inv2 * t * p1.x + 3 * inv * t2 * p2.x + t2 * t * p3.x,
+      y: inv2 * inv * p0.y + 3 * inv2 * t * p1.y + 3 * inv * t2 * p2.y + t2 * t * p3.y
+    };
+  }
+
+  function cubicTangent(p0, p1, p2, p3, t) {
+    var inv = 1 - t;
+
+    return {
+      x: 3 * inv * inv * (p1.x - p0.x) + 6 * inv * t * (p2.x - p1.x) + 3 * t * t * (p3.x - p2.x),
+      y: 3 * inv * inv * (p1.y - p0.y) + 6 * inv * t * (p2.y - p1.y) + 3 * t * t * (p3.y - p2.y)
+    };
+  }
+
+  function flightMetrics() {
+    var width = hero.offsetWidth || window.innerWidth;
+    var height = hero.offsetHeight || window.innerHeight;
+    var mobile = window.matchMedia('(max-width: 600px)').matches;
+
+    return {
+      duration: mobile ? 5100 : 5400,
+      entryEnd: 0.38,
+      rx: width * (mobile ? 0.08 : 0.115),
+      ry: height * (mobile ? 0.07 : 0.09),
+      p0: { x: width * (mobile ? -0.42 : -0.50), y: height * (mobile ? -0.22 : -0.30) },
+      p1: { x: width * (mobile ? -0.32 : -0.38), y: height * (mobile ? -0.12 : -0.18) },
+      p2: { x: width * (mobile ? -0.095 : -0.13), y: height * -0.01 },
+      p3: { x: 0, y: 0 }
+    };
+  }
+
+  function offsetCalc(value) {
+    var amount = Math.abs(value).toFixed(2);
+
+    if (value < 0) return 'calc(-50% - ' + amount + 'px)';
+    return 'calc(-50% + ' + amount + 'px)';
+  }
+
+  function renderPlane(point, angle) {
+    plane.style.transform =
+      'translate3d(' + offsetCalc(point.x) + ', ' + offsetCalc(point.y) + ', 0) ' +
+      'rotate(' + angle.toFixed(2) + 'deg)';
+  }
+
+  function renderFlight(metrics, progress) {
+    var point;
+    var angle;
+
+    if (progress < metrics.entryEnd) {
+      var entryProgress = progress / metrics.entryEnd;
+      var tangent;
+
+      point = cubicPoint(metrics.p0, metrics.p1, metrics.p2, metrics.p3, entryProgress);
+      tangent = cubicTangent(metrics.p0, metrics.p1, metrics.p2, metrics.p3, entryProgress);
+      angle = Math.atan2(tangent.y, tangent.x) * 180 / Math.PI;
+    } else {
+      var loopProgress = (progress - metrics.entryEnd) / (1 - metrics.entryEnd);
+      var theta = loopProgress * Math.PI * 2;
+      var dx = metrics.rx * Math.cos(theta);
+      var dy = -metrics.ry * Math.sin(theta);
+
+      point = {
+        x: metrics.rx * Math.sin(theta),
+        y: -metrics.ry * (1 - Math.cos(theta))
+      };
+
+      angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      if (angle > 0) angle -= 360;
+      if (loopProgress > 0.995) angle = -360;
+    }
+
+    renderPlane(point, angle);
+  }
+
   function runSequence() {
+    var metrics = flightMetrics();
+    var start = null;
 
-    /* PHASE 1 — Continuous flight
-       Transform and opacity run separately so the plane can fade in while the
-       full fly-in/loop/settle path stays on one compositor track. */
-    plane.classList.add('amh__plane--flying');
-
-    plane.addEventListener('animationend', function onFlightEnd(e) {
-      if (e.animationName !== 'amh-flight') return;  /* ignore amh-fade-in end */
-      plane.removeEventListener('animationend', onFlightEnd);
-
-      /* Lock opacity so it stays 1 after the animation class is removed */
+    function finishFlight() {
       plane.classList.add('amh__plane--visible');
       plane.classList.remove('amh__plane--flying');
+      plane.style.transform = 'translate(-50%, -50%) rotate(0deg)';
 
       window.requestAnimationFrame(function () {
         window.requestAnimationFrame(function () {
+          plane.style.transform = '';
           plane.classList.add('amh__plane--idle');
 
           if (logo) logo.classList.add('amh__logo-wrap--revealed');
@@ -515,6 +510,25 @@
           }, 1400);
         });
       });
+    }
+
+    function frame(timestamp) {
+      if (start === null) start = timestamp;
+
+      var progress = Math.min((timestamp - start) / metrics.duration, 1);
+      renderFlight(metrics, progress);
+
+      if (progress < 1) {
+        window.requestAnimationFrame(frame);
+      } else {
+        finishFlight();
+      }
+    }
+
+    renderFlight(metrics, 0);
+    window.requestAnimationFrame(function () {
+      plane.classList.add('amh__plane--flying');
+      window.requestAnimationFrame(frame);
     });
   }
 
@@ -568,7 +582,7 @@
       "type": "image_picker",
       "id": "plane_image",
       "label": "Plane illustration",
-      "info": "The cartoon plane PNG (transparent background). Faces left."
+      "info": "The cartoon plane PNG (transparent background). Faces right."
     },
     {
       "type": "text",
