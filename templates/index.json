@@ -9,6 +9,13 @@
  */
 {
   "sections": {
+    "avion_motion_hero_main": {
+      "type": "avion-motion-hero",
+      "settings": {
+        "show_scroll_hint": true,
+        "bridge_color": "#1a1a1a"
+      }
+    },
     "avion_threejs_hero_main": {
       "type": "avion-threejs-hero",
       "settings": {
@@ -784,7 +791,7 @@
     }
   },
   "order": [
-    "avion_threejs_hero_main",
+    "avion_motion_hero_main",
     "avion_hero_poster_BN977i",
     "hoodies_home_ADcEw6",
     "pattern_avion_tDK4Ny",

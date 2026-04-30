@@ -1,0 +1,603 @@
+{% comment %}
+  Avion Motion Hero
+  ─────────────────
+  Pure CSS / vanilla-JS motion-graphics hero.
+  No WebGL, no Three.js, no build step.
+
+  Sequence:
+    1. Desert background fades + subtle Ken-Burns zoom
+    2. Cartoon plane enters from the right, sweeps across the sky
+    3. Plane executes a full loop maneuver (goes inverted at the top — correct!)
+    4. Plane settles and bobs gently (infinite idle)
+    5. Logo reveals beneath with a spring pop
+    6. Scroll hint pulses in
+
+  Setup: upload the three images to Shopify Admin → Content → Files,
+  then assign them in the section settings (image picker or URL field).
+{% endcomment %}
+
+{%- comment %} ── Resolve asset URLs ───────────────────────────────────── {%- endcomment %}
+{%- assign amh_bg    = '' -%}
+{%- assign amh_plane = '' -%}
+{%- assign amh_logo  = '' -%}
+
+{%- if section.settings.bg_image != blank -%}
+  {%- assign amh_bg = section.settings.bg_image | image_url: width: 1920 -%}
+{%- elsif section.settings.bg_url != blank -%}
+  {%- assign amh_bg = section.settings.bg_url -%}
+{%- endif -%}
+
+{%- if section.settings.plane_image != blank -%}
+  {%- assign amh_plane = section.settings.plane_image | image_url: width: 600 -%}
+{%- elsif section.settings.plane_url != blank -%}
+  {%- assign amh_plane = section.settings.plane_url -%}
+{%- endif -%}
+
+{%- if section.settings.logo_image != blank -%}
+  {%- assign amh_logo = section.settings.logo_image | image_url: width: 760 -%}
+{%- elsif section.settings.logo_url != blank -%}
+  {%- assign amh_logo = section.settings.logo_url -%}
+{%- endif -%}
+
+{%- assign bridge_col = section.settings.bridge_color | default: '#1a1a1a' -%}
+
+{% style %}
+
+/* ── Box-sizing reset scoped to this section ──────────────── */
+.amh, .amh *, .amh *::before, .amh *::after { box-sizing: border-box; }
+
+/* ── Section container ────────────────────────────────────── */
+.amh {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  /* Warm fallback shown before bg image loads */
+  background: #3d6b4a;
+}
+
+/* ── Background image ─────────────────────────────────────── */
+.amh__bg {
+  position: absolute;
+  /* Bleed 6% on each side so the Ken-Burns / parallax never shows edges */
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  background-image: var(--amh-bg-url, none);
+  background-size: cover;
+  background-position: center 45%;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  animation: amh-ken-burns 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+  will-change: transform;
+}
+
+@keyframes amh-ken-burns {
+  from { transform: scale(1.10); opacity: 0.6; }
+  to   { transform: scale(1.04); opacity: 1; }
+}
+
+/* ── Cinematic vignette ───────────────────────────────────── */
+.amh__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 75% at 50% 38%, transparent 28%, rgba(4,10,3,0.60) 100%),
+    linear-gradient(180deg,
+      rgba(4,10,3,0.14)  0%,
+      transparent        38%,
+      rgba(12,6,2,0.24)  75%,
+      rgba(12,6,2,0.58) 100%
+    );
+}
+
+/* ── Logo contrast backdrop ───────────────────────────────── */
+/* Softly darkens the desert area behind the logo so it reads clearly */
+.amh__logo-backdrop {
+  position: absolute;
+  left: 50%;
+  top: 61%;
+  transform: translate(-50%, -50%);
+  width: 54%;
+  height: 40%;
+  background: radial-gradient(ellipse at center, rgba(6,3,1,0.46) 0%, transparent 70%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ── Plane ────────────────────────────────────────────────── */
+.amh__plane {
+  position: absolute;
+  left: 50%;
+  top: 27%;                    /* sky zone */
+  width: clamp(160px, 22vw, 280px);
+  height: auto;
+  /* Base centering transform — animations layer on top of this */
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter:
+    drop-shadow(0 6px 18px rgba(0,0,0,0.42))
+    drop-shadow(0 2px 5px rgba(0,0,0,0.28));
+}
+
+.amh__plane--visible { opacity: 1; }
+
+.amh__plane-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* ── Phase 1 — Fly-in ─────────────────────────────────────── */
+/*
+  Plane enters from off-right, sweeps left across the upper sky,
+  and decelerates gracefully to its resting position.
+  The image already faces LEFT, so the fly-in direction matches naturally.
+*/
+.amh__plane--flying {
+  animation: amh-fly-in 3.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@keyframes amh-fly-in {
+  0% {
+    transform: translate(calc(-50% + 80vw), calc(-50% - 17vh)) rotate(13deg) scale(0.30);
+    opacity: 0;
+  }
+  5%  { opacity: 1; }
+  28% {
+    transform: translate(calc(-50% - 38vw), calc(-50% - 12vh)) rotate(-7deg) scale(0.72);
+    opacity: 1;
+  }
+  54% {
+    transform: translate(calc(-50% - 17vw), calc(-50% - 6vh)) rotate(-2deg) scale(0.88);
+    opacity: 1;
+  }
+  78% {
+    transform: translate(calc(-50% - 4vw),  calc(-50% - 2vh)) rotate( 1deg) scale(0.96);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Phase 2 — Loop maneuver ──────────────────────────────── */
+/*
+  Full vertical loop (360°):
+    0%  → level, at rest
+    33% → climbing hard (nose up, right side of loop)
+    50% → INVERTED at the top — rotate(-180deg) is correct here
+    67% → diving (left side, coming back down)
+    100% → back level, -360deg == 0deg visually
+*/
+.amh__plane--looping {
+  animation: amh-loop 1.85s cubic-bezier(0.37, 0, 0.63, 1) forwards;
+}
+
+@keyframes amh-loop {
+  0%   { transform: translate(-50%,                          -50%)                 rotate(   0deg); }
+  16%  { transform: translate(calc(-50% + 11vw),  calc(-50% -  4vh))              rotate( -32deg); }
+  33%  { transform: translate(calc(-50% + 15vw),  calc(-50% - 13vh))              rotate(-100deg); }
+  50%  { transform: translate(calc(-50% +  7vw),  calc(-50% - 19vh))              rotate(-180deg); }
+  67%  { transform: translate(calc(-50% -  9vw),  calc(-50% - 13vh))              rotate(-260deg); }
+  84%  { transform: translate(calc(-50% - 13vw),  calc(-50% -  4vh))              rotate(-326deg); }
+  100% { transform: translate(-50%,                          -50%)                 rotate(-360deg); }
+}
+
+/* ── Phase 3 — Idle bob (infinite) ────────────────────────── */
+.amh__plane--idle {
+  animation: amh-idle 4.4s ease-in-out infinite;
+}
+
+@keyframes amh-idle {
+  0%   { transform: translate(-50%,                         calc(-50% +  0px)) rotate(-1.5deg); }
+  22%  { transform: translate(calc(-50% +  7px), calc(-50% - 10px))            rotate( 1.2deg); }
+  47%  { transform: translate(calc(-50% +  3px), calc(-50% +  8px))            rotate( 2.8deg); }
+  72%  { transform: translate(calc(-50% -  8px), calc(-50% -  5px))            rotate(-0.5deg); }
+  88%  { transform: translate(calc(-50% -  2px), calc(-50% +  5px))            rotate(-2.2deg); }
+  100% { transform: translate(-50%,                         calc(-50% +  0px)) rotate(-1.5deg); }
+}
+
+/* ── Logo ─────────────────────────────────────────────────── */
+.amh__logo-wrap {
+  position: absolute;
+  left: 50%;
+  top: 61%;
+  transform: translate(-50%, calc(-50% + 20px)) scale(0.86);
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.amh__logo-img {
+  width: clamp(200px, 28vw, 370px);
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 8px 32px rgba(0,0,0,0.70))
+    drop-shadow(0 0  14px rgba(0,0,0,0.45));
+}
+
+/* Spring pop reveal */
+.amh__logo-wrap--revealed {
+  animation: amh-logo-reveal 1.35s cubic-bezier(0.34, 1.40, 0.64, 1) forwards;
+}
+
+@keyframes amh-logo-reveal {
+  0%   { opacity: 0; transform: translate(-50%, calc(-50% + 24px)) scale(0.82); }
+  55%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ── Scroll hint ─────────────────────────────────────────── */
+.amh__scroll-hint {
+  position: absolute;
+  bottom: 2.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+
+.amh__scroll-hint--visible { opacity: 1; }
+
+.amh__scroll-chevron {
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid rgba(255,243,220,0.78);
+  border-bottom: 2px solid rgba(255,243,220,0.78);
+  transform: rotate(45deg);
+  animation: amh-chevron 2.3s ease-in-out infinite;
+}
+
+.amh__scroll-chevron + .amh__scroll-chevron {
+  margin-top: -13px;
+  animation-delay: 0.24s;
+  opacity: 0.42;
+}
+
+.amh__scroll-label {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: rgba(255,243,220,0.55);
+  margin-top: 0.65rem;
+}
+
+@keyframes amh-chevron {
+  0%, 100% { opacity: 0.22; transform: rotate(45deg) translateY(0); }
+  50%       { opacity: 1;    transform: rotate(45deg) translateY(5px); }
+}
+
+/* ── Bridge gradient ─────────────────────────────────────── */
+.amh__bridge {
+  position: relative;
+  z-index: 1;
+  height: 20vh;
+  background: linear-gradient(to bottom, transparent, {{ bridge_col }});
+  pointer-events: none;
+  margin-top: -1px;
+}
+
+/* ── Stacking fix: sections below must sit above this one ─── */
+.avion-motion-page .shopify-section {
+  position: relative;
+  z-index: 1;
+}
+.avion-motion-page #shopify-section-{{ section.id }} {
+  position: static;
+  z-index: auto;
+}
+
+/* ── Tablet ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .amh__plane { width: clamp(140px, 30vw, 220px); top: 24%; }
+  .amh__logo-wrap { top: 63%; }
+  .amh__logo-backdrop { top: 63%; width: 70%; }
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .amh__plane { width: clamp(115px, 44vw, 185px); top: 22%; }
+  .amh__logo-wrap { top: 64%; }
+  .amh__logo-img { width: clamp(160px, 62vw, 255px); }
+  .amh__logo-backdrop { top: 64%; width: 88%; height: 36%; }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .amh__bg { animation: none; transform: scale(1.04); }
+  .amh__plane { opacity: 1; transform: translate(-50%, -50%); }
+  .amh__plane--flying,
+  .amh__plane--looping,
+  .amh__plane--idle { animation: none !important; }
+  .amh__logo-wrap { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .amh__logo-wrap--revealed { animation: none !important; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .amh__scroll-hint { opacity: 1; }
+}
+
+{% endstyle %}
+
+{%- comment %} Mark page so stacking CSS above only fires here ─── {%- endcomment %}
+<script>document.documentElement.classList.add('avion-motion-page');</script>
+
+{%- comment %} Preload the background for LCP ───────────────────── {%- endcomment %}
+{%- if amh_bg != '' -%}
+  <link rel="preload" as="image" href="{{ amh_bg }}" fetchpriority="high">
+{%- endif -%}
+
+<section
+  class="amh"
+  id="amh-hero"
+  aria-label="{{ shop.name }} hero"
+>
+
+  {%- comment %} Background ─────────────────────────────────────── {%- endcomment %}
+  <div
+    class="amh__bg"
+    {%- if amh_bg != '' %} style="--amh-bg-url: url('{{ amh_bg }}')"{% endif %}
+  ></div>
+
+  {%- comment %} Vignette ───────────────────────────────────────── {%- endcomment %}
+  <div class="amh__vignette" aria-hidden="true"></div>
+
+  {%- comment %} Logo contrast backdrop ──────────────────────────── {%- endcomment %}
+  <div class="amh__logo-backdrop" aria-hidden="true"></div>
+
+  {%- comment %} Plane (animated) ────────────────────────────────── {%- endcomment %}
+  {%- if amh_plane != '' -%}
+  <div class="amh__plane" id="amh-plane" aria-hidden="true">
+    <img
+      class="amh__plane-img"
+      src="{{ amh_plane }}"
+      alt=""
+      role="presentation"
+      loading="eager"
+      width="600"
+      height="300"
+      draggable="false"
+    >
+  </div>
+  {%- endif -%}
+
+  {%- comment %} Logo ────────────────────────────────────────────── {%- endcomment %}
+  {%- if amh_logo != '' -%}
+  <div class="amh__logo-wrap" id="amh-logo">
+    <img
+      class="amh__logo-img"
+      src="{{ amh_logo }}"
+      alt="{{ shop.name }}"
+      loading="eager"
+      draggable="false"
+    >
+  </div>
+  {%- endif -%}
+
+  {%- comment %} Scroll hint ─────────────────────────────────────── {%- endcomment %}
+  {%- if section.settings.show_scroll_hint -%}
+  <div class="amh__scroll-hint" id="amh-scroll">
+    <div class="amh__scroll-chevron" aria-hidden="true"></div>
+    <div class="amh__scroll-chevron" aria-hidden="true"></div>
+    <span class="amh__scroll-label" aria-hidden="true">Scroll</span>
+  </div>
+  {%- endif -%}
+
+</section>
+
+{%- comment %} Gradient bridge to next section ───────────────────── {%- endcomment %}
+<div class="amh__bridge" aria-hidden="true"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var plane  = document.getElementById('amh-plane');
+  var logo   = document.getElementById('amh-logo');
+  var scroll = document.getElementById('amh-scroll');
+  var hero   = document.getElementById('amh-hero');
+  var bg     = hero && hero.querySelector('.amh__bg');
+
+  /* ── Reduced-motion: jump straight to final state ─────── */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (logo)   { logo.style.cssText  = 'opacity:1;transform:translate(-50%,-50%) scale(1)'; }
+    if (scroll) { scroll.classList.add('amh__scroll-hint--visible'); }
+    return;
+  }
+
+  /* ── Scroll parallax on background ───────────────────── */
+  if (bg && hero) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          var sy = window.scrollY;
+          var h  = hero.offsetHeight;
+          if (sy < h) {
+            /* Gentle upward drift as user scrolls — max 6% of the 12% bleed */
+            bg.style.transform = 'scale(1.04) translateY(' + ((sy / h) * 6).toFixed(2) + '%)';
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  /* ── Animation sequence ───────────────────────────────── */
+  if (!plane) return;
+
+  function runSequence() {
+
+    /* PHASE 1 — Fly-in */
+    plane.classList.add('amh__plane--flying');
+
+    plane.addEventListener('animationend', function onFlyEnd(e) {
+      if (e.animationName !== 'amh-fly-in') return;
+      plane.removeEventListener('animationend', onFlyEnd);
+
+      /* Pin opacity before removing the animation class */
+      plane.classList.add('amh__plane--visible');
+      plane.classList.remove('amh__plane--flying');
+
+      /* Double rAF ensures the browser flushes the class removal
+         before the loop animation is applied — prevents a frozen frame */
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+
+          /* PHASE 2 — Loop */
+          plane.classList.add('amh__plane--looping');
+
+          plane.addEventListener('animationend', function onLoopEnd(e) {
+            if (e.animationName !== 'amh-loop') return;
+            plane.removeEventListener('animationend', onLoopEnd);
+
+            plane.classList.remove('amh__plane--looping');
+
+            window.requestAnimationFrame(function () {
+              window.requestAnimationFrame(function () {
+
+                /* PHASE 3 — Idle bob */
+                plane.classList.add('amh__plane--idle');
+
+                /* Logo spring-pop */
+                if (logo) {
+                  logo.classList.add('amh__logo-wrap--revealed');
+                }
+
+                /* Scroll hint fades in after logo settles */
+                setTimeout(function () {
+                  if (scroll) scroll.classList.add('amh__scroll-hint--visible');
+                }, 1400);
+
+              });
+            });
+          });
+
+        });
+      });
+    });
+  }
+
+  /* ── Wait for the plane image to decode before starting ── */
+  var img    = plane.querySelector('img');
+  var ready  = false;
+
+  function startWhenReady() {
+    if (ready) return;
+    ready = true;
+    setTimeout(runSequence, 250);
+  }
+
+  if (!img || img.complete) {
+    startWhenReady();
+  } else {
+    img.addEventListener('load',  startWhenReady, { once: true });
+    img.addEventListener('error', startWhenReady, { once: true });
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Avion Motion Hero",
+  "tag": "div",
+  "class": "avion-motion-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image",
+      "info": "Desert illustration. Recommended: 1920×1080 WebP or JPEG."
+    },
+    {
+      "type": "text",
+      "id": "bg_url",
+      "label": "Background URL (fallback)",
+      "info": "Paste a Shopify CDN URL if you prefer not to use the image picker above."
+    },
+    {
+      "type": "header",
+      "content": "Animated Plane"
+    },
+    {
+      "type": "image_picker",
+      "id": "plane_image",
+      "label": "Plane illustration",
+      "info": "The cartoon plane PNG (transparent background). Faces left."
+    },
+    {
+      "type": "text",
+      "id": "plane_url",
+      "label": "Plane URL (fallback)"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo image",
+      "info": "Revealed after the plane animation. Transparent PNG recommended."
+    },
+    {
+      "type": "text",
+      "id": "logo_url",
+      "label": "Logo URL (fallback)"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_hint",
+      "label": "Show scroll hint",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bridge_color",
+      "label": "Bottom fade color",
+      "default": "#1a1a1a",
+      "info": "The color the hero fades into at the bottom. Match the background of your next section."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avion Motion Hero",
+      "settings": {
+        "show_scroll_hint": true,
+        "bridge_color": "#1a1a1a"
+      }
+    }
+  ]
+}
+{% endschema %}
