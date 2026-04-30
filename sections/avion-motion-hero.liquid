@@ -6,11 +6,10 @@
 
   Sequence:
     1. Desert background fades + subtle Ken-Burns zoom
-    2. Plane dives in from upper-left (nose-down → levels off)
-    3. Executes a mathematically precise elliptical loop (9-point, linear timing)
-    4. Settles just above the logo and idles with a gentle bob
-    5. Logo reveals beneath with a spring pop
-    6. Scroll hint pulses in
+    2. Plane dives in nose-down, curls through one smooth loop, and levels off
+    3. Settles just above the logo and idles with a gentle bob
+    4. Logo reveals beneath with a spring pop
+    5. Scroll hint pulses in
 
   Setup: upload the three images to Shopify Admin → Content → Files,
   then assign them in the section settings (image picker or URL field).
@@ -98,7 +97,7 @@
 .amh__logo-backdrop {
   position: absolute;
   left: 50%;
-  top: 65%;
+  top: 60%;
   transform: translate(-50%, -50%);
   width: 54%;
   height: 40%;
@@ -111,18 +110,22 @@
 .amh__plane {
   position: absolute;
   left: 50%;
-  top: 40%;          /* sits just above the logo */
+  top: 38%;
   width: clamp(160px, 22vw, 280px);
   height: auto;
-  transform: translate(-50%, -50%);
+  /*
+    translateZ(0) promotes this element to its own GPU compositor layer
+    so the browser moves a cached texture — zero repaints per frame.
+    IMPORTANT: no filter here — drop-shadow on a composited animated
+    element forces per-frame GPU rasterisation and is the primary cause
+    of animation jank, especially on mobile.
+  */
+  transform: translate(-50%, -50%) translateZ(0);
   transform-origin: center center;
   opacity: 0;
   z-index: 10;
   pointer-events: none;
-  will-change: transform, opacity;
-  filter:
-    drop-shadow(0 6px 18px rgba(0,0,0,0.42))
-    drop-shadow(0 2px 5px rgba(0,0,0,0.28));
+  will-change: transform;   /* opacity is on its own separate animation */
 }
 
 .amh__plane--visible { opacity: 1; }
@@ -136,75 +139,66 @@
   pointer-events: none;
 }
 
-/* ── Phase 1 — Fly-in from upper-left ────────────────────── */
+/* Shadow only during idle so it does not tax the flight animation.
+   Applied to the img child so it doesn't affect the compositor layer. */
+.amh__plane--idle .amh__plane-img {
+  filter:
+    drop-shadow(0 5px 14px rgba(0,0,0,0.36))
+    drop-shadow(0 2px  4px rgba(0,0,0,0.20));
+}
+
+/* ── Phase 1 — Continuous flight path ────────────────────── */
 /*
-  The plane image faces LEFT (nose = left side, propeller visible).
-  rotate(-88deg) on a left-facing plane = nose pointing almost straight DOWN.
-  As rotation sweeps from -88° → 0°, the nose rises from down → left:
-  a classic nose-up pull-out from a dive. Combined with the translate
-  sweeping from upper-left → center, this reads as a dramatic diving entry.
+  The plane artwork points right, so positive rotation keeps the nose down
+  during the incoming dive. One transform animation carries the plane from
+  entry through the loop and into its final position, avoiding visible pauses
+  between manoeuvres.
+
+  No scale: the plane enters at full display size. The dramatic translate
+  offset provides the "coming from distance" read without any GPU
+  texture-size changes that scale() can cause.
 */
 .amh__plane--flying {
-  animation: amh-fly-in 3.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation:
+    amh-flight  4.8s linear           forwards,
+    amh-fade-in 0.45s ease-out        forwards;
 }
 
-@keyframes amh-fly-in {
+/* Fade-in is intentionally a separate animation so the compositor
+   can handle opacity independently from the transform track. */
+@keyframes amh-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes amh-flight {
   0% {
-    /* Far upper-left, tiny, nose pointing almost straight down */
-    transform: translate(calc(-50% - 56vw), calc(-50% - 38vh)) rotate(-88deg) scale(0.22);
-    opacity: 0;
+    transform: translate(calc(-50% - 50vw), calc(-50% - 30vh)) rotate(38deg);
   }
-  5%  { opacity: 1; }
-  /* Sweeping down-right, pulling out of dive */
-  28% {
-    transform: translate(calc(-50% - 30vw), calc(-50% - 20vh)) rotate(-54deg) scale(0.54);
-    opacity: 1;
+  18% {
+    transform: translate(calc(-50% - 24vw), calc(-50% - 12vh)) rotate(23deg);
   }
-  52% {
-    transform: translate(calc(-50% - 13vw), calc(-50% -  9vh)) rotate(-24deg) scale(0.79);
-    opacity: 1;
+  33% {
+    transform: translate(calc(-50% -  5vw), calc(-50% -  2vh)) rotate(4deg);
   }
-  74% {
-    transform: translate(calc(-50% -  3vw), calc(-50% -  2vh)) rotate( -6deg) scale(0.94);
-    opacity: 1;
+  43% {
+    transform: translate(calc(-50% +  8vw), calc(-50% -  6vh)) rotate(-42deg);
   }
-  88% {
-    transform: translate(calc(-50% - 0.5vw), calc(-50% - 0.3vh)) rotate(-1deg) scale(0.99);
-    opacity: 1;
+  54% {
+    transform: translate(calc(-50% + 10vw), calc(-50% - 17vh)) rotate(-126deg);
+  }
+  65% {
+    transform: translate(calc(-50% -  4vw), calc(-50% - 20vh)) rotate(-214deg);
+  }
+  77% {
+    transform: translate(calc(-50% - 13vw), calc(-50% -  8vh)) rotate(-304deg);
+  }
+  90% {
+    transform: translate(calc(-50% -  4vw), calc(-50% -  1vh)) rotate(-350deg);
   }
   100% {
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
-    opacity: 1;
+    transform: translate(-50%, -50%) rotate(-360deg);
   }
-}
-
-/* ── Phase 2 — Elliptical loop ────────────────────────────── */
-/*
-  Mathematically precise: x(θ) = -Rx·sin(θ), y(θ) = -Ry·(1−cos(θ))
-  where Rx=11vw, Ry=9vh.  9 evenly-spaced stops at 45° each.
-  animation-timing-function: linear → smooth circular motion.
-
-  Rotation: left-facing plane means rotate(-θ) for correct heading at each point.
-    0° → facing left (level)
-   -90° → nose pointing UP (climbing)
-  -180° → facing right (inverted at top)
-  -270° → nose pointing DOWN (diving)
-  -360° → facing left (recovered)
-*/
-.amh__plane--looping {
-  animation: amh-loop 2.0s linear forwards;
-}
-
-@keyframes amh-loop {
-  /* θ=  0° */ 0%   { transform: translate(-50%,                            -50%)                  rotate(    0deg); }
-  /* θ= 45° */ 12%  { transform: translate(calc(-50% -  7.78vw), calc(-50% -  2.64vh))             rotate(  -45deg); }
-  /* θ= 90° */ 25%  { transform: translate(calc(-50% - 11.00vw), calc(-50% -  9.00vh))             rotate(  -90deg); }
-  /* θ=135° */ 37%  { transform: translate(calc(-50% -  7.78vw), calc(-50% - 15.36vh))             rotate( -135deg); }
-  /* θ=180° */ 50%  { transform: translate(-50%,                    calc(-50% - 18.00vh))           rotate( -180deg); }
-  /* θ=225° */ 62%  { transform: translate(calc(-50% +  7.78vw), calc(-50% - 15.36vh))             rotate( -225deg); }
-  /* θ=270° */ 75%  { transform: translate(calc(-50% + 11.00vw), calc(-50% -  9.00vh))             rotate( -270deg); }
-  /* θ=315° */ 87%  { transform: translate(calc(-50% +  7.78vw), calc(-50% -  2.64vh))             rotate( -315deg); }
-  /* θ=360° */ 100% { transform: translate(-50%,                            -50%)                  rotate( -360deg); }
 }
 
 /* ── Phase 3 — Idle bob (infinite) ────────────────────────── */
@@ -224,7 +218,7 @@
 .amh__logo-wrap {
   position: absolute;
   left: 50%;
-  top: 65%;
+  top: 60%;
   transform: translate(-50%, calc(-50% + 22px)) scale(0.84);
   z-index: 9;
   pointer-events: none;
@@ -324,74 +318,62 @@
 
 /* ── Tablet ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .amh__plane      { width: clamp(140px, 28vw, 220px); top: 38%; }
-  .amh__logo-wrap  { top: 65%; }
-  .amh__logo-backdrop { top: 65%; width: 72%; }
+  .amh__plane         { width: clamp(140px, 28vw, 220px); top: 36%; }
+  .amh__logo-wrap     { top: 60%; }
+  .amh__logo-backdrop { top: 60%; width: 72%; }
 }
 
 /* ── Mobile ─────────────────────────────────────────────────
-   The Shopify header is sticky at ~60-70px (z-index 10020).
-   The plane's resting spot (35%) and loop peak (~35%-12%=23%)
-   stay well below that on any phone viewport.             */
+   Sticky header ~60-70px (z-index 10020).
+   Plane rest  = 33% → 33% of 750px ≈ 248px from top.
+   Loop peak   = 33% − 12vh ≈ 248 − 90 = 158px — well below nav.
+   Fly-in start is off-screen above the viewport so the plane
+   "arrives" cleanly without crossing behind the navbar.        */
 @media (max-width: 600px) {
-  .amh__plane     { width: clamp(115px, 42vw, 180px); top: 35%; }
-  .amh__logo-wrap { top: 67%; }
-  .amh__logo-img  { width: clamp(155px, 60vw, 250px); }
-  .amh__logo-backdrop { top: 67%; width: 90%; height: 34%; }
+  .amh__plane         { width: clamp(110px, 40vw, 175px); top: 33%; }
+  .amh__logo-wrap     { top: 53%; }
+  .amh__logo-img      { width: clamp(170px, 64vw, 270px); }
+  .amh__logo-backdrop { top: 53%; width: 94%; height: 36%; }
 
-  /* Tighter loop on mobile: Rx=7vw, Ry=6vh
-     x(θ)=-7·sin(θ), y(θ)=-6·(1-cos(θ))
-     Peak at θ=180° → y = -12vh above resting spot        */
-  @keyframes amh-fly-in {
+  /* Mobile flight: tighter loop and earlier logo position for the tall poster. */
+  @keyframes amh-flight {
     0% {
-      transform: translate(calc(-50% - 38vw), calc(-50% - 28vh)) rotate(-85deg) scale(0.22);
-      opacity: 0;
+      transform: translate(calc(-50% - 42vw), calc(-50% - 22vh)) rotate(36deg);
     }
-    5%  { opacity: 1; }
-    28% {
-      transform: translate(calc(-50% - 20vw), calc(-50% - 15vh)) rotate(-52deg) scale(0.55);
-      opacity: 1;
+    18% {
+      transform: translate(calc(-50% - 22vw), calc(-50% - 10vh)) rotate(22deg);
     }
-    52% {
-      transform: translate(calc(-50% -  8vw), calc(-50% -  6vh)) rotate(-22deg) scale(0.80);
-      opacity: 1;
+    33% {
+      transform: translate(calc(-50% -  4vw), calc(-50% -  2vh)) rotate(4deg);
     }
-    74% {
-      transform: translate(calc(-50% -  2vw), calc(-50% - 1.2vh)) rotate( -5deg) scale(0.95);
-      opacity: 1;
+    43% {
+      transform: translate(calc(-50% +  7vw), calc(-50% -  5vh)) rotate(-42deg);
     }
-    88% {
-      transform: translate(calc(-50% - 0.3vw), calc(-50% - 0.2vh)) rotate(-1deg) scale(0.99);
-      opacity: 1;
+    54% {
+      transform: translate(calc(-50% +  8vw), calc(-50% - 13vh)) rotate(-126deg);
+    }
+    65% {
+      transform: translate(calc(-50% -  3vw), calc(-50% - 15vh)) rotate(-214deg);
+    }
+    77% {
+      transform: translate(calc(-50% - 10vw), calc(-50% -  6vh)) rotate(-304deg);
+    }
+    90% {
+      transform: translate(calc(-50% -  3vw), calc(-50% -  1vh)) rotate(-350deg);
     }
     100% {
-      transform: translate(-50%, -50%) rotate(0deg) scale(1);
-      opacity: 1;
+      transform: translate(-50%, -50%) rotate(-360deg);
     }
-  }
-
-  @keyframes amh-loop {
-    /* Rx=7vw Ry=6vh — 7·sin45=4.95≈5vw  6·(1-cos45)=1.76≈1.8vh
-                        6·(1-cos135)=10.24≈10.2vh  peak=12vh    */
-    0%   { transform: translate(-50%,                         -50%)              rotate(    0deg); }
-    12%  { transform: translate(calc(-50% -  5.00vw), calc(-50% -  1.80vh))     rotate(  -45deg); }
-    25%  { transform: translate(calc(-50% -  7.00vw), calc(-50% -  6.00vh))     rotate(  -90deg); }
-    37%  { transform: translate(calc(-50% -  5.00vw), calc(-50% - 10.20vh))     rotate( -135deg); }
-    50%  { transform: translate(-50%,                   calc(-50% - 12.00vh))   rotate( -180deg); }
-    62%  { transform: translate(calc(-50% +  5.00vw), calc(-50% - 10.20vh))     rotate( -225deg); }
-    75%  { transform: translate(calc(-50% +  7.00vw), calc(-50% -  6.00vh))     rotate( -270deg); }
-    87%  { transform: translate(calc(-50% +  5.00vw), calc(-50% -  1.80vh))     rotate( -315deg); }
-    100% { transform: translate(-50%,                         -50%)              rotate( -360deg); }
   }
 }
 
 /* ── Reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .amh__bg { animation: none; transform: scale(1.04); }
-  .amh__plane { opacity: 1; transform: translate(-50%, -50%); }
+  .amh__plane { opacity: 1; transform: translate(-50%, -50%) translateZ(0); }
   .amh__plane--flying,
-  .amh__plane--looping,
   .amh__plane--idle { animation: none !important; }
+  .amh__plane--idle .amh__plane-img { filter: none; }
   .amh__logo-wrap { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   .amh__logo-wrap--revealed { animation: none !important; opacity: 1; transform: translate(-50%, -50%) scale(1); }
   .amh__scroll-hint { opacity: 1; }
@@ -509,51 +491,28 @@
 
   function runSequence() {
 
-    /* PHASE 1 — Fly-in */
+    /* PHASE 1 — Continuous flight
+       Transform and opacity run separately so the plane can fade in while the
+       full fly-in/loop/settle path stays on one compositor track. */
     plane.classList.add('amh__plane--flying');
 
-    plane.addEventListener('animationend', function onFlyEnd(e) {
-      if (e.animationName !== 'amh-fly-in') return;
-      plane.removeEventListener('animationend', onFlyEnd);
+    plane.addEventListener('animationend', function onFlightEnd(e) {
+      if (e.animationName !== 'amh-flight') return;  /* ignore amh-fade-in end */
+      plane.removeEventListener('animationend', onFlightEnd);
 
-      /* Pin opacity before removing the animation class */
+      /* Lock opacity so it stays 1 after the animation class is removed */
       plane.classList.add('amh__plane--visible');
       plane.classList.remove('amh__plane--flying');
 
-      /* Double rAF ensures the browser flushes the class removal
-         before the loop animation is applied — prevents a frozen frame */
       window.requestAnimationFrame(function () {
         window.requestAnimationFrame(function () {
+          plane.classList.add('amh__plane--idle');
 
-          /* PHASE 2 — Loop */
-          plane.classList.add('amh__plane--looping');
+          if (logo) logo.classList.add('amh__logo-wrap--revealed');
 
-          plane.addEventListener('animationend', function onLoopEnd(e) {
-            if (e.animationName !== 'amh-loop') return;
-            plane.removeEventListener('animationend', onLoopEnd);
-
-            plane.classList.remove('amh__plane--looping');
-
-            window.requestAnimationFrame(function () {
-              window.requestAnimationFrame(function () {
-
-                /* PHASE 3 — Idle bob */
-                plane.classList.add('amh__plane--idle');
-
-                /* Logo spring-pop */
-                if (logo) {
-                  logo.classList.add('amh__logo-wrap--revealed');
-                }
-
-                /* Scroll hint fades in after logo settles */
-                setTimeout(function () {
-                  if (scroll) scroll.classList.add('amh__scroll-hint--visible');
-                }, 1400);
-
-              });
-            });
-          });
-
+          setTimeout(function () {
+            if (scroll) scroll.classList.add('amh__scroll-hint--visible');
+          }, 1400);
         });
       });
     });
