@@ -6,9 +6,9 @@
 
   Sequence:
     1. Desert background fades + subtle Ken-Burns zoom
-    2. Cartoon plane enters from the right, sweeps across the sky
-    3. Plane executes a full loop maneuver (goes inverted at the top — correct!)
-    4. Plane settles and bobs gently (infinite idle)
+    2. Plane dives in from upper-left (nose-down → levels off)
+    3. Executes a mathematically precise elliptical loop (9-point, linear timing)
+    4. Settles just above the logo and idles with a gentle bob
     5. Logo reveals beneath with a spring pop
     6. Scroll hint pulses in
 
@@ -95,15 +95,14 @@
 }
 
 /* ── Logo contrast backdrop ───────────────────────────────── */
-/* Softly darkens the desert area behind the logo so it reads clearly */
 .amh__logo-backdrop {
   position: absolute;
   left: 50%;
-  top: 61%;
+  top: 65%;
   transform: translate(-50%, -50%);
   width: 54%;
   height: 40%;
-  background: radial-gradient(ellipse at center, rgba(6,3,1,0.46) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(6,3,1,0.48) 0%, transparent 70%);
   z-index: 3;
   pointer-events: none;
 }
@@ -112,10 +111,9 @@
 .amh__plane {
   position: absolute;
   left: 50%;
-  top: 27%;                    /* sky zone */
+  top: 40%;          /* sits just above the logo */
   width: clamp(160px, 22vw, 280px);
   height: auto;
-  /* Base centering transform — animations layer on top of this */
   transform: translate(-50%, -50%);
   transform-origin: center center;
   opacity: 0;
@@ -138,32 +136,40 @@
   pointer-events: none;
 }
 
-/* ── Phase 1 — Fly-in ─────────────────────────────────────── */
+/* ── Phase 1 — Fly-in from upper-left ────────────────────── */
 /*
-  Plane enters from off-right, sweeps left across the upper sky,
-  and decelerates gracefully to its resting position.
-  The image already faces LEFT, so the fly-in direction matches naturally.
+  The plane image faces LEFT (nose = left side, propeller visible).
+  rotate(-88deg) on a left-facing plane = nose pointing almost straight DOWN.
+  As rotation sweeps from -88° → 0°, the nose rises from down → left:
+  a classic nose-up pull-out from a dive. Combined with the translate
+  sweeping from upper-left → center, this reads as a dramatic diving entry.
 */
 .amh__plane--flying {
-  animation: amh-fly-in 3.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation: amh-fly-in 3.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes amh-fly-in {
   0% {
-    transform: translate(calc(-50% + 80vw), calc(-50% - 17vh)) rotate(13deg) scale(0.30);
+    /* Far upper-left, tiny, nose pointing almost straight down */
+    transform: translate(calc(-50% - 56vw), calc(-50% - 38vh)) rotate(-88deg) scale(0.22);
     opacity: 0;
   }
   5%  { opacity: 1; }
+  /* Sweeping down-right, pulling out of dive */
   28% {
-    transform: translate(calc(-50% - 38vw), calc(-50% - 12vh)) rotate(-7deg) scale(0.72);
+    transform: translate(calc(-50% - 30vw), calc(-50% - 20vh)) rotate(-54deg) scale(0.54);
     opacity: 1;
   }
-  54% {
-    transform: translate(calc(-50% - 17vw), calc(-50% - 6vh)) rotate(-2deg) scale(0.88);
+  52% {
+    transform: translate(calc(-50% - 13vw), calc(-50% -  9vh)) rotate(-24deg) scale(0.79);
     opacity: 1;
   }
-  78% {
-    transform: translate(calc(-50% - 4vw),  calc(-50% - 2vh)) rotate( 1deg) scale(0.96);
+  74% {
+    transform: translate(calc(-50% -  3vw), calc(-50% -  2vh)) rotate( -6deg) scale(0.94);
+    opacity: 1;
+  }
+  88% {
+    transform: translate(calc(-50% - 0.5vw), calc(-50% - 0.3vh)) rotate(-1deg) scale(0.99);
     opacity: 1;
   }
   100% {
@@ -172,49 +178,54 @@
   }
 }
 
-/* ── Phase 2 — Loop maneuver ──────────────────────────────── */
+/* ── Phase 2 — Elliptical loop ────────────────────────────── */
 /*
-  Full vertical loop (360°):
-    0%  → level, at rest
-    33% → climbing hard (nose up, right side of loop)
-    50% → INVERTED at the top — rotate(-180deg) is correct here
-    67% → diving (left side, coming back down)
-    100% → back level, -360deg == 0deg visually
+  Mathematically precise: x(θ) = -Rx·sin(θ), y(θ) = -Ry·(1−cos(θ))
+  where Rx=11vw, Ry=9vh.  9 evenly-spaced stops at 45° each.
+  animation-timing-function: linear → smooth circular motion.
+
+  Rotation: left-facing plane means rotate(-θ) for correct heading at each point.
+    0° → facing left (level)
+   -90° → nose pointing UP (climbing)
+  -180° → facing right (inverted at top)
+  -270° → nose pointing DOWN (diving)
+  -360° → facing left (recovered)
 */
 .amh__plane--looping {
-  animation: amh-loop 1.85s cubic-bezier(0.37, 0, 0.63, 1) forwards;
+  animation: amh-loop 2.0s linear forwards;
 }
 
 @keyframes amh-loop {
-  0%   { transform: translate(-50%,                          -50%)                 rotate(   0deg); }
-  16%  { transform: translate(calc(-50% + 11vw),  calc(-50% -  4vh))              rotate( -32deg); }
-  33%  { transform: translate(calc(-50% + 15vw),  calc(-50% - 13vh))              rotate(-100deg); }
-  50%  { transform: translate(calc(-50% +  7vw),  calc(-50% - 19vh))              rotate(-180deg); }
-  67%  { transform: translate(calc(-50% -  9vw),  calc(-50% - 13vh))              rotate(-260deg); }
-  84%  { transform: translate(calc(-50% - 13vw),  calc(-50% -  4vh))              rotate(-326deg); }
-  100% { transform: translate(-50%,                          -50%)                 rotate(-360deg); }
+  /* θ=  0° */ 0%   { transform: translate(-50%,                            -50%)                  rotate(    0deg); }
+  /* θ= 45° */ 12%  { transform: translate(calc(-50% -  7.78vw), calc(-50% -  2.64vh))             rotate(  -45deg); }
+  /* θ= 90° */ 25%  { transform: translate(calc(-50% - 11.00vw), calc(-50% -  9.00vh))             rotate(  -90deg); }
+  /* θ=135° */ 37%  { transform: translate(calc(-50% -  7.78vw), calc(-50% - 15.36vh))             rotate( -135deg); }
+  /* θ=180° */ 50%  { transform: translate(-50%,                    calc(-50% - 18.00vh))           rotate( -180deg); }
+  /* θ=225° */ 62%  { transform: translate(calc(-50% +  7.78vw), calc(-50% - 15.36vh))             rotate( -225deg); }
+  /* θ=270° */ 75%  { transform: translate(calc(-50% + 11.00vw), calc(-50% -  9.00vh))             rotate( -270deg); }
+  /* θ=315° */ 87%  { transform: translate(calc(-50% +  7.78vw), calc(-50% -  2.64vh))             rotate( -315deg); }
+  /* θ=360° */ 100% { transform: translate(-50%,                            -50%)                  rotate( -360deg); }
 }
 
 /* ── Phase 3 — Idle bob (infinite) ────────────────────────── */
 .amh__plane--idle {
-  animation: amh-idle 4.4s ease-in-out infinite;
+  animation: amh-idle 5s ease-in-out infinite;
 }
 
 @keyframes amh-idle {
-  0%   { transform: translate(-50%,                         calc(-50% +  0px)) rotate(-1.5deg); }
-  22%  { transform: translate(calc(-50% +  7px), calc(-50% - 10px))            rotate( 1.2deg); }
-  47%  { transform: translate(calc(-50% +  3px), calc(-50% +  8px))            rotate( 2.8deg); }
-  72%  { transform: translate(calc(-50% -  8px), calc(-50% -  5px))            rotate(-0.5deg); }
-  88%  { transform: translate(calc(-50% -  2px), calc(-50% +  5px))            rotate(-2.2deg); }
-  100% { transform: translate(-50%,                         calc(-50% +  0px)) rotate(-1.5deg); }
+  0%   { transform: translate(-50%, -50%) rotate( 0.0deg); }
+  25%  { transform: translate(calc(-50% + 5px), calc(-50% -  8px)) rotate( 1.8deg); }
+  50%  { transform: translate(calc(-50% + 2px), calc(-50% +  6px)) rotate(-1.0deg); }
+  75%  { transform: translate(calc(-50% - 5px), calc(-50% -  3px)) rotate( 2.2deg); }
+  100% { transform: translate(-50%, -50%) rotate( 0.0deg); }
 }
 
 /* ── Logo ─────────────────────────────────────────────────── */
 .amh__logo-wrap {
   position: absolute;
   left: 50%;
-  top: 61%;
-  transform: translate(-50%, calc(-50% + 20px)) scale(0.86);
+  top: 65%;
+  transform: translate(-50%, calc(-50% + 22px)) scale(0.84);
   z-index: 9;
   pointer-events: none;
   opacity: 0;
@@ -235,12 +246,12 @@
 
 /* Spring pop reveal */
 .amh__logo-wrap--revealed {
-  animation: amh-logo-reveal 1.35s cubic-bezier(0.34, 1.40, 0.64, 1) forwards;
+  animation: amh-logo-reveal 1.4s cubic-bezier(0.34, 1.40, 0.64, 1) forwards;
 }
 
 @keyframes amh-logo-reveal {
   0%   { opacity: 0; transform: translate(-50%, calc(-50% + 24px)) scale(0.82); }
-  55%  { opacity: 1; }
+  50%  { opacity: 1; }
   100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
@@ -313,17 +324,65 @@
 
 /* ── Tablet ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .amh__plane { width: clamp(140px, 30vw, 220px); top: 24%; }
-  .amh__logo-wrap { top: 63%; }
-  .amh__logo-backdrop { top: 63%; width: 70%; }
+  .amh__plane      { width: clamp(140px, 28vw, 220px); top: 38%; }
+  .amh__logo-wrap  { top: 65%; }
+  .amh__logo-backdrop { top: 65%; width: 72%; }
 }
 
-/* ── Mobile ──────────────────────────────────────────────── */
+/* ── Mobile ─────────────────────────────────────────────────
+   The Shopify header is sticky at ~60-70px (z-index 10020).
+   The plane's resting spot (35%) and loop peak (~35%-12%=23%)
+   stay well below that on any phone viewport.             */
 @media (max-width: 600px) {
-  .amh__plane { width: clamp(115px, 44vw, 185px); top: 22%; }
-  .amh__logo-wrap { top: 64%; }
-  .amh__logo-img { width: clamp(160px, 62vw, 255px); }
-  .amh__logo-backdrop { top: 64%; width: 88%; height: 36%; }
+  .amh__plane     { width: clamp(115px, 42vw, 180px); top: 35%; }
+  .amh__logo-wrap { top: 67%; }
+  .amh__logo-img  { width: clamp(155px, 60vw, 250px); }
+  .amh__logo-backdrop { top: 67%; width: 90%; height: 34%; }
+
+  /* Tighter loop on mobile: Rx=7vw, Ry=6vh
+     x(θ)=-7·sin(θ), y(θ)=-6·(1-cos(θ))
+     Peak at θ=180° → y = -12vh above resting spot        */
+  @keyframes amh-fly-in {
+    0% {
+      transform: translate(calc(-50% - 38vw), calc(-50% - 28vh)) rotate(-85deg) scale(0.22);
+      opacity: 0;
+    }
+    5%  { opacity: 1; }
+    28% {
+      transform: translate(calc(-50% - 20vw), calc(-50% - 15vh)) rotate(-52deg) scale(0.55);
+      opacity: 1;
+    }
+    52% {
+      transform: translate(calc(-50% -  8vw), calc(-50% -  6vh)) rotate(-22deg) scale(0.80);
+      opacity: 1;
+    }
+    74% {
+      transform: translate(calc(-50% -  2vw), calc(-50% - 1.2vh)) rotate( -5deg) scale(0.95);
+      opacity: 1;
+    }
+    88% {
+      transform: translate(calc(-50% - 0.3vw), calc(-50% - 0.2vh)) rotate(-1deg) scale(0.99);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes amh-loop {
+    /* Rx=7vw Ry=6vh — 7·sin45=4.95≈5vw  6·(1-cos45)=1.76≈1.8vh
+                        6·(1-cos135)=10.24≈10.2vh  peak=12vh    */
+    0%   { transform: translate(-50%,                         -50%)              rotate(    0deg); }
+    12%  { transform: translate(calc(-50% -  5.00vw), calc(-50% -  1.80vh))     rotate(  -45deg); }
+    25%  { transform: translate(calc(-50% -  7.00vw), calc(-50% -  6.00vh))     rotate(  -90deg); }
+    37%  { transform: translate(calc(-50% -  5.00vw), calc(-50% - 10.20vh))     rotate( -135deg); }
+    50%  { transform: translate(-50%,                   calc(-50% - 12.00vh))   rotate( -180deg); }
+    62%  { transform: translate(calc(-50% +  5.00vw), calc(-50% - 10.20vh))     rotate( -225deg); }
+    75%  { transform: translate(calc(-50% +  7.00vw), calc(-50% -  6.00vh))     rotate( -270deg); }
+    87%  { transform: translate(calc(-50% +  5.00vw), calc(-50% -  1.80vh))     rotate( -315deg); }
+    100% { transform: translate(-50%,                         -50%)              rotate( -360deg); }
+  }
 }
 
 /* ── Reduced motion ──────────────────────────────────────── */
