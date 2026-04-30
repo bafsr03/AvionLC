@@ -12,6 +12,12 @@
     "avion_motion_hero_main": {
       "type": "avion-motion-hero",
       "settings": {
+        "bg_image": "shopify://shop_images/imagen_1.png",
+        "bg_url": "",
+        "plane_image": "shopify://shop_images/plane_2x1_4fc0caf5-aaa6-4229-9695-3f397fd1309c.png",
+        "plane_url": "",
+        "logo_image": "shopify://shop_images/Asset_3.png",
+        "logo_url": "",
         "show_scroll_hint": true,
         "bridge_color": "#1a1a1a"
       }
