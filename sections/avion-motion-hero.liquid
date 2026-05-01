@@ -48,11 +48,11 @@
 /* ── Section container ────────────────────────────────────── */
 .amh {
   position: relative;
+  z-index: 0; /* creates stacking context — keeps plane/logo below the navbar */
   width: 100%;
   height: 100svh;
   min-height: 560px;
   overflow: hidden;
-  /* Warm fallback shown before bg image loads */
   background: #3d6b4a;
 }
 
@@ -252,7 +252,7 @@
   position: relative;
   z-index: 1;
   height: 20vh;
-  background: linear-gradient(to bottom, transparent, {{ bridge_col }});
+  background: linear-gradient(to bottom, rgba(10,5,2,0.92), {{ bridge_col }});
   pointer-events: none;
   margin-top: -1px;
 }
@@ -367,8 +367,6 @@
 
 </section>
 
-{%- comment %} Gradient bridge to next section ───────────────────── {%- endcomment %}
-<div class="amh__bridge" aria-hidden="true"></div>
 
 <script>
 (function () {

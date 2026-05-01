@@ -343,24 +343,7 @@
 
 /* ----------------------------------------------------------
    18. MARQUEE SECTION POLISH (av-marquee-section)
-   Edge fade-out for depth on the scrolling strip
    ---------------------------------------------------------- */
-.av-marquee-section {
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
-}
 
 /* ----------------------------------------------------------
    19. SPLIT SECTION IMAGE HOVER (extra polish beyond curtain)
