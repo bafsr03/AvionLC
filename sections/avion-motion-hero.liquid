@@ -6,7 +6,7 @@
 
   Sequence:
     1. Desert background fades + subtle Ken-Burns zoom
-    2. Plane dives in nose-down, curls through one smooth loop, and levels off
+    2. Plane dives in from upper-left nose-down, curls level into rest position
     3. Settles just above the logo and idles with a gentle bob
     4. Logo reveals beneath with a spring pop
     5. Scroll hint pulses in
@@ -430,20 +430,16 @@
   }
 
   function flightMetrics() {
-    var width = hero.offsetWidth || window.innerWidth;
+    var width  = hero.offsetWidth  || window.innerWidth;
     var height = hero.offsetHeight || window.innerHeight;
     var mobile = window.matchMedia('(max-width: 600px)').matches;
 
-    /* Single radius keeps the loop a true circle in screen pixels */
-    var r = height * (mobile ? 0.09 : 0.10);
-
+    /* Dives in from upper-left, nose-down, curls level into rest */
     return {
-      duration: mobile ? 4200 : 4600,
-      entryEnd: 0.30,
-      r: r,
-      p0: { x: width * (mobile ? -0.42 : -0.50), y: height * (mobile ? -0.22 : -0.30) },
-      p1: { x: width * (mobile ? -0.32 : -0.38), y: height * (mobile ? -0.12 : -0.18) },
-      p2: { x: width * (mobile ? -0.095 : -0.13), y: 0 },
+      duration: mobile ? 2400 : 2800,
+      p0: { x: width  * (mobile ? -0.42 : -0.50), y: height * (mobile ? -0.22 : -0.30) },
+      p1: { x: width  * (mobile ? -0.32 : -0.38), y: height * (mobile ? -0.12 : -0.18) },
+      p2: { x: width  * (mobile ? -0.095 : -0.13), y: 0 },
       p3: { x: 0, y: 0 }
     };
   }
@@ -462,56 +458,26 @@
   }
 
   function renderFlight(metrics, progress) {
-    var point;
-    var angle;
-
-    if (progress < metrics.entryEnd) {
-      var entryProgress = progress / metrics.entryEnd;
-      var tangent;
-
-      point = cubicPoint(metrics.p0, metrics.p1, metrics.p2, metrics.p3, entryProgress);
-      tangent = cubicTangent(metrics.p0, metrics.p1, metrics.p2, metrics.p3, entryProgress);
-      angle = Math.atan2(tangent.y, tangent.x) * 180 / Math.PI;
-    } else {
-      var loopProgress = (progress - metrics.entryEnd) / (1 - metrics.entryEnd);
-      var theta = loopProgress * Math.PI * 2;
-
-      /* Perfect circle: x = r·sin(θ), y = -r·(1 - cos(θ))
-         Starts/ends at (0,0), peaks at (0, -2r) at θ=π.
-         Tangent = (r·cos(θ), -r·sin(θ)) → angle = -θ exactly,
-         giving a smooth continuous -360° rotation with no atan2 jumps. */
-      point = {
-        x: metrics.r * Math.sin(theta),
-        y: -metrics.r * (1 - Math.cos(theta))
-      };
-
-      angle = -theta * (180 / Math.PI);
-    }
-
+    /* Cubic ease-out: blazes in fast, glides smoothly into rest */
+    var eased   = 1 - Math.pow(1 - progress, 3);
+    var point   = cubicPoint(metrics.p0, metrics.p1, metrics.p2, metrics.p3, eased);
+    var tangent = cubicTangent(metrics.p0, metrics.p1, metrics.p2, metrics.p3, eased);
+    var angle   = Math.atan2(tangent.y, tangent.x) * 180 / Math.PI;
     renderPlane(point, angle);
   }
 
   function runSequence() {
-    var metrics = flightMetrics();
-    var start = null;
+    var metrics      = flightMetrics();
+    var start        = null;
+    var logoRevealed = false;
 
     function finishFlight() {
-      plane.classList.add('amh__plane--visible');
       plane.classList.remove('amh__plane--flying');
-      plane.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-
-      window.requestAnimationFrame(function () {
-        window.requestAnimationFrame(function () {
-          plane.style.transform = '';
-          plane.classList.add('amh__plane--idle');
-
-          if (logo) logo.classList.add('amh__logo-wrap--revealed');
-
-          setTimeout(function () {
-            if (scroll) scroll.classList.add('amh__scroll-hint--visible');
-          }, 1400);
-        });
-      });
+      plane.classList.add('amh__plane--visible', 'amh__plane--idle');
+      plane.style.transform = '';
+      setTimeout(function () {
+        if (scroll) scroll.classList.add('amh__scroll-hint--visible');
+      }, 900);
     }
 
     function frame(timestamp) {
@@ -519,6 +485,13 @@
 
       var progress = Math.min((timestamp - start) / metrics.duration, 1);
       renderFlight(metrics, progress);
+
+      /* Cubic ease-out reaches ~97% position at raw progress 0.68 —
+         start the logo reveal then so it fades in as the plane glides home */
+      if (!logoRevealed && progress >= 0.68) {
+        logoRevealed = true;
+        if (logo) logo.classList.add('amh__logo-wrap--revealed');
+      }
 
       if (progress < 1) {
         window.requestAnimationFrame(frame);
