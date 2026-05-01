@@ -278,6 +278,19 @@
     transform: scale(1);
   }
 
+  /* Contain variant — shows full image without crop or zoom */
+  .av-story__chapter-media--contain {
+    background: #1C1916;
+  }
+  .av-story__chapter-media--contain .av-story__chapter-img {
+    object-fit: contain;
+    transform: none;
+    transition: none;
+  }
+  .av-story__chapter--light .av-story__chapter-media--contain {
+    background: #FFF3DC;
+  }
+
   /* Media overlay gradient */
   .av-story__chapter-media::after {
     content: '';
@@ -566,7 +579,7 @@
         </div>
       </div>
 
-      <div class="av-story__chapter-media" data-av-curtain data-av-curtain-color="#1C1916">
+      <div class="av-story__chapter-media av-story__chapter-media--contain" data-av-curtain data-av-curtain-color="#1C1916">
         {%- if section.settings.ch1_image != blank -%}
           <img
             class="av-story__chapter-img"
