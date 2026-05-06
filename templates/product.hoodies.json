@@ -688,7 +688,7 @@
                     "text_mwcwMg": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>No loud branding.  <br/>No unnecessary details.  <br/>Just presence.</p>",
+                        "text": "<p>Worn in, not worn out</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -844,7 +844,7 @@
         "text_PKBPq6": {
           "type": "text",
           "settings": {
-            "text": "<p>NO SECOND OPTION</p>",
+            "text": "<p>COMFORTABLE</p>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "left",
