@@ -193,6 +193,9 @@
 }
 
 /* Hero Section Typography Overrides */
-[id^="Hero-"] .text-block--text_ncnNTx h2 {
+.hero .text-block h2,
+.hero .text-block .h2,
+.hero .text-block h1,
+.hero .text-block .h1 {
   color: var(--av-ember) !important;
 }
