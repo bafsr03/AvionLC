@@ -1,13 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "avion-store-locator": {
       "type": "avion-store-locator",
+      "blocks": {
+        "location_7QY9nm": {
+          "type": "location",
+          "settings": {
+            "store_name": "Avio Supply Co.",
+            "store_type": "Distributor",
+            "address_line_1": "",
+            "city_state_zip": "Minnesota",
+            "phone": "(971)334-9527",
+            "hours_weekday": "Mon-Fri  9am-9pm",
+            "hours_weekend": "Sat-Sun  10am-8pm",
+            "maps_embed_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "location_7QY9nm"
+      ],
       "settings": {
         "heading": "WHERE TO FIND US",
         "tagline": "Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries.",
         "note": "Not all products available at every location. Call ahead to confirm stock."
-      },
-      "blocks": {}
+      }
     },
     "pattern_avion_footer": {
       "type": "pattern-avion",
