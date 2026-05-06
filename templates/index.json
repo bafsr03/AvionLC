@@ -212,7 +212,7 @@
             "wrap": "pretty",
             "color": "var(--color-foreground)",
             "background": false,
-            "background_color": "#f7b32b",
+            "background_color": "#00000026",
             "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
@@ -267,9 +267,6 @@
         "text_KP9wU8",
         "button_tdt4xp"
       ],
-      "custom_css": [
-        ".text-block--text_ncnNTx h2 { color: #F7B32B !important; }"
-      ],
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
@@ -294,7 +291,7 @@
         "section_height_custom": 50,
         "color_scheme": "scheme-1",
         "toggle_overlay": true,
-        "overlay_color": "#f7b32b",
+        "overlay_color": "#3a3a3c",
         "overlay_style": "gradient",
         "gradient_direction": "to bottom",
         "blurred_reflection": false,
