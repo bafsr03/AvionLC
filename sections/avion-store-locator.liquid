@@ -462,7 +462,7 @@
           {{ section.settings.tagline | default: 'Find an authorized Avión retailer near you. Our products are available at select licensed dispensaries.' }}
         </p>
         <p class="av-locator__hero-count" aria-hidden="true">
-          {{ location_count }} {{ location_count == 1 | if: 'location', 'locations' }}
+          {{ location_count }} {% if location_count == 1 %}location{% else %}locations{% endif %}
         </p>
       </div>
     </div>
