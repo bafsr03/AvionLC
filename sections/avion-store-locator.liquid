@@ -157,7 +157,6 @@
     flex-direction: column;
     gap: 12px;
     transition: border-left-color 0.3s ease, background 0.3s ease;
-    position: relative;
   }
 
   .av-locator__card:last-child {
@@ -314,7 +313,6 @@
     display: block;
   }
 
-  /* Map overlay label */
   .av-locator__map-label {
     position: absolute;
     bottom: 0;
@@ -326,16 +324,7 @@
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 12px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .av-locator__map-label.is-visible {
-    opacity: 1;
-    pointer-events: auto;
   }
 
   .av-locator__map-label-name {
@@ -434,115 +423,127 @@
   }
 {%- endstyle -%}
 
-{%- liquid
-  assign location_count = section.blocks | where: 'type', 'location' | size
-  assign has_locations = false
-  if location_count > 0
-    assign has_locations = true
-  endif
--%}
+{% assign location_count = 0 %}
+{% for block in section.blocks %}
+  {% if block.type == 'location' %}
+    {% assign location_count = location_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% assign first_store_name = '' %}
+{% assign first_address_1 = '' %}
+{% assign first_city_state = '' %}
+{% assign first_map_src = '' %}
+{% assign first_location_found = false %}
+{% for block in section.blocks %}
+  {% if block.type == 'location' and first_location_found == false %}
+    {% assign first_location_found = true %}
+    {% assign first_store_name = block.settings.store_name %}
+    {% assign first_address_1 = block.settings.address_line_1 %}
+    {% assign first_city_state = block.settings.city_state_zip %}
+    {% if block.settings.maps_embed_url != blank %}
+      {% assign first_map_src = block.settings.maps_embed_url %}
+    {% else %}
+      {% assign first_q = block.settings.store_name | append: ' ' | append: block.settings.address_line_1 | append: ' ' | append: block.settings.city_state_zip | url_encode %}
+      {% assign first_map_src = 'https://maps.google.com/maps?q=' | append: first_q | append: '&output=embed' %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
 
 <section class="av-locator" id="StoreLocator">
 
-  <!-- ================================================
-       HERO STRIP
-       ================================================ -->
+  <!-- HERO -->
   <div class="av-locator__hero">
     <div class="av-locator__hero-glyph" aria-hidden="true">L</div>
-
     <div class="av-locator__hero-inner">
       <p class="av-locator__hero-eyebrow">Retail locations</p>
-
       <h2 class="av-locator__hero-title">
         {{ section.settings.heading | default: 'WHERE TO FIND US' }}
       </h2>
-
       <div class="av-locator__hero-row">
         <p class="av-locator__hero-tagline">
-          {{ section.settings.tagline | default: 'Find an authorized Avión retailer near you. Our products are available at select licensed dispensaries.' }}
+          {{ section.settings.tagline | default: 'Find an authorized Avion retailer near you.' }}
         </p>
         <p class="av-locator__hero-count" aria-hidden="true">
-          {{ location_count }} {% if location_count == 1 %}location{% else %}locations{% endif %}
+          {{ location_count }}
+          {% if location_count == 1 %}location{% else %}locations{% endif %}
         </p>
       </div>
     </div>
   </div>
 
-  <!-- ================================================
-       BODY — Locations left · Map right
-       ================================================ -->
+  <!-- BODY -->
   <div class="av-locator__body">
 
     <!-- Locations list -->
     <div class="av-locator__list">
       <p class="av-locator__list-label">Authorized retailers</p>
 
-      {%- if has_locations -%}
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'location' -%}
-            {%- liquid
-              assign full_address = block.settings.address_line_1 | append: ' ' | append: block.settings.city_state_zip
-              assign encoded_q = block.settings.store_name | append: ' ' | append: full_address | url_encode
-              if block.settings.maps_embed_url != blank
-                assign map_src = block.settings.maps_embed_url
-              else
-                assign map_src = 'https://maps.google.com/maps?q=' | append: encoded_q | append: '&output=embed'
-              endif
+      {% if location_count > 0 %}
+        {% assign location_index = 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'location' %}
 
-              assign directions_url = 'https://www.google.com/maps/dir/?api=1&destination=' | append: encoded_q
-            -%}
+            {% if block.settings.maps_embed_url != blank %}
+              {% assign card_map_src = block.settings.maps_embed_url %}
+            {% else %}
+              {% assign card_q = block.settings.store_name | append: ' ' | append: block.settings.address_line_1 | append: ' ' | append: block.settings.city_state_zip | url_encode %}
+              {% assign card_map_src = 'https://maps.google.com/maps?q=' | append: card_q | append: '&output=embed' %}
+            {% endif %}
+
+            {% assign card_directions_q = block.settings.store_name | append: ' ' | append: block.settings.address_line_1 | append: ' ' | append: block.settings.city_state_zip | url_encode %}
+            {% assign card_directions_url = 'https://www.google.com/maps/dir/?api=1&destination=' | append: card_directions_q %}
+
+            {% assign card_full_addr = block.settings.address_line_1 | append: ', ' | append: block.settings.city_state_zip %}
+
             <div
-              class="av-locator__card{% if forloop.first %} av-locator__card--active{% endif %}"
-              data-map-src="{{ map_src }}"
+              class="av-locator__card{% if location_index == 0 %} av-locator__card--active{% endif %}"
+              data-map-src="{{ card_map_src }}"
               data-location-name="{{ block.settings.store_name | escape }}"
-              data-location-addr="{{ full_address | escape }}"
+              data-location-addr="{{ card_full_addr | escape }}"
               {{ block.shopify_attributes }}
             >
               <div class="av-locator__card-header">
                 <h3 class="av-locator__card-name">{{ block.settings.store_name }}</h3>
-                {%- if block.settings.store_type != blank -%}
+                {% if block.settings.store_type != blank %}
                   <span class="av-locator__card-tag">{{ block.settings.store_type }}</span>
-                {%- endif -%}
+                {% endif %}
               </div>
 
-              {%- if block.settings.address_line_1 != blank or block.settings.city_state_zip != blank -%}
+              {% if block.settings.address_line_1 != blank or block.settings.city_state_zip != blank %}
                 <p class="av-locator__card-address">
-                  {%- if block.settings.address_line_1 != blank -%}
-                    {{ block.settings.address_line_1 }}<br>
-                  {%- endif -%}
+                  {% if block.settings.address_line_1 != blank %}{{ block.settings.address_line_1 }}<br>{% endif %}
                   {{ block.settings.city_state_zip }}
                 </p>
-              {%- endif -%}
+              {% endif %}
 
               <div class="av-locator__card-details">
-                {%- if block.settings.phone != blank -%}
+                {% if block.settings.phone != blank %}
                   <div class="av-locator__card-detail">
                     <span class="av-locator__detail-label">Phone</span>
                     <span class="av-locator__detail-value">{{ block.settings.phone }}</span>
                   </div>
-                {%- endif -%}
-
-                {%- if block.settings.hours_weekday != blank -%}
+                {% endif %}
+                {% if block.settings.hours_weekday != blank %}
                   <div class="av-locator__card-detail">
                     <span class="av-locator__detail-label">Weekdays</span>
                     <span class="av-locator__detail-value">{{ block.settings.hours_weekday }}</span>
                   </div>
-                {%- endif -%}
-
-                {%- if block.settings.hours_weekend != blank -%}
+                {% endif %}
+                {% if block.settings.hours_weekend != blank %}
                   <div class="av-locator__card-detail">
                     <span class="av-locator__detail-label">Weekend</span>
                     <span class="av-locator__detail-value">{{ block.settings.hours_weekend }}</span>
                   </div>
-                {%- endif -%}
+                {% endif %}
               </div>
 
               <a
                 class="av-locator__card-directions"
-                href="{{ directions_url }}"
+                href="{{ card_directions_url }}"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Get directions to {{ block.settings.store_name }}"
+                aria-label="Get directions to {{ block.settings.store_name | escape }}"
               >
                 Get directions
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -550,28 +551,19 @@
                 </svg>
               </a>
             </div>
-          {%- endif -%}
-        {%- endfor -%}
-      {%- else -%}
+
+            {% assign location_index = location_index | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+      {% else %}
         <p class="av-locator__empty">No locations added yet — add retailer blocks in the theme editor.</p>
-      {%- endif -%}
+      {% endif %}
     </div>
 
     <!-- Map panel -->
     <div class="av-locator__map-panel" aria-label="Store location map">
       <div class="av-locator__map-wrap" id="avLocatorMapWrap">
-        {%- if has_locations -%}
-          {%- liquid
-            assign first_block = section.blocks | where: 'type', 'location' | first
-            if first_block
-              assign first_q = first_block.settings.store_name | append: ' ' | append: first_block.settings.address_line_1 | append: ' ' | append: first_block.settings.city_state_zip | url_encode
-              if first_block.settings.maps_embed_url != blank
-                assign first_map_src = first_block.settings.maps_embed_url
-              else
-                assign first_map_src = 'https://maps.google.com/maps?q=' | append: first_q | append: '&output=embed'
-              endif
-            endif
-          -%}
+        {% if location_count > 0 %}
           <iframe
             class="av-locator__map-iframe"
             id="avLocatorMap"
@@ -581,17 +573,13 @@
             referrerpolicy="no-referrer-when-downgrade"
             allowfullscreen
           ></iframe>
-          <div class="av-locator__map-label is-visible" id="avLocatorMapLabel">
+          <div class="av-locator__map-label" id="avLocatorMapLabel">
             <div>
-              <p class="av-locator__map-label-name" id="avLocatorMapLabelName">
-                {%- if first_block -%}{{ first_block.settings.store_name }}{%- endif -%}
-              </p>
-              <p class="av-locator__map-label-addr" id="avLocatorMapLabelAddr">
-                {%- if first_block -%}{{ first_block.settings.address_line_1 }}, {{ first_block.settings.city_state_zip }}{%- endif -%}
-              </p>
+              <p class="av-locator__map-label-name" id="avLocatorMapLabelName">{{ first_store_name }}</p>
+              <p class="av-locator__map-label-addr" id="avLocatorMapLabelAddr">{{ first_address_1 }}{% if first_address_1 != blank and first_city_state != blank %}, {% endif %}{{ first_city_state }}</p>
             </div>
           </div>
-        {%- else -%}
+        {% else %}
           <div class="av-locator__map-placeholder">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -599,20 +587,17 @@
             </svg>
             <span>Add locations to display the map</span>
           </div>
-        {%- endif -%}
+        {% endif %}
       </div>
     </div>
 
   </div>
 
-  <!-- ================================================
-       FOOTER NOTE
-       ================================================ -->
-  {%- if section.settings.note != blank -%}
+  {% if section.settings.note != blank %}
     <div class="av-locator__footer">
       <p class="av-locator__footer-note">{{ section.settings.note }}</p>
     </div>
-  {%- endif -%}
+  {% endif %}
 
 </section>
 
@@ -622,24 +607,16 @@
   var mapIframe = document.getElementById('avLocatorMap');
   var labelName = document.getElementById('avLocatorMapLabelName');
   var labelAddr = document.getElementById('avLocatorMapLabelAddr');
-  var mapLabel = document.getElementById('avLocatorMapLabel');
 
   if (!cards.length || !mapIframe) return;
 
   function activate(card) {
     cards.forEach(function(c) { c.classList.remove('av-locator__card--active'); });
     card.classList.add('av-locator__card--active');
-
     var src = card.dataset.mapSrc;
-    var name = card.dataset.locationName;
-    var addr = card.dataset.locationAddr;
-
-    if (src && mapIframe.src !== src) {
-      mapIframe.src = src;
-    }
-    if (labelName) labelName.textContent = name || '';
-    if (labelAddr) labelAddr.textContent = addr || '';
-    if (mapLabel) mapLabel.classList.add('is-visible');
+    if (src && mapIframe.src !== src) mapIframe.src = src;
+    if (labelName) labelName.textContent = card.dataset.locationName || '';
+    if (labelAddr) labelAddr.textContent = card.dataset.locationAddr || '';
   }
 
   cards.forEach(function(card) {
@@ -663,13 +640,13 @@
       "type": "textarea",
       "id": "tagline",
       "label": "Tagline",
-      "default": "Find an authorized Avión retailer near you. Our products are available at select licensed dispensaries."
+      "default": "Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries."
     },
     {
       "type": "text",
       "id": "note",
       "label": "Footer note",
-      "info": "Fine print shown below the locator (e.g. product availability disclaimer)",
+      "info": "Fine print shown below the map (e.g. product availability disclaimer)",
       "default": "Not all products available at every location. Call ahead to confirm stock."
     }
   ],
@@ -687,7 +664,7 @@
         {
           "type": "text",
           "id": "store_type",
-          "label": "Store type tag",
+          "label": "Store type badge",
           "info": "Short label shown as a badge (e.g. Dispensary, Delivery, Partner)",
           "default": "Dispensary"
         },
@@ -709,7 +686,7 @@
         },
         {
           "type": "header",
-          "content": "Contact & Hours"
+          "content": "Contact and Hours"
         },
         {
           "type": "text",
@@ -721,13 +698,13 @@
           "type": "text",
           "id": "hours_weekday",
           "label": "Weekday hours",
-          "default": "Mon–Fri  9am–9pm"
+          "default": "Mon-Fri  9am-9pm"
         },
         {
           "type": "text",
           "id": "hours_weekend",
           "label": "Weekend hours",
-          "default": "Sat–Sun  10am–8pm"
+          "default": "Sat-Sun  10am-8pm"
         },
         {
           "type": "header",
@@ -736,8 +713,8 @@
         {
           "type": "text",
           "id": "maps_embed_url",
-          "label": "Google Maps embed URL (optional)",
-          "info": "Override the auto-generated map. In Google Maps: Share → Embed a map → copy the URL from the iframe src attribute."
+          "label": "Google Maps embed URL",
+          "info": "Optional override. In Google Maps: Share - Embed a map - copy the src URL from the iframe."
         }
       ]
     }
