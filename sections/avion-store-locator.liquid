@@ -1,0 +1,751 @@
+{%- style -%}
+  /* ============================================================
+     AVION STORE LOCATOR — Editorial two-column layout
+     Cream bg · Gold accents · Sticky map · Matching contact page
+     ============================================================ */
+
+  .av-locator {
+    background: #fff3dc;
+    color: #1C1916;
+    font-family: "Source Serif 4", serif;
+    overflow-x: hidden;
+  }
+
+  /* ---- HERO STRIP ---- */
+  .av-locator__hero {
+    position: relative;
+    border-bottom: 1px solid rgba(28, 25, 22, 0.08);
+    padding: clamp(72px, 8vw, 100px) clamp(28px, 6vw, 88px) clamp(48px, 6vw, 72px);
+    overflow: hidden;
+  }
+
+  .av-locator__hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+  }
+
+  .av-locator__hero-glyph {
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: "Young Serif", serif;
+    font-size: clamp(14rem, 28vw, 46rem);
+    line-height: 1;
+    color: rgba(28, 25, 22, 0.045);
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+  }
+
+  .av-locator__hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .av-locator__hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.65rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #F7B32B;
+  }
+
+  .av-locator__hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: #F7B32B;
+    opacity: 0.55;
+    flex-shrink: 0;
+  }
+
+  .av-locator__hero-title {
+    font-family: "Young Serif", serif;
+    font-size: clamp(4rem, 9vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: #1C1916;
+    margin: 0;
+  }
+
+  .av-locator__hero-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid rgba(28, 25, 22, 0.55);
+  }
+
+  .av-locator__hero-tagline {
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+    line-height: 1.7;
+    color: #1C1916;
+    max-width: 440px;
+    margin: 0;
+  }
+
+  .av-locator__hero-count {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #1C1916;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .av-locator__hero-count::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #F7B32B;
+    opacity: 0.65;
+    flex-shrink: 0;
+  }
+
+  /* ---- BODY ---- */
+  .av-locator__body {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(28px, 6vw, 88px);
+    align-items: start;
+  }
+
+  /* ---- LOCATION LIST (left) ---- */
+  .av-locator__list {
+    border-right: 1px solid rgba(28, 25, 22, 0.14);
+    padding: clamp(48px, 6vw, 72px) clamp(0px, 4vw, 48px) clamp(48px, 6vw, 72px) 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .av-locator__list-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #1C1916;
+    margin-bottom: 32px;
+  }
+
+  /* ---- LOCATION CARD ---- */
+  .av-locator__card {
+    padding: 26px 0 26px 20px;
+    border-top: 1px solid rgba(28, 25, 22, 0.12);
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-left-color 0.3s ease, background 0.3s ease;
+    position: relative;
+  }
+
+  .av-locator__card:last-child {
+    border-bottom: 1px solid rgba(28, 25, 22, 0.12);
+  }
+
+  .av-locator__card:hover {
+    border-left-color: rgba(247, 179, 43, 0.45);
+  }
+
+  .av-locator__card--active {
+    border-left-color: #F7B32B;
+    background: rgba(247, 179, 43, 0.04);
+  }
+
+  .av-locator__card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .av-locator__card-name {
+    font-family: "Young Serif", serif;
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: #1C1916;
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+
+  .av-locator__card--active .av-locator__card-name {
+    color: #c7930e;
+  }
+
+  .av-locator__card-tag {
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    border: 1px solid rgba(247, 179, 43, 0.3);
+    padding: 4px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .av-locator__card-address {
+    font-size: 0.88rem;
+    color: rgba(28, 25, 22, 0.65);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .av-locator__card-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    margin-top: 4px;
+  }
+
+  .av-locator__card-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .av-locator__detail-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(247, 179, 43, 0.75);
+  }
+
+  .av-locator__detail-value {
+    font-size: 0.8rem;
+    color: #1C1916;
+    line-height: 1.4;
+  }
+
+  .av-locator__card-directions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #F7B32B;
+    text-decoration: none;
+    margin-top: 4px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .av-locator__card-directions svg {
+    transition: transform 0.3s ease;
+  }
+
+  .av-locator__card:hover .av-locator__card-directions,
+  .av-locator__card--active .av-locator__card-directions {
+    opacity: 1;
+  }
+
+  .av-locator__card-directions:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* ---- EMPTY STATE ---- */
+  .av-locator__empty {
+    padding: 48px 0;
+    font-size: 0.9rem;
+    color: rgba(28, 25, 22, 0.4);
+    font-style: italic;
+  }
+
+  /* ---- MAP PANEL (right, sticky) ---- */
+  .av-locator__map-panel {
+    padding: clamp(48px, 6vw, 72px) 0 clamp(48px, 6vw, 72px) clamp(32px, 5vw, 64px);
+    position: sticky;
+    top: 0;
+  }
+
+  .av-locator__map-wrap {
+    position: relative;
+    width: 100%;
+    height: clamp(420px, 60vh, 640px);
+    background: rgba(28, 25, 22, 0.04);
+    border: 1px solid rgba(28, 25, 22, 0.1);
+  }
+
+  .av-locator__map-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: rgba(28, 25, 22, 0.3);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .av-locator__map-placeholder svg {
+    opacity: 0.25;
+  }
+
+  .av-locator__map-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* Map overlay label */
+  .av-locator__map-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 20px;
+    background: rgba(255, 243, 220, 0.92);
+    border-top: 1px solid rgba(28, 25, 22, 0.08);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .av-locator__map-label.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .av-locator__map-label-name {
+    font-family: "Young Serif", serif;
+    font-size: 0.95rem;
+    color: #1C1916;
+    margin: 0;
+  }
+
+  .av-locator__map-label-addr {
+    font-size: 0.72rem;
+    color: rgba(28, 25, 22, 0.55);
+    margin: 0;
+  }
+
+  /* ---- FOOTER NOTE ---- */
+  .av-locator__footer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px clamp(28px, 6vw, 88px);
+    border-top: 1px solid rgba(28, 25, 22, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .av-locator__footer::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #F7B32B;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .av-locator__footer-note {
+    font-size: 0.72rem;
+    color: rgba(28, 25, 22, 0.45);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ---- MOBILE ---- */
+  @media (max-width: 899px) {
+    .av-locator__hero-glyph { display: none; }
+
+    .av-locator__hero {
+      padding: 64px 24px 40px;
+    }
+
+    .av-locator__hero-title {
+      font-size: clamp(3rem, 13vw, 5.5rem);
+    }
+
+    .av-locator__hero-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .av-locator__body {
+      grid-template-columns: 1fr;
+      padding: 0 24px;
+    }
+
+    .av-locator__list {
+      border-right: none;
+      padding: 40px 0;
+    }
+
+    .av-locator__map-panel {
+      padding: 0 0 48px;
+      position: relative;
+      top: auto;
+    }
+
+    .av-locator__map-wrap {
+      height: clamp(300px, 55vw, 420px);
+    }
+
+    .av-locator__card-details {
+      grid-template-columns: 1fr;
+    }
+
+    .av-locator__footer {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .av-locator__hero { padding: 56px 20px 36px; }
+    .av-locator__body { padding: 0 20px; }
+    .av-locator__footer { padding: 20px; }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign location_count = section.blocks | where: 'type', 'location' | size
+  assign has_locations = false
+  if location_count > 0
+    assign has_locations = true
+  endif
+-%}
+
+<section class="av-locator" id="StoreLocator">
+
+  <!-- ================================================
+       HERO STRIP
+       ================================================ -->
+  <div class="av-locator__hero">
+    <div class="av-locator__hero-glyph" aria-hidden="true">L</div>
+
+    <div class="av-locator__hero-inner">
+      <p class="av-locator__hero-eyebrow">Retail locations</p>
+
+      <h2 class="av-locator__hero-title">
+        {{ section.settings.heading | default: 'WHERE TO FIND US' }}
+      </h2>
+
+      <div class="av-locator__hero-row">
+        <p class="av-locator__hero-tagline">
+          {{ section.settings.tagline | default: 'Find an authorized Avión retailer near you. Our products are available at select licensed dispensaries.' }}
+        </p>
+        <p class="av-locator__hero-count" aria-hidden="true">
+          {{ location_count }} {{ location_count == 1 | if: 'location', 'locations' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       BODY — Locations left · Map right
+       ================================================ -->
+  <div class="av-locator__body">
+
+    <!-- Locations list -->
+    <div class="av-locator__list">
+      <p class="av-locator__list-label">Authorized retailers</p>
+
+      {%- if has_locations -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'location' -%}
+            {%- liquid
+              assign full_address = block.settings.address_line_1 | append: ' ' | append: block.settings.city_state_zip
+              assign encoded_q = block.settings.store_name | append: ' ' | append: full_address | url_encode
+              if block.settings.maps_embed_url != blank
+                assign map_src = block.settings.maps_embed_url
+              else
+                assign map_src = 'https://maps.google.com/maps?q=' | append: encoded_q | append: '&output=embed'
+              endif
+
+              assign directions_url = 'https://www.google.com/maps/dir/?api=1&destination=' | append: encoded_q
+            -%}
+            <div
+              class="av-locator__card{% if forloop.first %} av-locator__card--active{% endif %}"
+              data-map-src="{{ map_src }}"
+              data-location-name="{{ block.settings.store_name | escape }}"
+              data-location-addr="{{ full_address | escape }}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="av-locator__card-header">
+                <h3 class="av-locator__card-name">{{ block.settings.store_name }}</h3>
+                {%- if block.settings.store_type != blank -%}
+                  <span class="av-locator__card-tag">{{ block.settings.store_type }}</span>
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.address_line_1 != blank or block.settings.city_state_zip != blank -%}
+                <p class="av-locator__card-address">
+                  {%- if block.settings.address_line_1 != blank -%}
+                    {{ block.settings.address_line_1 }}<br>
+                  {%- endif -%}
+                  {{ block.settings.city_state_zip }}
+                </p>
+              {%- endif -%}
+
+              <div class="av-locator__card-details">
+                {%- if block.settings.phone != blank -%}
+                  <div class="av-locator__card-detail">
+                    <span class="av-locator__detail-label">Phone</span>
+                    <span class="av-locator__detail-value">{{ block.settings.phone }}</span>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.hours_weekday != blank -%}
+                  <div class="av-locator__card-detail">
+                    <span class="av-locator__detail-label">Weekdays</span>
+                    <span class="av-locator__detail-value">{{ block.settings.hours_weekday }}</span>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.hours_weekend != blank -%}
+                  <div class="av-locator__card-detail">
+                    <span class="av-locator__detail-label">Weekend</span>
+                    <span class="av-locator__detail-value">{{ block.settings.hours_weekend }}</span>
+                  </div>
+                {%- endif -%}
+              </div>
+
+              <a
+                class="av-locator__card-directions"
+                href="{{ directions_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Get directions to {{ block.settings.store_name }}"
+              >
+                Get directions
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        <p class="av-locator__empty">No locations added yet — add retailer blocks in the theme editor.</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Map panel -->
+    <div class="av-locator__map-panel" aria-label="Store location map">
+      <div class="av-locator__map-wrap" id="avLocatorMapWrap">
+        {%- if has_locations -%}
+          {%- liquid
+            assign first_block = section.blocks | where: 'type', 'location' | first
+            if first_block
+              assign first_q = first_block.settings.store_name | append: ' ' | append: first_block.settings.address_line_1 | append: ' ' | append: first_block.settings.city_state_zip | url_encode
+              if first_block.settings.maps_embed_url != blank
+                assign first_map_src = first_block.settings.maps_embed_url
+              else
+                assign first_map_src = 'https://maps.google.com/maps?q=' | append: first_q | append: '&output=embed'
+              endif
+            endif
+          -%}
+          <iframe
+            class="av-locator__map-iframe"
+            id="avLocatorMap"
+            src="{{ first_map_src }}"
+            title="Store location map"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+          <div class="av-locator__map-label is-visible" id="avLocatorMapLabel">
+            <div>
+              <p class="av-locator__map-label-name" id="avLocatorMapLabelName">
+                {%- if first_block -%}{{ first_block.settings.store_name }}{%- endif -%}
+              </p>
+              <p class="av-locator__map-label-addr" id="avLocatorMapLabelAddr">
+                {%- if first_block -%}{{ first_block.settings.address_line_1 }}, {{ first_block.settings.city_state_zip }}{%- endif -%}
+              </p>
+            </div>
+          </div>
+        {%- else -%}
+          <div class="av-locator__map-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Add locations to display the map</span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================================================
+       FOOTER NOTE
+       ================================================ -->
+  {%- if section.settings.note != blank -%}
+    <div class="av-locator__footer">
+      <p class="av-locator__footer-note">{{ section.settings.note }}</p>
+    </div>
+  {%- endif -%}
+
+</section>
+
+<script>
+(function () {
+  var cards = document.querySelectorAll('.av-locator__card[data-map-src]');
+  var mapIframe = document.getElementById('avLocatorMap');
+  var labelName = document.getElementById('avLocatorMapLabelName');
+  var labelAddr = document.getElementById('avLocatorMapLabelAddr');
+  var mapLabel = document.getElementById('avLocatorMapLabel');
+
+  if (!cards.length || !mapIframe) return;
+
+  function activate(card) {
+    cards.forEach(function(c) { c.classList.remove('av-locator__card--active'); });
+    card.classList.add('av-locator__card--active');
+
+    var src = card.dataset.mapSrc;
+    var name = card.dataset.locationName;
+    var addr = card.dataset.locationAddr;
+
+    if (src && mapIframe.src !== src) {
+      mapIframe.src = src;
+    }
+    if (labelName) labelName.textContent = name || '';
+    if (labelAddr) labelAddr.textContent = addr || '';
+    if (mapLabel) mapLabel.classList.add('is-visible');
+  }
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() { activate(card); });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Store Locator",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHERE TO FIND US"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Find an authorized Avión retailer near you. Our products are available at select licensed dispensaries."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Footer note",
+      "info": "Fine print shown below the locator (e.g. product availability disclaimer)",
+      "default": "Not all products available at every location. Call ahead to confirm stock."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Location",
+      "settings": [
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store name",
+          "default": "Retailer Name"
+        },
+        {
+          "type": "text",
+          "id": "store_type",
+          "label": "Store type tag",
+          "info": "Short label shown as a badge (e.g. Dispensary, Delivery, Partner)",
+          "default": "Dispensary"
+        },
+        {
+          "type": "header",
+          "content": "Address"
+        },
+        {
+          "type": "text",
+          "id": "address_line_1",
+          "label": "Street address",
+          "default": "123 Main St"
+        },
+        {
+          "type": "text",
+          "id": "city_state_zip",
+          "label": "City, State ZIP",
+          "default": "Minneapolis, MN 55401"
+        },
+        {
+          "type": "header",
+          "content": "Contact & Hours"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone",
+          "default": "(612) 555-0123"
+        },
+        {
+          "type": "text",
+          "id": "hours_weekday",
+          "label": "Weekday hours",
+          "default": "Mon–Fri  9am–9pm"
+        },
+        {
+          "type": "text",
+          "id": "hours_weekend",
+          "label": "Weekend hours",
+          "default": "Sat–Sun  10am–8pm"
+        },
+        {
+          "type": "header",
+          "content": "Map"
+        },
+        {
+          "type": "text",
+          "id": "maps_embed_url",
+          "label": "Google Maps embed URL (optional)",
+          "info": "Override the auto-generated map. In Google Maps: Share → Embed a map → copy the URL from the iframe src attribute."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store Locator"
+    }
+  ]
+}
+{% endschema %}
