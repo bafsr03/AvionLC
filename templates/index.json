@@ -267,6 +267,9 @@
         "text_KP9wU8",
         "button_tdt4xp"
       ],
+      "custom_css": [
+        ".text-block--text_ncnNTx h2 { color: #F7B32B !important; }"
+      ],
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
