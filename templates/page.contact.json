@@ -14,36 +14,10 @@
       "settings": {
         "heading": "CONTACT",
         "info_image": "shopify://shop_images/Asset_4.png",
-        "tagline": "Have a question, partnership inquiry, or just want to talk shop? We’re here for it.",
+        "tagline": "Have a question, partnership inquiry, or just want to talk shop? We're here for it.",
         "email": "support@aviosupply.co",
         "phone": "(971) 334-9527",
         "location": "Minnesota, United States"
-      }
-    },
-    "avion-store-locator": {
-      "type": "avion-store-locator",
-      "blocks": {
-        "location_NXGXLc": {
-          "type": "location",
-          "settings": {
-            "store_name": "Retailer Name",
-            "store_type": "Dispensary",
-            "address_line_1": "123 Main St",
-            "city_state_zip": "Minneapolis, MN 55401",
-            "phone": "(612) 555-0123",
-            "hours_weekday": "Mon-Fri  9am-9pm",
-            "hours_weekend": "Sat-Sun  10am-8pm",
-            "maps_embed_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "location_NXGXLc"
-      ],
-      "settings": {
-        "heading": "WHERE TO FIND US",
-        "tagline": "Find an authorized Avión retailer near you. Our products are available at select licensed dispensaries.",
-        "note": "Not all products available at every location. Call ahead to confirm stock."
       }
     },
     "pattern_avion_ANVdPk": {
@@ -66,7 +40,6 @@
   },
   "order": [
     "avion-contact",
-    "avion-store-locator",
     "pattern_avion_ANVdPk"
   ]
 }

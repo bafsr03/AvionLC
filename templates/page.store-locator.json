@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "avion-store-locator": {
+      "type": "avion-store-locator",
+      "settings": {
+        "heading": "WHERE TO FIND US",
+        "tagline": "Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries.",
+        "note": "Not all products available at every location. Call ahead to confirm stock."
+      },
+      "blocks": {}
+    },
+    "pattern_avion_footer": {
+      "type": "pattern-avion",
+      "settings": {
+        "pattern_image": "shopify://shop_images/Pattern-our.png",
+        "bg_color": "#3a3a3c",
+        "pattern_height": 45,
+        "pattern_height_mobile": 35,
+        "opacity": 100,
+        "scroll_direction": "right",
+        "scroll_speed": 50,
+        "spacing_top": 0,
+        "spacing_bottom": 0,
+        "spacing_top_mobile": 0,
+        "spacing_bottom_mobile": 0
+      }
+    }
+  },
+  "order": [
+    "avion-store-locator",
+    "pattern_avion_footer"
+  ]
+}
