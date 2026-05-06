@@ -512,6 +512,23 @@
         "padding-block-end": 0
       }
     },
+    "avion_prod_heritage": {
+      "type": "avion-product-heritage",
+      "settings": {
+        "eyebrow": "The Avión Standard",
+        "quote": "Grown with intention. Harvested by legacy.",
+        "bg_text": "LEGACY",
+        "pillar1_num": "50",
+        "pillar1_label": "Years of legacy",
+        "pillar1_text": "Rooted in decades of craft and defiance",
+        "pillar2_num": "100%",
+        "pillar2_label": "Minnesota Grown",
+        "pillar2_text": "refined terroir, locally mastered",
+        "pillar3_num": "∞",
+        "pillar3_label": "The Avión standard",
+        "pillar3_text": "Every batch held to an uncompromising standard"
+      }
+    },
     "section_dEGUdG": {
       "type": "section",
       "blocks": {
@@ -1167,23 +1184,6 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 24,
         "padding-block-end": 24
-      }
-    },
-    "avion_prod_heritage": {
-      "type": "avion-product-heritage",
-      "settings": {
-        "eyebrow": "The Avión Standard",
-        "quote": "Grown with intention. Harvested by legacy.",
-        "bg_text": "LEGACY",
-        "pillar1_num": "50",
-        "pillar1_label": "Years of legacy",
-        "pillar1_text": "Rooted in decades of craft and defiance",
-        "pillar2_num": "100%",
-        "pillar2_label": "Oregon grown",
-        "pillar2_text": "Sun-kissed terroir, locally mastered",
-        "pillar3_num": "∞",
-        "pillar3_label": "The Avión standard",
-        "pillar3_text": "Every batch held to an uncompromising standard"
       }
     }
   },
