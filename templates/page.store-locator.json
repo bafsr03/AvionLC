@@ -16,12 +16,9 @@
           "type": "location",
           "settings": {
             "store_name": "Avio Supply Co.",
-            "store_type": "Distributor",
             "address_line_1": "",
             "city_state_zip": "Minnesota",
             "phone": "(971)334-9527",
-            "hours_weekday": "Mon-Fri  9am-9pm",
-            "hours_weekend": "Sat-Sun  10am-8pm",
             "maps_embed_url": ""
           }
         }
@@ -31,8 +28,7 @@
       ],
       "settings": {
         "heading": "WHERE TO FIND US",
-        "tagline": "Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries.",
-        "note": "Not all products available at every location. Call ahead to confirm stock."
+        "tagline": "Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries."
       }
     },
     "pattern_avion_footer": {

@@ -505,9 +505,6 @@
             >
               <div class="av-locator__card-header">
                 <h3 class="av-locator__card-name">{{ block.settings.store_name }}</h3>
-                {% if block.settings.store_type != blank %}
-                  <span class="av-locator__card-tag">{{ block.settings.store_type }}</span>
-                {% endif %}
               </div>
 
               {% if block.settings.address_line_1 != blank or block.settings.city_state_zip != blank %}
@@ -517,26 +514,14 @@
                 </p>
               {% endif %}
 
-              <div class="av-locator__card-details">
-                {% if block.settings.phone != blank %}
+              {% if block.settings.phone != blank %}
+                <div class="av-locator__card-details">
                   <div class="av-locator__card-detail">
                     <span class="av-locator__detail-label">Phone</span>
                     <span class="av-locator__detail-value">{{ block.settings.phone }}</span>
                   </div>
-                {% endif %}
-                {% if block.settings.hours_weekday != blank %}
-                  <div class="av-locator__card-detail">
-                    <span class="av-locator__detail-label">Weekdays</span>
-                    <span class="av-locator__detail-value">{{ block.settings.hours_weekday }}</span>
-                  </div>
-                {% endif %}
-                {% if block.settings.hours_weekend != blank %}
-                  <div class="av-locator__card-detail">
-                    <span class="av-locator__detail-label">Weekend</span>
-                    <span class="av-locator__detail-value">{{ block.settings.hours_weekend }}</span>
-                  </div>
-                {% endif %}
-              </div>
+                </div>
+              {% endif %}
 
               <a
                 class="av-locator__card-directions"
@@ -593,12 +578,6 @@
 
   </div>
 
-  {% if section.settings.note != blank %}
-    <div class="av-locator__footer">
-      <p class="av-locator__footer-note">{{ section.settings.note }}</p>
-    </div>
-  {% endif %}
-
 </section>
 
 <script>
@@ -641,13 +620,6 @@
       "id": "tagline",
       "label": "Tagline",
       "default": "Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries."
-    },
-    {
-      "type": "text",
-      "id": "note",
-      "label": "Footer note",
-      "info": "Fine print shown below the map (e.g. product availability disclaimer)",
-      "default": "Not all products available at every location. Call ahead to confirm stock."
     }
   ],
   "blocks": [
@@ -660,13 +632,6 @@
           "id": "store_name",
           "label": "Store name",
           "default": "Retailer Name"
-        },
-        {
-          "type": "text",
-          "id": "store_type",
-          "label": "Store type badge",
-          "info": "Short label shown as a badge (e.g. Dispensary, Delivery, Partner)",
-          "default": "Dispensary"
         },
         {
           "type": "header",
@@ -686,25 +651,13 @@
         },
         {
           "type": "header",
-          "content": "Contact and Hours"
+          "content": "Contact"
         },
         {
           "type": "text",
           "id": "phone",
           "label": "Phone",
           "default": "(612) 555-0123"
-        },
-        {
-          "type": "text",
-          "id": "hours_weekday",
-          "label": "Weekday hours",
-          "default": "Mon-Fri  9am-9pm"
-        },
-        {
-          "type": "text",
-          "id": "hours_weekend",
-          "label": "Weekend hours",
-          "default": "Sat-Sun  10am-8pm"
         },
         {
           "type": "header",
