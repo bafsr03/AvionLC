@@ -508,17 +508,104 @@
     overflow: hidden;
   }
 
-  .av-locator__map-iframe {
+  .av-locator__leaflet,
+  .av-locator__map-google {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-    transition: opacity 0.32s ease;
+    z-index: 1;
   }
 
-  .av-locator__map-iframe--fading { opacity: 0; }
+  .av-locator__map-google {
+    display: none;
+  }
+
+  .av-locator__map-wrap--google .av-locator__leaflet {
+    display: none;
+  }
+
+  .av-locator__map-wrap--google .av-locator__map-google {
+    display: block;
+  }
+
+  /* Leaflet tile + control polish */
+  .av-locator__leaflet .leaflet-container {
+    background: #f3e6c4;
+    font-family: "Source Serif 4", serif;
+  }
+
+  .av-locator__leaflet .leaflet-control-attribution {
+    background: rgba(255, 243, 220, 0.85);
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .av-locator__leaflet .leaflet-control-zoom a {
+    background: rgba(255, 243, 220, 0.95);
+    color: #1C1916;
+    border: 1px solid rgba(28, 25, 22, 0.12);
+  }
+
+  .av-locator__leaflet .leaflet-popup-content-wrapper {
+    border-radius: 0;
+    background: #fff3dc;
+    box-shadow: 0 8px 24px rgba(28, 25, 22, 0.18);
+    border: 1px solid rgba(28, 25, 22, 0.1);
+  }
+
+  .av-locator__leaflet .leaflet-popup-tip {
+    background: #fff3dc;
+  }
+
+  .av-locator__leaflet .leaflet-popup-content {
+    margin: 12px 14px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: #1C1916;
+  }
+
+  .av-locator__leaflet .leaflet-popup-content strong {
+    font-family: "Young Serif", serif;
+    font-weight: normal;
+    font-size: 0.92rem;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Custom teardrop pin via divIcon */
+  .av-locator__leaflet-pin-icon {
+    background: transparent;
+    border: none;
+  }
+
+  .av-locator__leaflet-pin-shape {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 248, 235, 0.95);
+    border-radius: 50% 50% 50% 0;
+    background: #F7B32B;
+    box-shadow: 0 4px 12px rgba(28, 25, 22, 0.28);
+    transform: rotate(-45deg);
+    transform-origin: 50% 50%;
+    position: relative;
+  }
+
+  .av-locator__leaflet-pin-shape::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: #1C1916;
+  }
+
+  .av-locator__leaflet-pin-icon--active .av-locator__leaflet-pin-shape {
+    background: #1C1916;
+    transform: rotate(-45deg) scale(1.18);
+  }
+
+  .av-locator__leaflet-pin-icon--active .av-locator__leaflet-pin-shape::before {
+    background: #F7B32B;
+  }
 
   .av-locator__map-label {
     position: absolute;
@@ -533,6 +620,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    z-index: 3;
   }
 
   .av-locator__map-label::before {
@@ -692,15 +780,8 @@
     <!-- RIGHT: map panel, fills column height -->
     <div class="av-locator__map-panel" aria-label="Store location map">
       <div class="av-locator__map-wrap" id="avLocatorMapWrap">
-        <iframe
-          class="av-locator__map-iframe"
-          id="avLocatorMap"
-          src=""
-          title="Store location map"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen
-        ></iframe>
+        <div class="av-locator__leaflet" id="avLocatorLeafletMap" role="application" aria-label="Interactive map of authorized Avion retailers"></div>
+        <div class="av-locator__map-google" id="avLocatorGoogleMap" aria-label="Interactive Google map of retailers"></div>
         <div class="av-locator__map-label" id="avLocatorMapLabel">
           <div>
             <p class="av-locator__map-label-name" id="avLocatorMapLabelName"></p>
@@ -719,13 +800,56 @@
   'use strict';
 
   var stores = JSON.parse(document.getElementById('avLocatorStores').textContent);
+  var googleMapsApiKey = {{ section.settings.google_maps_api_key | json }};
+  var storeCoordinates = {
+    '110B W Main St|Le Roy|55951': { lat: 43.5083, lng: -92.5066 },
+    '7315 Hwy 65 NE|Fridley|55432': { lat: 45.0927, lng: -93.2600 },
+    '4528 France Ave S|Edina|55410': { lat: 44.9205, lng: -93.3280 },
+    '1155 Centre Pointe Dr Suite 6|Mendota Heights|55120': { lat: 44.8648, lng: -93.1535 },
+    '1599 County Rd E E|St Paul|55110': { lat: 45.0502, lng: -93.0362 },
+    '6111 U.S. 10 #500|Ramsey|55303': { lat: 45.2520, lng: -93.4359 },
+    '215 South Chestnut Street|La Crescent|55947': { lat: 43.8286, lng: -91.3037 },
+    '901 W 36th St|Minneapolis|55408': { lat: 44.9379, lng: -93.2922 },
+    '173 E 2nd St|Winona|55987': { lat: 44.0520, lng: -91.6362 },
+    '1142 County Rd E E|Vadnais Heights|55110': { lat: 45.0503, lng: -93.0713 },
+    '2801 Lyndale Ave S|Minneapolis|55408': { lat: 44.9506, lng: -93.2886 },
+    '608 Snelling Ave S|St Paul|55116': { lat: 44.9228, lng: -93.1669 },
+    '108 Main St E #400|Isanti|55040': { lat: 45.4910, lng: -93.2477 },
+    '905 N Washington Ave|Minneapolis|55401': { lat: 44.9872, lng: -93.2761 },
+    '1319 4th St SE|Minneapolis|55414': { lat: 44.9807, lng: -93.2359 },
+    '9326 Zane Avenue North|Brooklyn Park|55443': { lat: 45.1250, lng: -93.3567 },
+    '446 University Avenue West|Saint Paul|55103': { lat: 44.9554, lng: -93.1197 },
+    '396 Schilling Dr Ste 400|Dundas|55019': { lat: 44.4292, lng: -93.2020 },
+    '16085 Buck Hill Rd|Lakeville|55044': { lat: 44.7063, lng: -93.2868 },
+    '415 Broadway St S|Jordan|55352': { lat: 44.6661, lng: -93.6262 },
+    '4753 Chicago Ave|Minneapolis|55407': { lat: 44.9172, lng: -93.2626 },
+    '2518 Central Ave NE|Minneapolis|55418': { lat: 45.0146, lng: -93.2472 },
+    '502 Mainstreet|Hopkins|55343': { lat: 44.9240, lng: -93.4145 },
+    '2945 Hennepin Ave S|Minneapolis|55408': { lat: 44.9489, lng: -93.2987 },
+    '151 Silver Lake Rd NW #114|New Brighton|55112': { lat: 45.0646, lng: -93.1885 },
+    '1220 W 4th St|Rush City|55069': { lat: 45.6845, lng: -92.9649 }
+  };
+  /* State view: roughly centers on Minnesota with enough zoom-out to fit all pins,
+     from Rush City in the north to Le Roy in the south. */
+  var stateView = { lat: 45.0, lng: -93.5, zoom: 7 };
+  var selectedZoom = 13;
+
+  stores.forEach(function (store) {
+    var coords = storeCoordinates[store.street + '|' + store.city + '|' + store.zip];
+    if (!coords) return;
+    store.lat = coords.lat;
+    store.lng = coords.lng;
+  });
+
   var activeIndex  = -1;
   var activeCity   = '';
   var searchQuery  = '';
 
   var cardsContainer = document.getElementById('avLocatorCards');
   var emptyEl        = document.getElementById('avLocatorEmpty');
-  var mapIframe      = document.getElementById('avLocatorMap');
+  var mapWrap        = document.getElementById('avLocatorMapWrap');
+  var leafletEl      = document.getElementById('avLocatorLeafletMap');
+  var googleMapEl    = document.getElementById('avLocatorGoogleMap');
   var labelName      = document.getElementById('avLocatorMapLabelName');
   var labelAddr      = document.getElementById('avLocatorMapLabelAddr');
   var searchInput    = document.getElementById('avLocatorSearch');
@@ -740,14 +864,352 @@
       .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  function mapSrc(s) {
-    var q = enc(s.street + ', ' + s.city + ', MN ' + s.zip);
-    return 'https://maps.google.com/maps?q=' + q + '&output=embed&hl=en&z=15';
+  function dirUrl(s) {
+    return 'https://www.google.com/maps/dir/?api=1&destination=' + enc(s.street + ' ' + s.city + ' MN ' + s.zip);
   }
 
-  function dirUrl(s) {
-    var q = enc(s.street + ' ' + s.city + ' MN ' + s.zip);
-    return 'https://www.google.com/maps/dir/?api=1&destination=' + q;
+  function storesWithCoords(list) {
+    return list.filter(function (s) { return typeof s.lat === 'number' && typeof s.lng === 'number'; });
+  }
+
+  /* ============================================================
+     Leaflet + OpenStreetMap (default — no API key required)
+     ============================================================ */
+  var leafletScriptStarted = false;
+  var leafletPending = [];
+
+  function withLeaflet(callback) {
+    if (window.L) { callback(); return; }
+    leafletPending.push(callback);
+    if (leafletScriptStarted) return;
+    leafletScriptStarted = true;
+
+    if (!document.getElementById('avLocatorLeafletCss')) {
+      var link = document.createElement('link');
+      link.id = 'avLocatorLeafletCss';
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      link.crossOrigin = '';
+      document.head.appendChild(link);
+    }
+
+    var script = document.createElement('script');
+    script.id = 'avLocatorLeafletJs';
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.crossOrigin = '';
+    script.onload = function () {
+      var queued = leafletPending.slice();
+      leafletPending = [];
+      queued.forEach(function (fn) { fn(); });
+    };
+    document.head.appendChild(script);
+  }
+
+  var leafletMap;
+  var leafletMarkers = [];
+
+  function makePinIcon(active) {
+    return L.divIcon({
+      className: 'av-locator__leaflet-pin-icon' + (active ? ' av-locator__leaflet-pin-icon--active' : ''),
+      html: '<span class="av-locator__leaflet-pin-shape"></span>',
+      iconSize: [18, 18],
+      iconAnchor: [9, 18],
+      popupAnchor: [0, -16]
+    });
+  }
+
+  function initLeafletMap() {
+    if (leafletMap || !leafletEl) return;
+
+    leafletMap = L.map(leafletEl, {
+      center: [stateView.lat, stateView.lng],
+      zoom: stateView.zoom,
+      minZoom: 4,
+      maxZoom: 17,
+      scrollWheelZoom: false,
+      zoomControl: true
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18
+    }).addTo(leafletMap);
+
+    /* Re-enable wheel zoom only after a click, so the map doesn't hijack page scroll. */
+    leafletMap.on('click focus', function () { leafletMap.scrollWheelZoom.enable(); });
+    leafletMap.on('mouseout', function () { leafletMap.scrollWheelZoom.disable(); });
+
+    stores.forEach(function (store, index) {
+      if (typeof store.lat !== 'number') return;
+
+      var marker = L.marker([store.lat, store.lng], {
+        icon: makePinIcon(false),
+        title: store.name,
+        riseOnHover: true
+      });
+
+      marker.bindPopup(
+        '<strong>' + escHtml(store.name) + '</strong>' +
+        escHtml(store.street) + '<br>' +
+        escHtml(store.city) + ', MN ' + escHtml(store.zip)
+      );
+
+      marker.on('click', function () {
+        activeIndex = index;
+        highlightCard(index, true);
+        setActiveLeafletMarker(index);
+        if (labelName) labelName.textContent = store.name;
+        if (labelAddr) labelAddr.textContent = store.street + ', ' + store.city + ', MN ' + store.zip;
+      });
+
+      marker.addTo(leafletMap);
+      leafletMarkers[index] = marker;
+    });
+  }
+
+  function setActiveLeafletMarker(idx) {
+    leafletMarkers.forEach(function (m, i) {
+      if (!m) return;
+      m.setIcon(makePinIcon(i === idx));
+    });
+  }
+
+  function applyLeafletView() {
+    if (!leafletMap) return;
+
+    var filtered = getFiltered();
+    var visibleIdx = {};
+    filtered.forEach(function (s) { visibleIdx[stores.indexOf(s)] = true; });
+
+    stores.forEach(function (s, i) {
+      var marker = leafletMarkers[i];
+      if (!marker) return;
+      var shouldShow = visibleIdx[i] || i === activeIndex;
+      if (shouldShow) {
+        if (!leafletMap.hasLayer(marker)) marker.addTo(leafletMap);
+      } else if (leafletMap.hasLayer(marker)) {
+        leafletMap.removeLayer(marker);
+      }
+    });
+
+    setActiveLeafletMarker(activeIndex);
+
+    if (activeIndex >= 0 && leafletMarkers[activeIndex]) {
+      leafletMap.setView(leafletMarkers[activeIndex].getLatLng(), selectedZoom, { animate: true });
+      leafletMarkers[activeIndex].openPopup();
+      return;
+    }
+
+    leafletMap.closePopup();
+
+    if (!activeCity && !searchQuery) {
+      /* Overview: fit every retailer pin into view, capped so we still feel like a state map. */
+      var allCoords = storesWithCoords(stores);
+      if (allCoords.length > 1) {
+        leafletMap.fitBounds(L.latLngBounds(allCoords.map(function (s) { return [s.lat, s.lng]; })), {
+          padding: [40, 40],
+          maxZoom: 8
+        });
+      } else {
+        leafletMap.setView([stateView.lat, stateView.lng], stateView.zoom, { animate: true });
+      }
+      return;
+    }
+
+    var coords = storesWithCoords(filtered);
+    if (coords.length === 0) {
+      leafletMap.setView([stateView.lat, stateView.lng], stateView.zoom, { animate: true });
+    } else if (coords.length === 1) {
+      leafletMap.setView([coords[0].lat, coords[0].lng], 12, { animate: true });
+    } else {
+      leafletMap.fitBounds(L.latLngBounds(coords.map(function (s) { return [s.lat, s.lng]; })), {
+        padding: [50, 50],
+        maxZoom: 12
+      });
+    }
+  }
+
+  /* ============================================================
+     Google Maps JS API (optional — used when an API key is set)
+     ============================================================ */
+  var googleMap;
+  var googleInfoWindow;
+  var googleMarkers = [];
+  var googleScriptStarted = false;
+  var googlePending = [];
+
+  function withGoogle(callback) {
+    if (window.google && window.google.maps) { callback(); return; }
+    googlePending.push(callback);
+    if (googleScriptStarted) return;
+    googleScriptStarted = true;
+
+    window.avLocatorGoogleMapReady = function () {
+      var queued = googlePending.slice();
+      googlePending = [];
+      queued.forEach(function (fn) { fn(); });
+    };
+
+    var script = document.createElement('script');
+    script.id = 'avLocatorGoogleMapsScript';
+    script.async = true;
+    script.defer = true;
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=' + enc(googleMapsApiKey) + '&callback=avLocatorGoogleMapReady';
+    document.head.appendChild(script);
+  }
+
+  function initGoogleMap() {
+    if (googleMap || !googleMapEl || !(window.google && window.google.maps)) return;
+
+    mapWrap.classList.add('av-locator__map-wrap--google');
+
+    googleMap = new google.maps.Map(googleMapEl, {
+      center: { lat: stateView.lat, lng: stateView.lng },
+      zoom: stateView.zoom,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: true
+    });
+    googleInfoWindow = new google.maps.InfoWindow();
+
+    stores.forEach(function (store, index) {
+      if (typeof store.lat !== 'number') return;
+
+      var marker = new google.maps.Marker({
+        map: googleMap,
+        position: { lat: store.lat, lng: store.lng },
+        title: store.name
+      });
+
+      marker.addListener('click', function () {
+        activeIndex = index;
+        highlightCard(index, true);
+        openGoogleInfo(store, marker);
+        if (labelName) labelName.textContent = store.name;
+        if (labelAddr) labelAddr.textContent = store.street + ', ' + store.city + ', MN ' + store.zip;
+      });
+
+      googleMarkers[index] = marker;
+    });
+  }
+
+  function openGoogleInfo(store, marker) {
+    if (!googleInfoWindow || !marker) return;
+    googleInfoWindow.setContent(
+      '<strong>' + escHtml(store.name) + '</strong><br>' +
+      escHtml(store.street) + '<br>' +
+      escHtml(store.city) + ', MN ' + escHtml(store.zip)
+    );
+    googleInfoWindow.open(googleMap, marker);
+  }
+
+  function applyGoogleView() {
+    if (!googleMap) return;
+
+    var filtered = getFiltered();
+    var visibleIdx = {};
+    filtered.forEach(function (s) { visibleIdx[stores.indexOf(s)] = true; });
+
+    var bounds = new google.maps.LatLngBounds();
+    var visibleCount = 0;
+    var lastVisible = -1;
+
+    stores.forEach(function (s, i) {
+      var marker = googleMarkers[i];
+      if (!marker) return;
+      var visible = visibleIdx[i] || i === activeIndex;
+      marker.setVisible(visible);
+      if (visible) {
+        bounds.extend(marker.getPosition());
+        visibleCount++;
+        lastVisible = i;
+      }
+    });
+
+    if (activeIndex >= 0 && googleMarkers[activeIndex]) {
+      googleMap.setZoom(selectedZoom);
+      googleMap.panTo(googleMarkers[activeIndex].getPosition());
+      openGoogleInfo(stores[activeIndex], googleMarkers[activeIndex]);
+      return;
+    }
+
+    if (googleInfoWindow) googleInfoWindow.close();
+
+    if (!activeCity && !searchQuery) {
+      var allBounds = new google.maps.LatLngBounds();
+      storesWithCoords(stores).forEach(function (s) {
+        allBounds.extend(new google.maps.LatLng(s.lat, s.lng));
+      });
+      if (!allBounds.isEmpty()) {
+        googleMap.fitBounds(allBounds, { top: 60, right: 60, bottom: 100, left: 60 });
+      } else {
+        googleMap.setCenter({ lat: stateView.lat, lng: stateView.lng });
+        googleMap.setZoom(stateView.zoom);
+      }
+      return;
+    }
+
+    if (visibleCount === 1 && lastVisible >= 0) {
+      googleMap.setZoom(12);
+      googleMap.panTo(googleMarkers[lastVisible].getPosition());
+    } else if (visibleCount > 1) {
+      googleMap.fitBounds(bounds, { top: 60, right: 60, bottom: 100, left: 60 });
+    } else {
+      googleMap.setCenter({ lat: stateView.lat, lng: stateView.lng });
+      googleMap.setZoom(stateView.zoom);
+    }
+  }
+
+  /* ============================================================
+     Map refresh dispatcher + label
+     ============================================================ */
+  function updateOverviewLabel() {
+    var filtered = getFiltered();
+    var total = filtered.length;
+    var word = total === 1 ? 'location' : 'locations';
+    var title = activeCity ? activeCity + ' retailers' : (searchQuery ? 'Matching retailers' : 'Minnesota retailers');
+    if (labelName) labelName.textContent = total ? title : 'No matching locations';
+    if (labelAddr) labelAddr.textContent = total + ' authorized ' + word;
+  }
+
+  function updateSelectedLabel() {
+    var s = stores[activeIndex];
+    if (!s) return;
+    if (labelName) labelName.textContent = s.name;
+    if (labelAddr) labelAddr.textContent = s.street + ', ' + s.city + ', MN ' + s.zip;
+  }
+
+  function refreshMap() {
+    if (activeIndex >= 0) updateSelectedLabel();
+    else updateOverviewLabel();
+
+    if (googleMapsApiKey) {
+      withGoogle(function () {
+        initGoogleMap();
+        applyGoogleView();
+      });
+      return;
+    }
+
+    withLeaflet(function () {
+      initLeafletMap();
+      /* Force a size recalc in case the section was offscreen / animating in. */
+      requestAnimationFrame(function () {
+        if (leafletMap) leafletMap.invalidateSize();
+        applyLeafletView();
+      });
+    });
+  }
+
+  function highlightCard(storeIndex, scrollCard) {
+    cardsContainer.querySelectorAll('.av-locator__card').forEach(function (card) {
+      card.classList.toggle('av-locator__card--active', parseInt(card.dataset.storeIndex, 10) === storeIndex);
+    });
+
+    if (scrollCard) {
+      var card = cardsContainer.querySelector('[data-store-index="' + storeIndex + '"]');
+      if (card && card.scrollIntoView) card.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
   }
 
   /* ---- Card HTML ---- */
@@ -784,7 +1246,6 @@
 
     return '<div class="av-locator__card"'
       + ' data-store-index="' + storeIndex + '"'
-      + ' data-map-src="' + escHtml(mapSrc(store)) + '"'
       + ' data-location-name="' + escHtml(store.name) + '"'
       + ' data-location-addr="' + escHtml(addr) + '">'
       + '<div class="av-locator__card-header">'
@@ -838,17 +1299,17 @@
       card.addEventListener('click', onCardClick);
     });
 
-    /* Re-activate previously active store if still visible */
+    /* Keep a selected store only when it is still visible; otherwise return to the overview. */
     if (activeIndex >= 0) {
       var ac = cardsContainer.querySelector('[data-store-index="' + activeIndex + '"]');
       if (ac) {
         ac.classList.add('av-locator__card--active');
-      } else if (filtered.length > 0) {
-        activateCard(cards[0]);
+      } else {
+        activeIndex = -1;
       }
-    } else if (filtered.length > 0) {
-      activateCard(cards[0]);
     }
+
+    refreshMap();
   }
 
   /* ---- Activate ---- */
@@ -858,16 +1319,7 @@
     });
     card.classList.add('av-locator__card--active');
     activeIndex = parseInt(card.dataset.storeIndex, 10);
-
-    /* Fade map, swap src, fade back */
-    mapIframe.classList.add('av-locator__map-iframe--fading');
-    setTimeout(function () {
-      var src = card.dataset.mapSrc;
-      if (src && mapIframe.src !== src) mapIframe.src = src;
-      if (labelName) labelName.textContent = card.dataset.locationName || '';
-      if (labelAddr) labelAddr.textContent = card.dataset.locationAddr || '';
-      mapIframe.classList.remove('av-locator__map-iframe--fading');
-    }, 270);
+    refreshMap();
   }
 
   function onCardClick(e) {
@@ -978,6 +1430,12 @@
       "id": "tagline",
       "label": "Tagline",
       "default": "Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries across Minnesota."
+    },
+    {
+      "type": "text",
+      "id": "google_maps_api_key",
+      "label": "Google Maps API key",
+      "info": "Optional. Add a Google Maps JavaScript API key to render the map with Google Maps. When empty, the section uses an interactive OpenStreetMap (Leaflet) map — no key required."
     }
   ],
   "presets": [
