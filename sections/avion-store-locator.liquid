@@ -693,12 +693,14 @@
   {"name":"Flipside Dispensary","street":"901 W 36th St","city":"Minneapolis","zip":"55408","phone":"651 263 7330","web":"flipsidemn.com","ig":"flipsidemn"},
   {"name":"Fridley Dispensary","street":"7315 Hwy 65 NE","city":"Fridley","zip":"55432","phone":"763 264 681","web":"fridleydispensary.com","ig":"fridleydispensary"},
   {"name":"FullMelt Factory","street":"13777 Grove Dr","city":"Maple Grove","zip":"55369","phone":"612 703 3265","web":"fullmeltfactory.com","ig":"fullmelt.factory"},
+  {"name":"Go4 Cannabis Co","street":"7114 Otter Lake Road Suite 130","city":"Lino Lakes","zip":"55038","phone":"612 240 1988","web":"go4cannabis.com","ig":""},
+  {"name":"Green Leaf Depot","street":"4126 Egan Dr","city":"Savage","zip":"55378","phone":"952 388 4259","web":"gldepot.com","ig":"official_gldepot"},
   {"name":"High 10 Ramsey","street":"6111 U.S. 10 #500","city":"Ramsey","zip":"55303","phone":"763 208 4062","web":"ramseydispensary.com","ig":"high10mn"},
   {"name":"Huff and Puff","street":"1142 County Rd E E","city":"Vadnais Heights","zip":"55110","phone":"612 460 0783","web":"huffandpuffdispensarymn.com","ig":"huffandpuffdispensary"},
   {"name":"Kodjo Dispensary","street":"446 University Avenue West","city":"Saint Paul","zip":"55103","phone":"","web":"","ig":""},
   {"name":"Lake Daze","street":"502 Mainstreet","city":"Hopkins","zip":"55343","phone":"952 855 7603","web":"lakedaze.com","ig":"lakedazemn"},
   {"name":"Lake of the Woods Cannabis Co.","street":"3256 MN-172","city":"Baudette","zip":"56623","phone":"","web":"lowcanco.com","ig":""},
-  {"name":"Legit Cannabis","street":"1319 4th St SE","city":"Minneapolis","zip":"55414","phone":"952 236 0638","web":"mnlegitcannabis.com","ig":"legitcannabis"},
+  {"name":"Legit Cannabis","street":"16000 Cedar Ave","city":"Rosemount","zip":"55068","phone":"952 236 0638","web":"mnlegitcannabis.com","ig":"legitcannabis"},
   {"name":"Litt Dispensaries","street":"14029 Round Lake Blvd NW","city":"Andover","zip":"55304","phone":"763 270 5678","web":"littdispensaries.com","ig":"littdispensary"},
   {"name":"Lucky Strains","street":"151 Silver Lake Rd NW #114","city":"New Brighton","zip":"55112","phone":"651 424 6788","web":"luckystrains.gives","ig":"lucky_strains"},
   {"name":"Minne Organix","street":"1900 W 80th St","city":"Victoria","zip":"55386","phone":"952 443 3242","web":"minneorganix.com","ig":"minneorganix"},
@@ -735,7 +737,7 @@
           {{ section.settings.tagline | default: 'Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries across Minnesota.' }}
         </p>
         <p class="av-locator__hero-count" aria-hidden="true">
-          <span class="av-locator__hero-count-num" id="avLocatorCount" data-target="32">0</span>&nbsp;locations
+          <span class="av-locator__hero-count-num" id="avLocatorCount" data-target="34">0</span>&nbsp;locations
         </p>
       </div>
     </div>
@@ -837,7 +839,10 @@
     '1900 W 80th St|Victoria|55386': { lat: 44.8583, lng: -93.6627 },
     '13777 Grove Dr|Maple Grove|55369': { lat: 45.1032, lng: -93.4561 },
     '162 Dale St N|St Paul|55102': { lat: 44.9463, lng: -93.1262 },
-    '3256 MN-172|Baudette|56623': { lat: 48.8328, lng: -94.7101 }
+    '3256 MN-172|Baudette|56623': { lat: 48.8328, lng: -94.7101 },
+    '16000 Cedar Ave|Rosemount|55068': { lat: 44.7242, lng: -93.1577 },
+    '7114 Otter Lake Road Suite 130|Lino Lakes|55038': { lat: 45.1574, lng: -93.0900 },
+    '4126 Egan Dr|Savage|55378': { lat: 44.7674, lng: -93.3905 }
   };
   /* State view: roughly centers on Minnesota with enough zoom-out to fit all pins,
      from Rush City in the north to Le Roy in the south. */
@@ -1410,7 +1415,7 @@
       if (!counterDone && counterEl) {
         counterDone = true;
         setTimeout(function () {
-          animateCounter(counterEl, parseInt(counterEl.dataset.target, 10) || 32, 1400);
+          animateCounter(counterEl, parseInt(counterEl.dataset.target, 10) || 34, 1400);
         }, 480);
       }
       obs.unobserve(heroEl);
@@ -1446,6 +1451,39 @@
       "id": "google_maps_api_key",
       "label": "Google Maps API key",
       "info": "Optional. Add a Google Maps JavaScript API key to render the map with Google Maps. When empty, the section uses an interactive OpenStreetMap (Leaflet) map — no key required."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Location",
+      "settings": [
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store name"
+        },
+        {
+          "type": "text",
+          "id": "address_line_1",
+          "label": "Address"
+        },
+        {
+          "type": "text",
+          "id": "city_state_zip",
+          "label": "City, state, ZIP"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone"
+        },
+        {
+          "type": "url",
+          "id": "maps_embed_url",
+          "label": "Maps URL"
+        }
+      ]
     }
   ],
   "presets": [
