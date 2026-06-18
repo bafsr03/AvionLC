@@ -115,6 +115,10 @@
             <p class="vertical-carousel-subheading">{{ section.settings.subheading }}</p>
           {%- endif -%}
 
+          {%- if section.settings.tagline != blank -%}
+            <p class="vertical-carousel-tagline">{{ section.settings.tagline }}</p>
+          {%- endif -%}
+
           <div class="vertical-carousel-specs" aria-label="Product details">
   <span class="vertical-carousel-spec">100% Cotton Fleece</span>
   <span class="vertical-carousel-spec">350 GSM Heavyweight</span>
@@ -278,6 +282,16 @@
     opacity: 0.9;
     margin: -0.5rem 0 0;
     text-transform: uppercase;
+  }
+
+  .vertical-carousel-tagline {
+    font-family: "Source Serif 4", serif;
+    font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+    line-height: 1.6;
+    color: inherit;
+    opacity: 0.75;
+    margin: -0.25rem 0 0;
+    font-style: italic;
   }
 
   .vertical-carousel-specs {
@@ -533,6 +547,11 @@
       "type": "text",
       "id": "subheading",
       "label": "Subtítulo (debajo del título)"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline (debajo del subtítulo)"
     },
     {
       "type": "richtext",
