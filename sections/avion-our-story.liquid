@@ -537,6 +537,43 @@
     .av-story__num { display: none; }
   }
 
+  /* ---- DESKTOP HERO: natural image height, content overlaid at bottom ---- */
+  @media (min-width: 751px) {
+    .av-story__hero {
+      display: block;
+      min-height: 0;
+      padding: 0;
+    }
+
+    .av-story__hero-media {
+      position: relative;
+      inset: auto;
+      line-height: 0;
+    }
+
+    .av-story__hero-img {
+      width: 100%;
+      height: auto;
+      object-fit: initial;
+      object-position: initial;
+    }
+
+    .av-story__hero-content {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 24px 100px;
+      box-sizing: border-box;
+    }
+
+    .av-story__scroll-cue {
+      bottom: 48px;
+    }
+  }
+
   @media (max-width: 480px) {
     .av-story__hero-title {
       font-size: clamp(3.5rem, 16vw, 6rem);
