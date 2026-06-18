@@ -316,21 +316,6 @@
     text-align: center;
   }
 
-  .av-story__pullquote-mark {
-    font-family: "Young Serif", serif;
-    font-size: clamp(4rem, 8vw, 9rem);
-    line-height: 0.6;
-    color: #F7B32B;
-    opacity: 1;
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  .av-story__pullquote-mark--close {
-    margin-bottom: 0;
-    margin-top: 24px;
-  }
-
   .av-story__pullquote-text {
     font-family: "Young Serif", serif;
     font-size: clamp(1.8rem, 4vw, 4rem);
@@ -339,6 +324,26 @@
     color: inherit;
     max-width: 900px;
     margin: 0 auto 40px;
+  }
+
+  .av-story__pullquote-text::before {
+    content: '\201C';
+    font-family: "Young Serif", serif;
+    color: #F7B32B;
+    font-size: 1.6em;
+    line-height: 0;
+    vertical-align: -0.25em;
+    margin-right: 0.08em;
+  }
+
+  .av-story__pullquote-text::after {
+    content: '\201D';
+    font-family: "Young Serif", serif;
+    color: #F7B32B;
+    font-size: 1.6em;
+    line-height: 0;
+    vertical-align: -0.25em;
+    margin-left: 0.08em;
   }
 
   .av-story__pullquote-attr {
@@ -613,11 +618,9 @@
        ================================================ -->
   <div class="av-story__chapter av-story__chapter--brand">
     <div class="av-story__pullquote">
-      <span class="av-story__pullquote-mark" aria-hidden="true">"</span>
       <p class="av-story__pullquote-text" data-av-reveal="words">
         {{ section.settings.quote1 | default: 'He flew when no one else dared. He built when the world said it was over.' }}
       </p>
-      <span class="av-story__pullquote-mark av-story__pullquote-mark--close" aria-hidden="true">"</span>
       <p class="av-story__pullquote-attr" data-av-reveal="fade-up" data-av-delay="300">
         {{ section.settings.quote1_attr | default: '— The Avión Legacy' }}
       </p>
