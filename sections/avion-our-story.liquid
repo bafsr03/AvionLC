@@ -22,7 +22,7 @@
     text-align: center;
     position: relative;
     overflow: hidden;
-    padding: 80px 24px 100px;
+    padding: 80px 24px 60px;
   }
 
   .av-story__hero-media {
@@ -36,7 +36,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 80%;
     transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     filter: brightness(0.85) saturate(0.9);
   }
@@ -535,43 +535,6 @@
     }
 
     .av-story__num { display: none; }
-  }
-
-  /* ---- DESKTOP HERO: natural image height, content overlaid at bottom ---- */
-  @media (min-width: 751px) {
-    .av-story__hero {
-      display: block;
-      min-height: 0;
-      padding: 0;
-    }
-
-    .av-story__hero-media {
-      position: relative;
-      inset: auto;
-      line-height: 0;
-    }
-
-    .av-story__hero-img {
-      width: 100%;
-      height: auto;
-      object-fit: initial;
-      object-position: initial;
-    }
-
-    .av-story__hero-content {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1100px;
-      padding: 0 24px 100px;
-      box-sizing: border-box;
-    }
-
-    .av-story__scroll-cue {
-      bottom: 48px;
-    }
   }
 
   @media (max-width: 480px) {
