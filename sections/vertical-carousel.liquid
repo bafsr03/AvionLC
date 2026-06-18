@@ -111,6 +111,10 @@
             <h2 class="vertical-carousel-heading">{{ section.settings.heading }}</h2>
           {%- endif -%}
 
+          {%- if section.settings.subheading != blank -%}
+            <p class="vertical-carousel-subheading">{{ section.settings.subheading }}</p>
+          {%- endif -%}
+
           <div class="vertical-carousel-specs" aria-label="Product details">
   <span class="vertical-carousel-spec">100% Cotton Fleece</span>
   <span class="vertical-carousel-spec">350 GSM Heavyweight</span>
@@ -263,6 +267,17 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
     color: inherit;
+  }
+
+  .vertical-carousel-subheading {
+    font-family: "Young Serif", serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: inherit;
+    opacity: 0.9;
+    margin: -0.5rem 0 0;
+    text-transform: uppercase;
   }
 
   .vertical-carousel-specs {
@@ -513,6 +528,11 @@
       "id": "heading",
       "label": "Título",
       "default": "BUILT BY WOMEN WHO GET IT"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo (debajo del título)"
     },
     {
       "type": "richtext",

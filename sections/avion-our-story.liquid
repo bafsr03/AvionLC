@@ -321,7 +321,7 @@
     font-size: clamp(4rem, 8vw, 9rem);
     line-height: 0.6;
     color: #F7B32B;
-    opacity: 0.35;
+    opacity: 1;
     display: block;
     margin-bottom: 16px;
   }
@@ -527,6 +527,13 @@
     .av-story__num { display: none; }
   }
 
+  @media (max-width: 750px) {
+    .av-story__hero {
+      justify-content: flex-end;
+      padding-bottom: 80px;
+    }
+  }
+
   @media (max-width: 480px) {
     .av-story__hero-title {
       font-size: clamp(3.5rem, 16vw, 6rem);
@@ -601,8 +608,9 @@
        ================================================ -->
   <div class="av-story__chapter av-story__chapter--brand">
     <div class="av-story__pullquote">
+      <span class="av-story__pullquote-mark" aria-hidden="true">"</span>
       <p class="av-story__pullquote-text" data-av-reveal="words">
-        {{ section.settings.quote1 | default: '"He flew when no one else dared. He built when the world said it was over."' }}
+        {{ section.settings.quote1 | default: 'He flew when no one else dared. He built when the world said it was over."' }}
       </p>
       <p class="av-story__pullquote-attr" data-av-reveal="fade-up" data-av-delay="300">
         {{ section.settings.quote1_attr | default: '— The Avión Legacy' }}
