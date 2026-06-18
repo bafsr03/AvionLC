@@ -769,6 +769,7 @@
         "button_text_color": "#fff3dc",
         "button_hover_color": "#a7322c",
         "background_color": "#a7322c",
+        "text_color": "#fff3dc",
         "padding_top": 44,
         "padding_bottom": 0,
         "animation_speed": 40
@@ -778,7 +779,6 @@
   "order": [
     "avion_motion_hero_main",
     "avion_hero_poster_BN977i",
-    "hoodies_home_ADcEw6",
     "pattern_avion_tDK4Ny",
     "avion_floating_9RkPGb",
     "hero_UVVk4Y",
@@ -786,6 +786,7 @@
     "avion_floating_KWMPdb",
     "media_with_content_E7M3aJ",
     "product_list_z7QLNk",
+    "hoodies_home_ADcEw6",
     "vertical_carousel_CQyktz"
   ]
 }

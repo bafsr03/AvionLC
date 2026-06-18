@@ -4,6 +4,7 @@
     padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
     background-color: {{ section.settings.background_color }};
     --carousel-animation-speed: {{ section.settings.animation_speed }}s;
+    {% if section.settings.text_color != blank %}color: {{ section.settings.text_color }};{% endif %}
   "
 >
   <div class="page-width">
@@ -250,7 +251,8 @@
     text-transform: uppercase;
     font-weight: 600;
     margin: 0;
-    color: rgba(var(--color-foreground), 0.75);
+    color: inherit;
+    opacity: 0.75;
   }
 
   .vertical-carousel-heading {
@@ -260,6 +262,7 @@
     font-weight: 600;
     overflow-wrap: break-word;
     word-wrap: break-word;
+    color: inherit;
   }
 
   .vertical-carousel-specs {
@@ -313,7 +316,8 @@
  .vertical-carousel-description {
   font-size: 1rem;
   line-height: 1.85;
-  color: rgba(var(--color-foreground), 0.88);
+  color: inherit;
+  opacity: 0.88;
   max-width: 100%;
   min-width: 0;
   overflow-wrap: normal;
@@ -558,6 +562,11 @@
       "id": "background_color",
       "label": "Color de fondo",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color del texto"
     },
     {
       "type": "range",

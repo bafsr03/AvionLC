@@ -271,7 +271,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>The crash happened while Jerry was out on bail for the El Paso 10 trial. A case involving 17 tons of cannabis, the largest seizure in U.S. history at the time.</p><p>The jury later acquitted all defendants after discovering law enforcement had stolen and resold the evidence.</p><p>History is rarely clean.<br/><br/>And it is almost never simple.<br/></p>",
+            "text": "<p>The crash happened while Jerry was out on bail for the El Paso 10 trial. A case involving 17,000 lbs of cannabis, the largest seizure in U.S. history at the time.</p><p>The jury later acquitted all defendants after discovering law enforcement had stolen and resold the evidence.</p><p>History is rarely clean.<br/><br/>And it is almost never simple.<br/></p>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
