@@ -60,9 +60,9 @@
 .amh__bg {
   position: absolute;
   /* Bleed 6% on each side so the Ken-Burns / parallax never shows edges */
-  inset: -6%;
-  width: 112%;
-  height: 112%;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
   background-image: var(--amh-bg-url, none);
   background-size: cover;
   background-position: center 45%;
@@ -73,8 +73,8 @@
 }
 
 @keyframes amh-ken-burns {
-  from { transform: scale(1.10); opacity: 0.6; }
-  to   { transform: scale(1.04); opacity: 1; }
+  from { transform: scale(1.04); opacity: 0.6; }
+  to   { transform: scale(1.00); opacity: 1; }
 }
 
 /* ── Cinematic vignette ───────────────────────────────────── */
@@ -289,7 +289,7 @@
 
 /* ── Reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .amh__bg { animation: none; transform: scale(1.04); }
+  .amh__bg { animation: none; transform: scale(1.00); }
   .amh__plane { opacity: 1; transform: translate(-50%, -50%) translateZ(0); }
   .amh__plane--flying,
   .amh__plane--idle { animation: none !important; }
@@ -395,7 +395,7 @@
           var h  = hero.offsetHeight;
           if (sy < h) {
             /* Gentle upward drift as user scrolls — max 6% of the 12% bleed */
-            bg.style.transform = 'scale(1.04) translateY(' + ((sy / h) * 6).toFixed(2) + '%)';
+            bg.style.transform = 'scale(1.00) translateY(' + ((sy / h) * 3).toFixed(2) + '%)';
           }
           ticking = false;
         });
