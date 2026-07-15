@@ -175,13 +175,42 @@
   endif
 %}
 
+{%- liquid
+  # Build an empty-safe sameAs array from whichever social links the merchant
+  # has set in theme settings. No links are fabricated — blanks are dropped and
+  # the key is omitted entirely if none exist.
+  assign social_links = ''
+  if settings.social_instagram_link != blank
+    assign social_links = social_links | append: settings.social_instagram_link | append: ','
+  endif
+  if settings.social_twitter_link != blank
+    assign social_links = social_links | append: settings.social_twitter_link | append: ','
+  endif
+  if settings.social_facebook_link != blank
+    assign social_links = social_links | append: settings.social_facebook_link | append: ','
+  endif
+  if settings.social_tiktok_link != blank
+    assign social_links = social_links | append: settings.social_tiktok_link | append: ','
+  endif
+  if settings.social_youtube_link != blank
+    assign social_links = social_links | append: settings.social_youtube_link | append: ','
+  endif
+  assign social_links = social_links | split: ','
+-%}
 <script type="application/ld+json">
   {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "Organization",
     "name": {{ shop.name | json }},
     {% if settings.logo %}
       "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    {% if social_links.size > 0 %}
+      "sameAs": [
+        {%- for link in social_links -%}
+          {{ link | json }}{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
     {% endif %}
     "url": {{ request.origin | append: page.url | json }}
   }
