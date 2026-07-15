@@ -198,6 +198,29 @@
       {{- section.settings.eyebrow | default: 'Avio Supply Co.' -}}
     </p>
 
+    {%- if collection != blank and collection.title != blank -%}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": {{ request.origin | append: routes.root_url | json }}
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": {{ collection.title | json }},
+              "item": {{ request.origin | append: collection.url | json }}
+            }
+          ]
+        }
+      </script>
+    {%- endif -%}
+
     <h1 class="av-col-hero__title" data-av-reveal="words" data-av-delay="120">
       {{- collection.title | default: section.settings.fallback_title | default: 'Our Products' -}}
     </h1>
