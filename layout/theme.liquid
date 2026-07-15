@@ -21,6 +21,26 @@
       id="view-transition-render-blocker"
     >
 
+    {%- comment -%} Theme-side noindex safety net: search/404 results and any
+      product/page/article manually hidden via the seo.hidden metafield (=1).
+      Shopify's default robots.txt already blocks most of these — this is a
+      belt-and-braces fallback for externally linked URLs. {%- endcomment -%}
+    {%- liquid
+      assign robots_noindex = false
+      if template.name == 'search' or template.name == '404'
+        assign robots_noindex = true
+      elsif product.metafields.seo.hidden.value == 1 or product.metafields.seo.hidden == '1'
+        assign robots_noindex = true
+      elsif page.metafields.seo.hidden.value == 1 or page.metafields.seo.hidden == '1'
+        assign robots_noindex = true
+      elsif article.metafields.seo.hidden.value == 1 or article.metafields.seo.hidden == '1'
+        assign robots_noindex = true
+      endif
+    -%}
+    {%- if robots_noindex -%}
+      <meta name="robots" content="noindex,nofollow">
+    {%- endif -%}
+
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
     {%- render 'fonts' -%}
