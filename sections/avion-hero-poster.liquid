@@ -67,7 +67,21 @@
           {% if word != blank and word != '*' and word != '|' %}
             <div class="av-marquee-item">
               {% comment %} 1. CACTUS {% endcomment %}
-              <img src="https://cdn.shopify.com/s/files/1/0905/4227/6792/files/cactus.png?v=1766159619" alt="" class="av-marquee__icon" loading="lazy">
+              {%- if section.settings.marquee_icon != blank -%}
+                {{
+                  section.settings.marquee_icon
+                  | image_url: width: 144
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'av-marquee__icon',
+                    alt: '',
+                    width: 72,
+                    height: 72,
+                    widths: '72, 108, 144'
+                }}
+              {%- else -%}
+                <img src="https://cdn.shopify.com/s/files/1/0905/4227/6792/files/cactus.png?v=1766159619" alt="" class="av-marquee__icon" width="72" height="72" loading="lazy" decoding="async">
+              {%- endif -%}
 
               {% comment %} 2. PUNTO {% endcomment %}
               <span class="av-marquee__dot"></span>
@@ -90,10 +104,16 @@
   "name": "Marquee Avión Final",
   "settings": [
     {
-      "type": "textarea", 
-      "id": "marquee_text", 
-      "label": "Marquee text", 
-      "default": "NOSTALGIA CRAFT CULTURE LEGACY" 
+      "type": "textarea",
+      "id": "marquee_text",
+      "label": "Marquee text",
+      "default": "NOSTALGIA CRAFT CULTURE LEGACY"
+    },
+    {
+      "type": "image_picker",
+      "id": "marquee_icon",
+      "label": "Marquee icon",
+      "info": "Small decorative icon shown between words. Optimized (sized + srcset) when set; falls back to the default cactus icon."
     }
   ],
   "presets": [
