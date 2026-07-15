@@ -158,7 +158,7 @@
   {%- if section.settings.plane_image != blank -%}
     <img 
       src="{{ section.settings.plane_image | image_url: width: 600 }}"
-      alt="Avion Legacy"
+      alt="{{ section.settings.image_alt | escape }}"
       class="flying-plane-{{ section.id }}"
       id="flying-plane-{{ section.id }}"
     >
@@ -207,6 +207,13 @@
       "id": "plane_image",
       "label": "Plane image",
       "info": "Transparent PNG recommended. Plane should point to the right."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Plane image alt text",
+      "default": "Avió Supply Co",
+      "info": "Describes the image for accessibility and SEO."
     },
     {
       "type": "header",
