@@ -1,0 +1,18 @@
+{
+  "status": "auto_done",
+  "summary": "Shipped 26 new dispensaries to the store locator (34 -> 60); pushed to main, Shopify auto-deploying.",
+  "actions_taken": [
+    { "kind": "theme_pushed", "title": "Add 26 new retailers to store locator (store JSON, coordinates, hero count 34->60)", "commit": "f28bea6" }
+  ],
+  "human_brief": {
+    "summary": "The 26 unhighlighted stores from the sheet that had full addresses are now live-deploying in the locator, merged alphabetically alongside the existing 34 (60 total). Two follow-ups: eyeball the new pins, and send addresses for ~9 rows that had none.",
+    "checklist": [
+      "Once deployed, eyeball the locator and confirm the 26 new pins land in the right spots — their lat/lng were approximated from address, not geocoded, so spot-check outliers (Duluth, Walker, Brainerd, Hinckley, Luverne).",
+      "Confirm brand-name collapsing is OK: 'Legacy Cannabis - Duluth/Woodbury/Minneapolis' were entered as 'Legacy Cannabis' and the four 'Rise Dispensary - <city>' as 'Rise Dispensary' (city shown via the location tag), matching the existing Pot Mamas / MnLoon pattern. Say if you'd rather keep the city in the name.",
+      "Provide addresses for the 9 name-only rows so I can add them: Green Duck, Hi Fidelity, Green Rose, High North, Blaine Dispensary, MN Grass Hero, Farmer's Cannabis Co, Munchiez, Da Spot Dispensary. ('LOTW Cannabis Company' and 'Full Melt Factory' from that bottom list are already in as Lake of the Woods Cannabis Co. and FullMelt Factory.)"
+    ]
+  },
+  "questions_for_owner": [
+    "Some new retailers only had a platform listing for a website (Grounded Gardens -> sweede.io, Holy Smokes -> dutchie.com/stores/holy-smokes-cannabis). Keep those, or leave the website blank for them?"
+  ]
+}
