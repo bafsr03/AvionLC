@@ -1,26 +1,14 @@
 {
   "status": "auto_done",
-  "summary": "Store locator updated from the CSV and deployed: 60 -> 81 retailers (21 added), 7 Instagram handles added, 1 phone corrected, multi-location chain names disambiguated.",
+  "summary": "Renamed the LOTW store locator entry to Lake of the Woods Dispensary and pushed live.",
   "actions_taken": [
-    {
-      "kind": "theme_pushed",
-      "title": "Store locator: add 21 retailers, apply sheet updates (60->81)",
-      "commit": "41b68d7"
-    }
+    { "kind": "theme_pushed", "title": "Store locator: rename LOTW entry to Lake of the Woods Dispensary", "commit": "b22c008" }
   ],
   "human_brief": {
     "checklist": [
-      "Eyeball the live store locator page once Shopify finishes deploying — confirm the hero count reads 81",
-      "Confirm 'LOTW Cannabis Company (Warroad)' map pin — geocoding failed for 418 State Hwy 11, so the pin sits on the Warroad town center, not the storefront",
-      "Confirm 'MN Grass Hero' map pin — resolved to 105th St NW in Watab Township, not a rooftop-level match",
-      "Confirm Litt Dispensaries and Nuggets are both still open at 14029 Round Lake Blvd NW, Andover — the sheet lists both at that same address and both are now live",
-      "Confirm the asterisks on the three Wildflower rows in the sheet — they were dropped from the displayed names",
-      "Confirm MN THC Co - Lakeville's Instagram is intentionally @mnthcco_dundas (reads like a Dundas handle on the Lakeville listing)",
-      "Confirm Munchiez ZIP 55107 — White Bear Ave in St Paul is normally 55106/55109"
+      "Confirm the Warroad listing should read 'Lake of the Woods Dispensary' with no city qualifier",
+      "Decide whether the Baudette listing 'Lake of the Woods Cannabis Co.' should also be renamed"
     ]
   },
-  "questions_for_owner": [
-    "Should Litt Dispensaries be replaced by Nuggets, or do both stay listed at 14029 Round Lake Blvd NW?",
-    "Do the asterisked Wildflower locations mean something (coming soon, conditional) that should show on the page?"
-  ]
+  "questions_for_owner": []
 }
