@@ -80,6 +80,10 @@
     font-size: clamp(4rem, 9vw, 11rem);
     line-height: 0.9;
     letter-spacing: -0.03em;
+    /* Rendered as the page h1; keep the weight/style/case it had as an h2. */
+    font-weight: var(--font-h2--weight);
+    font-style: var(--font-h2--style);
+    text-transform: var(--font-h2--case);
     color: #1C1916;
     margin: 0;
     opacity: 0;
@@ -683,91 +687,181 @@
   }
 {%- endstyle -%}
 
+{%- comment -%}
+  Authorized retailers: the single source for the cards, city filters, map pins
+  and the Store structured data. One retailer per line, fields separated by |:
+  name | street | city | zip | phone | website (no https://) | Instagram handles (comma separated) | lat | lng ~
+  Leave a field empty (||) when unknown; every line must end with ~
+{%- endcomment -%}
+{%- capture av_retailer_rows -%}
+  Altitude Dispensary|220 Sandberg Rd|Monticello|55362|612 368 7103|altitudedispensarymn.com|altitudemonticello|45.3050|-93.7940 ~
+  Anoka Cannabis Company|839 E River Rd|Anoka|55303|763 576 2967|anokacannabis.com||45.1980|-93.3820 ~
+  Becker Dispensary|14275 Bank St|Becker|55308|763 261 5286|beckerdispensarymn.com|dispensary_minnesota_cannabis|45.3830|-93.8760 ~
+  Blaine Dispensary|1536 125th Ave NE|Blaine|55449|763 703 4202|blainedispensary.com|blainedispensary|45.1971|-93.2303 ~
+  Bloomn|2518 Central Ave NE|Minneapolis|55418|612 493 0420|bloomn.com|bloomn.mlps|45.0146|-93.2472 ~
+  Cabin Fever Cannabis|517 Minnesota Ave W|Walker|56484|||cabinfevercannabisco|47.1010|-94.5880 ~
+  Cali Dispensary|2945 Hennepin Ave S|Minneapolis|55408||calimn.com|calicannabismn|44.9489|-93.2987 ~
+  CannaJoy MN|4753 Chicago Ave|Minneapolis|55407||cannajoymn.com|cannajoy_mn|44.9172|-93.2626 ~
+  Coastless|1202 S Kniss Ave|Luverne|56156|507 935 4030|coastlesscannabis.com|coastlesscannabis|43.6480|-96.2130 ~
+  Dinky Dope|1319 4th St SE|Minneapolis|55414|612 315 5882|dinkydope.com|dinkydopedispensary|44.9807|-93.2359 ~
+  Do Be Kind Dispensary|215 South Chestnut Street|La Crescent|55947|||dobekindmn|43.8286|-91.3037 ~
+  Farmer's Cannabis Co|124 Minnesota Ave N|Aitkin|56431|218 429 0101|farmerscannabisco.com||46.5327|-93.7064 ~
+  Feelin' MN|75 Little Canada Rd W|Little Canada|55117|651 233 9106|feelinmn.com|feelinmndispensary|45.0270|-93.0900 ~
+  Flipside Dispensary|901 W 36th St|Minneapolis|55408|651 263 7330|flipsidemn.com|flipsidemn|44.9379|-93.2922 ~
+  Flowerz Dispensary|1464 St Clair Ave|St Paul|55105|651 760 8018|flowerzdispensary.com||44.9339|-93.1622 ~
+  Fort Road Cannabis|899 Randolph Ave|St Paul|55102|651 352 2663|fortroadcannabis.dispensary.shop|fortroadcanna899|44.927|-93.138 ~
+  Fridley Dispensary|7315 Hwy 65 NE|Fridley|55432|763 339 1261|fridleydispensary.com|fridleydispensary|45.0927|-93.2600 ~
+  Frostbite Dispensary|2218 County Rd D West Suite 200|New Brighton|55112|651 440 9991|frostbitedispensary.com|frostbitecanna|45.0553|-93.2100 ~
+  Full Spectrum Dispensary|235 E Frazee Ave|Vergas|56587|218 342 4200|fullspectrumdispo.com||46.6614|-95.8007 ~
+  FullMelt Factory|13777 Grove Dr|Maple Grove|55369|612 703 3265|fullmeltfactory.com|fullmelt.factory|45.1032|-93.4561 ~
+  Go4 Cannabis Co|7114 Otter Lake Road Suite 130|Lino Lakes|55038|612 240 1988|go4cannabis.com|go4cann|45.1646|-93.0241 ~
+  Grazzhopper|16484 149th St SE|Big Lake|55309|612 442 7722|grazzhopper.com||45.3320|-93.7460 ~
+  Green 2 Go|2103 Vermillion St|Hastings|55033|651 346 1068|green-2-go.com||44.7235|-92.8514 ~
+  Green Duck Dispensary|3390 Coachman Rd Ste 210|Eagan|55121|651 478 6420|greenduckgo.com|greenduckgo|44.834|-93.1803 ~
+  Green Leaf Depot|4126 Egan Dr|Savage|55378|952 388 4269|gldepot.com|official_gldepot|44.7674|-93.3905 ~
+  Green Rose Minneapolis|514 E 60th St|Minneapolis|55419|612 315 5078|greenrosemn.com|greenroseminneapolis|44.8944|-93.2689 ~
+  Grounded Gardens|45 Main St N|Hutchinson|55350|952 212 0429|sweede.io|grounded_gardens_|44.8880|-94.3690 ~
+  High 10 Ramsey|6111 U.S. 10 #500|Ramsey|55303|763 208 4062|ramseydispensary.com|high10mn|45.2520|-93.4359 ~
+  High Fidelity Cannabis Co|206 W Main St|Luverne|56156|507 220 5712|hfcannabis.com|highfidelitymn|43.6544|-96.2115 ~
+  High North Dispensary|8711 E Point Douglas Rd S #108|Cottage Grove|55016|612 799 6653|highnorthmn.com|highnorthdispensary|44.8154|-92.9299 ~
+  Holy Smokes|7424 Lyndale Ave S|Minneapolis|55423|612 315 5595|dutchie.com/stores/holy-smokes-cannabis||44.8850|-93.2880 ~
+  Huff and Puff|1142 County Rd E E|Vadnais Heights|55110|612 460 0783|huffandpuffdispensarymn.com|huffandpuffdispensary|45.0503|-93.0713 ~
+  HWS Cannabis Company|499 Arrowhead Lane|Moose Lake|55767|218 460 6916|hwshemp.life|holisticwellnessservices|46.4548|-92.7611 ~
+  Kodjo Dispensary|446 University Avenue West|St Paul|55103||||44.9554|-93.1197 ~
+  Lake Daze|502 Mainstreet|Hopkins|55343|952 855 7603|lakedaze.com|lakedazemn|44.9240|-93.4145 ~
+  Lake of the Woods Cannabis Co.|3256 MN-172|Baudette|56623||lowcanco.com||48.8328|-94.7101 ~
+  Legacy Cannabis - Duluth|1906 W Superior St|Duluth|55806|218 720 0747|legacycannabisduluth.com|legacy.mn|46.7686|-92.1219 ~
+  Legacy Cannabis - Minneapolis|2930 Lyndale Ave S|Minneapolis|55408|612 418 1050|legacycannabismn.com|legacy.mpls|44.9484|-93.2880 ~
+  Legacy Cannabis - Woodbury|9891 Hudson Pl #100|Woodbury|55125|651 421 4088|legacycannabismn.com|legacy.woodbury|44.9445|-92.9068 ~
+  Legit Cannabis|16000 Cedar Ave|Rosemount|55068|952 236 0638|mnlegitcannabis.com|legitcannabis|44.7242|-93.1577 ~
+  Levitated|4145 Hiawatha Ave|Minneapolis|55406|612 437 4420|levitateddisp.com|levitateddispensaries|44.9279|-93.2242 ~
+  Litt Dispensaries|14029 Round Lake Blvd NW|Andover|55304|763 270 5678|littdispensaries.com|littdispensary|45.2260|-93.3572 ~
+  Loon Leaf|8700 University Ave NE|Blaine|55434|763 215 8828|loonleafmn.com|loonleafblaine|45.1750|-93.2350 ~
+  Lake of the Woods Dispensary|418 State Hwy 11 Suite B|Warroad|56763|401 360 6443|lowcanco.com||48.9053|-95.3144 ~
+  Lucky Strains|151 Silver Lake Rd NW #114|New Brighton|55112|651 424 6788|luckystrains.gives|lucky_strains|45.0511|-93.2175 ~
+  Marawanna|5491 Adams St Ste 100|Mounds View|55112|612 470 8288|marawanna.org||45.1050|-93.2080 ~
+  Mary Pot'ins|12990 1st St|Becker|55308||marypotinsdispensary.com||45.3920|-93.8770 ~
+  Minne Organix|1900 W 80th St|Victoria|55386|952 443 3242|minneorganix.com|minneorganix|44.8583|-93.6627 ~
+  MN Grass Hero|1331 105th St NW|Rice|56367|320 393 4713|mngrasshero.com|mngrasshero|45.7202|-94.1999 ~
+  MN THC Co - Dundas|396 Schilling Dr Ste 400|Dundas|55019|507 301 3018|mnthc.co|mnthcco|44.4292|-93.2020 ~
+  MN THC Co - Lakeville|16085 Buck Hill Rd|Lakeville|55044|952 388 1036|mnthc.co|mnthcco_dundas|44.7172|-93.2861 ~
+  MnLoon - Minneapolis|2801 Lyndale Ave S|Minneapolis|55408|612 870 2787|themnloon.com|themnloon|44.9506|-93.2886 ~
+  MnLoon - St Paul|608 Snelling Ave S|St Paul|55116|651 364 2585|themnloon.com|themnloon|44.9228|-93.1669 ~
+  Munch Cannabis|25246 Rice Road|Hinckley|55037|320 207 8001|munch-cannabis.info|munchcannabisco|46.0110|-92.9440 ~
+  Munchiez|1670 White Bear Avenue|St Paul|55107|612 451 0174|munchiezcannabis.com|munchiezmn|44.9916|-93.0251 ~
+  Northern Crown|108 Main St E #400|Isanti|55040|763 452 0167|northerncrowncannabis.com|northerncrowncannabis|45.4910|-93.2477 ~
+  Nuggets|14029 Round Lake Blvd NW|Andover|55304|218 568 1087|nuggetsdispensarymn.com|nuggetsdispensary|45.2260|-93.3572 ~
+  Pot Mamas - Edina|4528 France Ave S|Edina|55410|651 661 6262|pot-mamas.com|potmamasboutique, potmamas.edina|44.9205|-93.3280 ~
+  Pot Mamas - Mendota Heights|1155 Centre Pointe Dr Suite 6|Mendota Heights|55120|651 661 6262|pot-mamas.com|potmamasboutique, potmamas.mendota|44.8817|-93.1501 ~
+  Pot Mamas - Woodbury|6445 Lake Rd Terrace #100|Woodbury|55125|651 661 6262|pot-mamas.com|potmamas.woodbury|44.9129|-92.9780 ~
+  PotShotz|1549 University Ave W|St Paul|55104||potshotzmn.com|potshotzmn|44.9557|-93.1560 ~
+  Really Dope|162 Dale St N|St Paul|55102|612 354 2037|really-dope.com|really.dope.mn|44.9463|-93.1262 ~
+  Rise Dispensary - Brooklyn Park|8016 Brooklyn Blvd|Brooklyn Park|55445|763 317 6762|risecannabis.com|risedispensariesminnesota|45.0950|-93.3787 ~
+  Rise Dispensary - Eagan|1340 Town Center Drive|Eagan|55123|651 846 9245|risecannabis.com|risedispensariesminnesota|44.8280|-93.1660 ~
+  Rise Dispensary - New Hope|7700 N 42nd Ave Suite A|New Hope|55427|763 237 5107|risecannabis.com|risedispensariesminnesota|45.0332|-93.3784 ~
+  Rise Dispensary - St. Paul|2239 Ford Pkwy|St Paul|55116|651 313 6733|risecannabis.com|risedispensariesminnesota|44.9174|-93.1880 ~
+  Stash N Co|1220 W 4th St|Rush City|55069|320 566 1222|thestashnco.com|thestashnco|45.6845|-92.9649 ~
+  Strains of the Earth|415 Broadway St S|Jordan|55352|952 417 6133|strainsoftheearth.com|strainsoftheearth_mn|44.6661|-93.6262 ~
+  Sweet Leaves|905 N Washington Ave|Minneapolis|55401|612 688 9333|sweetleavesnorthloop.com|sweetleaves.co|44.9872|-93.2761 ~
+  The Cannabis Co.|12246 42nd St NE|Saint Michael|55376|763 267 7834|thecannabisco.us||45.2115|-93.638 ~
+  The Flowershop|706 S Kniss Avenue|Luverne|56156|507 283 7870|flowershopdispo.com|flowershopdispomn|43.6502|-96.2129 ~
+  The Grey Area|1330 Grand Ave|St Paul|55105|651 447 2321|greyareacannabis.com|grey_area_cannabis|44.9399|-93.1563 ~
+  The Joint Dispensary|3496 Shoreline Dr|Wayzata|55391|855 995 6468|thejointdispensary.com|thejointdispensary|44.9430|-93.5980 ~
+  The Lakes Dispensary|1599 County Rd E E|St Paul|55110|612 469 7688|thelakesdispensary.com||45.0502|-93.0362 ~
+  The Vault Dispensary|4110 Main St|St Bonifacius|55375|952 500 2228|carvercannabiscompany.com||44.9050|-93.7460 ~
+  Trailhead Cannabis Co.|17951 MN-371|Brainerd|56401|218 414 9268|trailheadmn.com|trailheadmn|46.3200|-94.2200 ~
+  Urban Green|9326 Zane Avenue North|Brooklyn Park|55443|||urbangreenmn_dispensary|45.1250|-93.3567 ~
+  Wildflower - Bloomington|3920 W Old Shakopee Rd|Bloomington|55437|612 482 4842|wildflower.cc|wildflower_stores|44.8105|-93.33 ~
+  Wildflower - NE|326 Central Ave SE|Minneapolis|55414|612 482 4842|wildflower.cc|wildflower_stores|44.9876|-93.254 ~
+  Wildflower - Northloop|212 N 2nd St Ste 103|Minneapolis|55401|612 482 4842|wildflower.cc|wildflower_stores|44.9851|-93.2706 ~
+  Winona Dispensary|173 E 2nd St|Winona|55987|507 615 0017|thewinonadispensary.com|winonadispensary|44.0520|-91.6362 ~
+  Zenith Horizon|110B W Main St|Le Roy|55951|||z.h.dispensary.leroy.mn|43.5083|-92.5066 ~
+{%- endcapture -%}
+{%- liquid
+  assign av_rows = av_retailer_rows | split: '~'
+  assign av_count = 0
+  assign av_city_list = ''
+  for row in av_rows
+    assign r = row | strip
+    if r == blank
+      continue
+    endif
+    assign f = r | split: '|'
+    assign av_count = av_count | plus: 1
+    assign av_city_list = av_city_list | append: f[2] | append: '|'
+  endfor
+  assign av_cities = av_city_list | split: '|' | uniq | sort
+-%}
+
 <script type="application/json" id="avLocatorStores">
 [
-  {"name":"Altitude Dispensary","street":"220 Sandberg Rd","city":"Monticello","zip":"55362","phone":"612 368 7103","web":"altitudedispensarymn.com","ig":"altitudemonticello"},
-  {"name":"Anoka Cannabis Company","street":"839 E River Rd","city":"Anoka","zip":"55303","phone":"763 576 2967","web":"anokacannabis.com","ig":""},
-  {"name":"Becker Dispensary","street":"14275 Bank St","city":"Becker","zip":"55308","phone":"763 261 5286","web":"beckerdispensarymn.com","ig":"dispensary_minnesota_cannabis"},
-  {"name":"Blaine Dispensary","street":"1536 125th Ave NE","city":"Blaine","zip":"55449","phone":"763 703 4202","web":"blainedispensary.com","ig":"blainedispensary"},
-  {"name":"Bloomn","street":"2518 Central Ave NE","city":"Minneapolis","zip":"55418","phone":"612 493 0420","web":"bloomn.com","ig":"bloomn.mlps"},
-  {"name":"Cabin Fever Cannabis","street":"517 Minnesota Ave W","city":"Walker","zip":"56484","phone":"","web":"","ig":"cabinfevercannabisco"},
-  {"name":"Cali Dispensary","street":"2945 Hennepin Ave S","city":"Minneapolis","zip":"55408","phone":"","web":"calimn.com","ig":"calicannabismn"},
-  {"name":"CannaJoy MN","street":"4753 Chicago Ave","city":"Minneapolis","zip":"55407","phone":"","web":"cannajoymn.com","ig":"cannajoy_mn"},
-  {"name":"Coastless","street":"1202 S Kniss Ave","city":"Luverne","zip":"56156","phone":"507 935 4030","web":"coastlesscannabis.com","ig":"coastlesscannabis"},
-  {"name":"Dinky Dope","street":"1319 4th St SE","city":"Minneapolis","zip":"55414","phone":"612 315 5882","web":"dinkydope.com","ig":"dinkydopedispensary"},
-  {"name":"Do Be Kind Dispensary","street":"215 South Chestnut Street","city":"La Crescent","zip":"55947","phone":"","web":"","ig":"dobekindmn"},
-  {"name":"Farmer's Cannabis Co","street":"124 Minnesota Ave N","city":"Aitkin","zip":"56431","phone":"218 429 0101","web":"farmerscannabisco.com","ig":""},
-  {"name":"Feelin' MN","street":"75 Little Canada Rd W","city":"Little Canada","zip":"55117","phone":"651 233 9106","web":"feelinmn.com","ig":"feelinmndispensary"},
-  {"name":"Flipside Dispensary","street":"901 W 36th St","city":"Minneapolis","zip":"55408","phone":"651 263 7330","web":"flipsidemn.com","ig":"flipsidemn"},
-  {"name":"Flowerz Dispensary","street":"1464 St Clair Ave","city":"St Paul","zip":"55105","phone":"651 760 8018","web":"flowerzdispensary.com","ig":""},
-  {"name":"Fort Road Cannabis","street":"899 Randolph Ave","city":"St Paul","zip":"55102","phone":"651 352 2663","web":"fortroadcannabis.dispensary.shop","ig":"fortroadcanna899"},
-  {"name":"Fridley Dispensary","street":"7315 Hwy 65 NE","city":"Fridley","zip":"55432","phone":"763 264 681","web":"fridleydispensary.com","ig":"fridleydispensary"},
-  {"name":"Frostbite Dispensary","street":"2218 County Rd D West Suite 200","city":"New Brighton","zip":"55112","phone":"651 440 9991","web":"frostbitedispensary.com","ig":"frostbitecanna"},
-  {"name":"Full Spectrum Dispensary","street":"235 E Frazee Ave","city":"Vergas","zip":"56587","phone":"218 342 4200","web":"fullspectrumdispo.com","ig":""},
-  {"name":"FullMelt Factory","street":"13777 Grove Dr","city":"Maple Grove","zip":"55369","phone":"612 703 3265","web":"fullmeltfactory.com","ig":"fullmelt.factory"},
-  {"name":"Go4 Cannabis Co","street":"7114 Otter Lake Road Suite 130","city":"Lino Lakes","zip":"55038","phone":"612 240 1988","web":"go4cannabis.com","ig":"go4cann"},
-  {"name":"Grazzhopper","street":"16484 149th St SE","city":"Big Lake","zip":"55309","phone":"612 442 7722","web":"grazzhopper.com","ig":""},
-  {"name":"Green 2 Go","street":"2103 Vermillion St","city":"Hastings","zip":"55033","phone":"651 346 1068","web":"green-2-go.com","ig":""},
-  {"name":"Green Duck Dispensary","street":"3390 Coachman Rd Ste 210","city":"Eagan","zip":"55121","phone":"651 478 6420","web":"greenduckgo.com","ig":"greenduckgo"},
-  {"name":"Green Leaf Depot","street":"4126 Egan Dr","city":"Savage","zip":"55378","phone":"952 388 4269","web":"gldepot.com","ig":"official_gldepot"},
-  {"name":"Green Rose Minneapolis","street":"514 E 60th St","city":"Minneapolis","zip":"55419","phone":"612 315 5078","web":"greenrosemn.com","ig":"greenroseminneapolis"},
-  {"name":"Grounded Gardens","street":"45 Main St N","city":"Hutchinson","zip":"55350","phone":"952 212 0429","web":"sweede.io","ig":"grounded_gardens_"},
-  {"name":"High 10 Ramsey","street":"6111 U.S. 10 #500","city":"Ramsey","zip":"55303","phone":"763 208 4062","web":"ramseydispensary.com","ig":"high10mn"},
-  {"name":"High Fidelity Cannabis Co","street":"206 W Main St","city":"Luverne","zip":"56156","phone":"507 220 5712","web":"hfcannabis.com","ig":"highfidelitymn"},
-  {"name":"High North Dispensary","street":"8711 E Point Douglas Rd S #108","city":"Cottage Grove","zip":"55016","phone":"612 799 6653","web":"highnorthmn.com","ig":"highnorthdispensary"},
-  {"name":"Holy Smokes","street":"7424 Lyndale Ave S","city":"Minneapolis","zip":"55423","phone":"612 315 5595","web":"dutchie.com/stores/holy-smokes-cannabis","ig":""},
-  {"name":"Huff and Puff","street":"1142 County Rd E E","city":"Vadnais Heights","zip":"55110","phone":"612 460 0783","web":"huffandpuffdispensarymn.com","ig":"huffandpuffdispensary"},
-  {"name":"HWS Cannabis Company","street":"499 Arrowhead Lane","city":"Moose Lake","zip":"55767","phone":"218 460 6916","web":"hwshemp.life","ig":"holisticwellnessservices"},
-  {"name":"Kodjo Dispensary","street":"446 University Avenue West","city":"Saint Paul","zip":"55103","phone":"","web":"","ig":""},
-  {"name":"Lake Daze","street":"502 Mainstreet","city":"Hopkins","zip":"55343","phone":"952 855 7603","web":"lakedaze.com","ig":"lakedazemn"},
-  {"name":"Lake of the Woods Cannabis Co.","street":"3256 MN-172","city":"Baudette","zip":"56623","phone":"","web":"lowcanco.com","ig":""},
-  {"name":"Legacy Cannabis - Duluth","street":"1906 W Superior St","city":"Duluth","zip":"55806","phone":"218 720 0747","web":"legacycannabisduluth.com","ig":"legacy.mn"},
-  {"name":"Legacy Cannabis - Minneapolis","street":"2930 Lyndale Ave S","city":"Minneapolis","zip":"55408","phone":"612 418 1050","web":"legacycannabismn.com","ig":"legacy.mpls"},
-  {"name":"Legacy Cannabis - Woodbury","street":"9891 Hudson Pl #100","city":"Woodbury","zip":"55125","phone":"651 421 4088","web":"legacycannabismn.com","ig":"legacy.woodbury"},
-  {"name":"Legit Cannabis","street":"16000 Cedar Ave","city":"Rosemount","zip":"55068","phone":"952 236 0638","web":"mnlegitcannabis.com","ig":"legitcannabis"},
-  {"name":"Levitated","street":"4145 Hiawatha Ave","city":"Minneapolis","zip":"55406","phone":"612 437 4420","web":"levitateddisp.com","ig":"levitateddispensaries"},
-  {"name":"Litt Dispensaries","street":"14029 Round Lake Blvd NW","city":"Andover","zip":"55304","phone":"763 270 5678","web":"littdispensaries.com","ig":"littdispensary"},
-  {"name":"Loon Leaf","street":"8700 University Ave NE","city":"Blaine","zip":"55434","phone":"763 215 8828","web":"loonleafmn.com","ig":"loonleafblaine"},
-  {"name":"Lake of the Woods Dispensary","street":"418 State Hwy 11 Suite B","city":"Warroad","zip":"56763","phone":"401 360 6443","web":"lowcanco.com","ig":""},
-  {"name":"Lucky Strains","street":"151 Silver Lake Rd NW #114","city":"New Brighton","zip":"55112","phone":"651 424 6788","web":"luckystrains.gives","ig":"lucky_strains"},
-  {"name":"Marawanna","street":"5491 Adams St Ste 100","city":"Mounds View","zip":"55112","phone":"612 470 8288","web":"marawanna.org","ig":""},
-  {"name":"Mary Pot'ins","street":"12990 1st St","city":"Becker","zip":"55308","phone":"","web":"marypotinsdispensary.com","ig":""},
-  {"name":"Minne Organix","street":"1900 W 80th St","city":"Victoria","zip":"55386","phone":"952 443 3242","web":"minneorganix.com","ig":"minneorganix"},
-  {"name":"MN Grass Hero","street":"1331 105th St NW","city":"Rice","zip":"56367","phone":"320 393 4713","web":"mngrasshero.com","ig":"mngrasshero"},
-  {"name":"MN THC Co - Dundas","street":"396 Schilling Dr Ste 400","city":"Dundas","zip":"55019","phone":"507 301 3018","web":"mnthc.co","ig":"mnthcco"},
-  {"name":"MN THC Co - Lakeville","street":"16085 Buck Hill Rd","city":"Lakeville","zip":"55044","phone":"952 388 1036","web":"mnthc.co","ig":"mnthcco_dundas"},
-  {"name":"MnLoon - Minneapolis","street":"2801 Lyndale Ave S","city":"Minneapolis","zip":"55408","phone":"612 870 2787","web":"themnloon.com","ig":"themnloon"},
-  {"name":"MnLoon - St Paul","street":"608 Snelling Ave S","city":"St Paul","zip":"55116","phone":"651 364 2585","web":"themnloon.com","ig":"themnloon"},
-  {"name":"Munch Cannabis","street":"25246 Rice Road","city":"Hinckley","zip":"55037","phone":"320 207 8001","web":"munch-cannabis.info","ig":"munchcannabisco"},
-  {"name":"Munchiez","street":"1670 White Bear Avenue","city":"St Paul","zip":"55107","phone":"612 451 0174","web":"munchiezcannabis.com","ig":"munchiezmn"},
-  {"name":"Northern Crown","street":"108 Main St E #400","city":"Isanti","zip":"55040","phone":"763 452 0167","web":"northerncrowncannabis.com","ig":"northerncrowncannabis"},
-  {"name":"Nuggets","street":"14029 Round Lake Blvd NW","city":"Andover","zip":"55304","phone":"218 568 1087","web":"nuggetsdispensarymn.com","ig":"nuggetsdispensary"},
-  {"name":"Pot Mamas - Edina","street":"4528 France Ave S","city":"Edina","zip":"55410","phone":"651 661 6262","web":"pot-mamas.com","ig":"potmamasboutique, potmamas.edina"},
-  {"name":"Pot Mamas - Mendota Heights","street":"1155 Centre Pointe Dr Suite 6","city":"Mendota Heights","zip":"55120","phone":"651 661 6262","web":"pot-mamas.com","ig":"potmamasboutique, potmamas.mendota"},
-  {"name":"Pot Mamas - Woodbury","street":"6445 Lake Rd Terrace #100","city":"Woodbury","zip":"55125","phone":"651 661 6262","web":"pot-mamas.com","ig":"potmamas.woodbury"},
-  {"name":"PotShotz","street":"1549 University Ave W","city":"St Paul","zip":"55104","phone":"","web":"potshotzmn.com","ig":"potshotzmn"},
-  {"name":"Really Dope","street":"162 Dale St N","city":"St Paul","zip":"55102","phone":"612 354 2037","web":"really-dope.com","ig":"really.dope.mn"},
-  {"name":"Rise Dispensary - Brooklyn Park","street":"8016 Brooklyn Blvd","city":"Brooklyn Park","zip":"55445","phone":"763 317 6762","web":"risecannabis.com","ig":"risedispensariesminnesota"},
-  {"name":"Rise Dispensary - Eagan","street":"1340 Town Center Drive","city":"Eagan","zip":"55123","phone":"651 846 9245","web":"risecannabis.com","ig":"risedispensariesminnesota"},
-  {"name":"Rise Dispensary - New Hope","street":"7700 N 42nd Ave Suite A","city":"New Hope","zip":"55427","phone":"763 237 5107","web":"risecannabis.com","ig":"risedispensariesminnesota"},
-  {"name":"Rise Dispensary - St. Paul","street":"2239 Ford Pkwy","city":"St Paul","zip":"55116","phone":"651 313 6733","web":"risecannabis.com","ig":"risedispensariesminnesota"},
-  {"name":"Stash N Co","street":"1220 W 4th St","city":"Rush City","zip":"55069","phone":"320 566 1222","web":"thestashnco.com","ig":"thestashnco"},
-  {"name":"Strains of the Earth","street":"415 Broadway St S","city":"Jordan","zip":"55352","phone":"952 417 6133","web":"strainsoftheearth.com","ig":"strainsoftheearth_mn"},
-  {"name":"Sweet Leaves","street":"905 N Washington Ave","city":"Minneapolis","zip":"55401","phone":"612 688 9333","web":"sweetleavesnorthloop.com","ig":"sweetleaves.co"},
-  {"name":"The Cannabis Co.","street":"12246 42nd St NE","city":"Saint Michael","zip":"55376","phone":"763 267 7834","web":"thecannabisco.us","ig":""},
-  {"name":"The Flowershop","street":"706 S Kniss Avenue","city":"Luverne","zip":"56156","phone":"507 283 7870","web":"flowershopdispo.com","ig":"flowershopdispomn"},
-  {"name":"The Grey Area","street":"1330 Grand Ave","city":"St Paul","zip":"55105","phone":"651 447 2321","web":"greyareacannabis.com","ig":"grey_area_cannabis"},
-  {"name":"The Joint Dispensary","street":"3496 Shoreline Dr","city":"Wayzata","zip":"55391","phone":"855 995 6468","web":"thejointdispensary.com","ig":"thejointdispensary"},
-  {"name":"The Lakes Dispensary","street":"1599 County Rd E E","city":"St Paul","zip":"55110","phone":"612 469 7688","web":"thelakesdispensary.com","ig":""},
-  {"name":"The Vault Dispensary","street":"4110 Main St","city":"St Bonifacius","zip":"55375","phone":"952 500 2228","web":"carvercannabiscompany.com","ig":""},
-  {"name":"Trailhead Cannabis Co.","street":"17951 MN-371","city":"Brainerd","zip":"56401","phone":"218 414 9268","web":"trailheadmn.com","ig":"trailheadmn"},
-  {"name":"Urban Green","street":"9326 Zane Avenue North","city":"Brooklyn Park","zip":"55443","phone":"","web":"","ig":"urbangreenmn_dispensary"},
-  {"name":"Wildflower - Bloomington","street":"3920 W Old Shakopee Rd","city":"Bloomington","zip":"55437","phone":"612 482 4842","web":"wildflower.cc","ig":"wildflower_stores"},
-  {"name":"Wildflower - NE","street":"326 Central Ave SE","city":"Minneapolis","zip":"55414","phone":"612 482 4842","web":"wildflower.cc","ig":"wildflower_stores"},
-  {"name":"Wildflower - Northloop","street":"212 N 2nd St Ste 103","city":"Minneapolis","zip":"55401","phone":"612 482 4842","web":"wildflower.cc","ig":"wildflower_stores"},
-  {"name":"Winona Dispensary","street":"173 E 2nd St","city":"Winona","zip":"55987","phone":"507 615 0017","web":"thewinonadispensary.com","ig":"winonadispensary"},
-  {"name":"Zenith Horizon","street":"110B W Main St","city":"Le Roy","zip":"55951","phone":"","web":"","ig":"z.h.dispensary.leroy.mn"}
+{%- assign av_i = 0 -%}
+{%- for row in av_rows -%}
+  {%- assign r = row | strip -%}
+  {%- if r == blank -%}{%- continue -%}{%- endif -%}
+  {%- assign f = r | split: '|' -%}
+  {%- if av_i > 0 -%},{%- endif -%}
+  {%- assign av_i = av_i | plus: 1 %}
+  {"name":{{ f[0] | json }},"street":{{ f[1] | json }},"city":{{ f[2] | json }},"zip":{{ f[3] | json }},"phone":{{ f[4] | default: '' | json }},"web":{{ f[5] | default: '' | json }},"ig":{{ f[6] | default: '' | json }},"lat":{{ f[7] | default: 'null' }},"lng":{{ f[8] | default: 'null' }}}
+{%- endfor %}
 ]
+</script>
+
+{%- comment -%} Store structured data: tells search engines which Minnesota
+  dispensaries carry Avió, linked back to the brand's Organization entity. {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Authorized Avió Supply Co retailers in Minnesota",
+  "numberOfItems": {{ av_count }},
+  "itemListElement": [
+  {%- assign av_i = 0 -%}
+  {%- for row in av_rows -%}
+    {%- assign r = row | strip -%}
+    {%- if r == blank -%}{%- continue -%}{%- endif -%}
+    {%- assign f = r | split: '|' -%}
+    {%- if av_i > 0 -%},{%- endif -%}
+    {%- assign av_i = av_i | plus: 1 %}
+    {
+      "@type": "ListItem",
+      "position": {{ av_i }},
+      "item": {
+        "@type": "Store",
+        "name": {{ f[0] | json }},
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": {{ f[1] | json }},
+          "addressLocality": {{ f[2] | json }},
+          "addressRegion": "MN",
+          "postalCode": {{ f[3] | json }},
+          "addressCountry": "US"
+        },
+        {%- if f[4] != blank %}
+        "telephone": {{ f[4] | strip | replace: ' ', '-' | prepend: '+1-' | json }},
+        {%- endif -%}
+        {%- if f[5] != blank %}
+        "url": {{ f[5] | strip | prepend: 'https://' | json }},
+        {%- endif -%}
+        {%- if f[6] != blank -%}
+          {%- assign av_handles = f[6] | split: ',' %}
+        "sameAs": [
+          {%- for h in av_handles -%}
+            {{ h | strip | remove: '@' | prepend: 'https://www.instagram.com/' | append: '/' | json }}{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        ],
+        {%- endif %}
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": {{ f[7] }},
+          "longitude": {{ f[8] }}
+        },
+        "brand": { "@id": {{ shop.url | append: '/#organization' | json }} }
+      }
+    }
+  {%- endfor %}
+  ]
+}
 </script>
 
 <section class="av-locator" id="StoreLocator">
@@ -777,15 +871,15 @@
     <div class="av-locator__hero-glyph" aria-hidden="true">L</div>
     <div class="av-locator__hero-inner">
       <p class="av-locator__hero-eyebrow">Retail locations</p>
-      <h2 class="av-locator__hero-title">
+      <h1 class="av-locator__hero-title">
         {{ section.settings.heading | default: 'WHERE TO FIND US' }}
-      </h2>
+      </h1>
       <div class="av-locator__hero-row">
         <p class="av-locator__hero-tagline">
           {{ section.settings.tagline | default: 'Find an authorized Avion retailer near you. Our products are available at select licensed dispensaries across Minnesota.' }}
         </p>
         <p class="av-locator__hero-count" aria-hidden="true">
-          <span class="av-locator__hero-count-num" id="avLocatorCount" data-target="82">0</span>&nbsp;locations
+          <span class="av-locator__hero-count-num" id="avLocatorCount" data-target="{{ av_count }}">0</span>&nbsp;locations
         </p>
       </div>
     </div>
@@ -820,13 +914,57 @@
           </button>
         </div>
         <div class="av-locator__city-wrap">
-          <div class="av-locator__city-filters" id="avLocatorCityFilters" role="group" aria-label="Filter by city"></div>
+          <div class="av-locator__city-filters" id="avLocatorCityFilters" role="group" aria-label="Filter by city">
+            <button class="av-locator__city-pill av-locator__city-pill--active" data-city="">All</button>
+            {%- for city in av_cities -%}
+              {%- if city != blank -%}
+                <button class="av-locator__city-pill" data-city="{{ city | escape }}">{{ city | escape }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
         </div>
       </div>
 
       <!-- Scrollable card list -->
       <div class="av-locator__cards-scroll">
-        <div id="avLocatorCards"></div>
+        <div id="avLocatorCards">
+          {%- assign av_i = 0 -%}
+          {%- for row in av_rows -%}
+            {%- assign r = row | strip -%}
+            {%- if r == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign f = r | split: '|' -%}
+            {%- capture av_addr -%}{{ f[1] }}, {{ f[2] }}, MN {{ f[3] }}{%- endcapture -%}
+            {%- capture av_dest -%}{{ f[1] }} {{ f[2] }} MN {{ f[3] }}{%- endcapture -%}
+            <div class="av-locator__card" data-store-index="{{ av_i }}" data-location-name="{{ f[0] | escape }}" data-location-addr="{{ av_addr | escape }}">
+              <div class="av-locator__card-header">
+                <h3 class="av-locator__card-name">{{ f[0] | escape }}</h3>
+                <span class="av-locator__card-city-tag">{{ f[2] | escape }}</span>
+              </div>
+              <p class="av-locator__card-address">{{ f[1] | escape }}<br>{{ f[2] | escape }}, MN {{ f[3] | escape }}</p>
+              {%- if f[4] != blank -%}
+                <p class="av-locator__card-phone"><a class="av-locator__card-phone-link" href="tel:{{ f[4] | remove: ' ' }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.44 12 19.79 19.79 0 0 1 1.35 3.35 2 2 0 0 1 3.32 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.38a16 16 0 0 0 6 6l.76-.76a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.28 16v.92z"/></svg>{{ f[4] | escape }}</a></p>
+              {%- endif -%}
+              {%- if f[5] != blank or f[6] != blank -%}
+                <div class="av-locator__card-links">
+                  {%- if f[5] != blank -%}
+                    <a class="av-locator__card-link" href="https://{{ f[5] | escape }}" target="_blank" rel="noopener noreferrer"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>{{ f[5] | escape }}</a>
+                  {%- endif -%}
+                  {%- if f[6] != blank -%}
+                    {%- assign av_handles = f[6] | split: ',' -%}
+                    {%- for h in av_handles -%}
+                      {%- assign av_h = h | strip | remove: '@' -%}
+                      {%- if av_h != blank -%}
+                        <a class="av-locator__card-link" href="https://www.instagram.com/{{ av_h | escape }}/" target="_blank" rel="noopener noreferrer"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>@{{ av_h | escape }}</a>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <a class="av-locator__card-directions" href="https://www.google.com/maps/dir/?api=1&amp;destination={{ av_dest | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="Get directions to {{ f[0] | escape }}">Get directions<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            </div>
+            {%- assign av_i = av_i | plus: 1 -%}
+          {%- endfor -%}
+        </div>
         <p class="av-locator__empty" id="avLocatorEmpty" hidden>No matching locations found.</p>
       </div>
 
@@ -835,7 +973,7 @@
     <!-- RIGHT: map panel, fills column height -->
     <div class="av-locator__map-panel" aria-label="Store location map">
       <div class="av-locator__map-wrap" id="avLocatorMapWrap">
-        <div class="av-locator__leaflet" id="avLocatorLeafletMap" role="application" aria-label="Interactive map of authorized Avion retailers"></div>
+        <div class="av-locator__leaflet" id="avLocatorLeafletMap" role="application" aria-label="Interactive map of authorized Avió retailers"></div>
         <div class="av-locator__map-google" id="avLocatorGoogleMap" aria-label="Interactive Google map of retailers"></div>
         <div class="av-locator__map-label" id="avLocatorMapLabel">
           <div>
@@ -856,100 +994,10 @@
 
   var stores = JSON.parse(document.getElementById('avLocatorStores').textContent);
   var googleMapsApiKey = {{ section.settings.google_maps_api_key | json }};
-  var storeCoordinates = {
-    '418 State Hwy 11 Suite B|Warroad|56763': { lat: 48.9053, lng: -95.3144 },
-    '3390 Coachman Rd Ste 210|Eagan|55121': { lat: 44.834, lng: -93.1803 },
-    '206 W Main St|Luverne|56156': { lat: 43.6544, lng: -96.2115 },
-    '514 E 60th St|Minneapolis|55419': { lat: 44.8944, lng: -93.2689 },
-    '8711 E Point Douglas Rd S #108|Cottage Grove|55016': { lat: 44.8154, lng: -92.9299 },
-    '1536 125th Ave NE|Blaine|55449': { lat: 45.1971, lng: -93.2303 },
-    '1331 105th St NW|Rice|56367': { lat: 45.7202, lng: -94.1999 },
-    '124 Minnesota Ave N|Aitkin|56431': { lat: 46.5327, lng: -93.7064 },
-    '1670 White Bear Avenue|St Paul|55107': { lat: 44.9916, lng: -93.0251 },
-    '1464 St Clair Ave|St Paul|55105': { lat: 44.9339, lng: -93.1622 },
-    '2103 Vermillion St|Hastings|55033': { lat: 44.7235, lng: -92.8514 },
-    '1330 Grand Ave|St Paul|55105': { lat: 44.9399, lng: -93.1563 },
-    '899 Randolph Ave|St Paul|55102': { lat: 44.927, lng: -93.138 },
-    '499 Arrowhead Lane|Moose Lake|55767': { lat: 46.4548, lng: -92.7611 },
-    '4145 Hiawatha Ave|Minneapolis|55406': { lat: 44.9279, lng: -93.2242 },
-    '706 S Kniss Avenue|Luverne|56156': { lat: 43.6502, lng: -96.2129 },
-    '235 E Frazee Ave|Vergas|56587': { lat: 46.6614, lng: -95.8007 },
-    '3920 W Old Shakopee Rd|Bloomington|55437': { lat: 44.8105, lng: -93.33 },
-    '326 Central Ave SE|Minneapolis|55414': { lat: 44.9876, lng: -93.254 },
-    '212 N 2nd St Ste 103|Minneapolis|55401': { lat: 44.9851, lng: -93.2706 },
-    '12246 42nd St NE|Saint Michael|55376': { lat: 45.2115, lng: -93.638 },
-    '110B W Main St|Le Roy|55951': { lat: 43.5083, lng: -92.5066 },
-    '7315 Hwy 65 NE|Fridley|55432': { lat: 45.0927, lng: -93.2600 },
-    '4528 France Ave S|Edina|55410': { lat: 44.9205, lng: -93.3280 },
-    '1155 Centre Pointe Dr Suite 6|Mendota Heights|55120': { lat: 44.8648, lng: -93.1535 },
-    '1599 County Rd E E|St Paul|55110': { lat: 45.0502, lng: -93.0362 },
-    '6111 U.S. 10 #500|Ramsey|55303': { lat: 45.2520, lng: -93.4359 },
-    '215 South Chestnut Street|La Crescent|55947': { lat: 43.8286, lng: -91.3037 },
-    '901 W 36th St|Minneapolis|55408': { lat: 44.9379, lng: -93.2922 },
-    '173 E 2nd St|Winona|55987': { lat: 44.0520, lng: -91.6362 },
-    '1142 County Rd E E|Vadnais Heights|55110': { lat: 45.0503, lng: -93.0713 },
-    '2801 Lyndale Ave S|Minneapolis|55408': { lat: 44.9506, lng: -93.2886 },
-    '608 Snelling Ave S|St Paul|55116': { lat: 44.9228, lng: -93.1669 },
-    '108 Main St E #400|Isanti|55040': { lat: 45.4910, lng: -93.2477 },
-    '905 N Washington Ave|Minneapolis|55401': { lat: 44.9872, lng: -93.2761 },
-    '1319 4th St SE|Minneapolis|55414': { lat: 44.9807, lng: -93.2359 },
-    '9326 Zane Avenue North|Brooklyn Park|55443': { lat: 45.1250, lng: -93.3567 },
-    '446 University Avenue West|Saint Paul|55103': { lat: 44.9554, lng: -93.1197 },
-    '396 Schilling Dr Ste 400|Dundas|55019': { lat: 44.4292, lng: -93.2020 },
-    '16085 Buck Hill Rd|Lakeville|55044': { lat: 44.7063, lng: -93.2868 },
-    '415 Broadway St S|Jordan|55352': { lat: 44.6661, lng: -93.6262 },
-    '4753 Chicago Ave|Minneapolis|55407': { lat: 44.9172, lng: -93.2626 },
-    '2518 Central Ave NE|Minneapolis|55418': { lat: 45.0146, lng: -93.2472 },
-    '502 Mainstreet|Hopkins|55343': { lat: 44.9240, lng: -93.4145 },
-    '2945 Hennepin Ave S|Minneapolis|55408': { lat: 44.9489, lng: -93.2987 },
-    '151 Silver Lake Rd NW #114|New Brighton|55112': { lat: 45.0646, lng: -93.1885 },
-    '1220 W 4th St|Rush City|55069': { lat: 45.6845, lng: -92.9649 },
-    '14029 Round Lake Blvd NW|Andover|55304': { lat: 45.2260, lng: -93.3572 },
-    '1900 W 80th St|Victoria|55386': { lat: 44.8583, lng: -93.6627 },
-    '13777 Grove Dr|Maple Grove|55369': { lat: 45.1032, lng: -93.4561 },
-    '162 Dale St N|St Paul|55102': { lat: 44.9463, lng: -93.1262 },
-    '3256 MN-172|Baudette|56623': { lat: 48.8328, lng: -94.7101 },
-    '16000 Cedar Ave|Rosemount|55068': { lat: 44.7242, lng: -93.1577 },
-    '7114 Otter Lake Road Suite 130|Lino Lakes|55038': { lat: 45.1574, lng: -93.0900 },
-    '4126 Egan Dr|Savage|55378': { lat: 44.7674, lng: -93.3905 },
-    /* --- Added Apr 2026: new authorized retailers (coords approximate — verify on preview) --- */
-    '220 Sandberg Rd|Monticello|55362': { lat: 45.3050, lng: -93.7940 },
-    '839 E River Rd|Anoka|55303': { lat: 45.1980, lng: -93.3820 },
-    '14275 Bank St|Becker|55308': { lat: 45.3830, lng: -93.8760 },
-    '517 Minnesota Ave W|Walker|56484': { lat: 47.1010, lng: -94.5880 },
-    '1202 S Kniss Ave|Luverne|56156': { lat: 43.6480, lng: -96.2130 },
-    '75 Little Canada Rd W|Little Canada|55117': { lat: 45.0270, lng: -93.0900 },
-    '2218 County Rd D West Suite 200|New Brighton|55112': { lat: 45.0553, lng: -93.2100 },
-    '16484 149th St SE|Big Lake|55309': { lat: 45.3320, lng: -93.7460 },
-    '45 Main St N|Hutchinson|55350': { lat: 44.8880, lng: -94.3690 },
-    '7424 Lyndale Ave S|Minneapolis|55423': { lat: 44.8850, lng: -93.2880 },
-    '1906 W Superior St|Duluth|55806': { lat: 46.7726, lng: -92.1218 },
-    '2930 Lyndale Ave S|Minneapolis|55408': { lat: 44.9484, lng: -93.2880 },
-    '9891 Hudson Pl #100|Woodbury|55125': { lat: 44.9236, lng: -92.9440 },
-    '8700 University Ave NE|Blaine|55434': { lat: 45.1750, lng: -93.2350 },
-    '5491 Adams St Ste 100|Mounds View|55112': { lat: 45.1050, lng: -93.2080 },
-    '12990 1st St|Becker|55308': { lat: 45.3920, lng: -93.8770 },
-    '25246 Rice Road|Hinckley|55037': { lat: 46.0110, lng: -92.9440 },
-    '8016 Brooklyn Blvd|Brooklyn Park|55445': { lat: 45.1105, lng: -93.3560 },
-    '1340 Town Center Drive|Eagan|55123': { lat: 44.8280, lng: -93.1660 },
-    '7700 N 42nd Ave Suite A|New Hope|55427': { lat: 45.0180, lng: -93.3810 },
-    '2239 Ford Pkwy|St Paul|55116': { lat: 44.9174, lng: -93.1880 },
-    '3496 Shoreline Dr|Wayzata|55391': { lat: 44.9430, lng: -93.5980 },
-    '4110 Main St|St Bonifacius|55375': { lat: 44.9050, lng: -93.7460 },
-    '17951 MN-371|Brainerd|56401': { lat: 46.3200, lng: -94.2200 },
-    '1549 University Ave W|St Paul|55104': { lat: 44.9557, lng: -93.1560 }
-  };
   /* State view: roughly centers on Minnesota with enough zoom-out to fit all pins,
      from Rush City in the north to Le Roy in the south. */
   var stateView = { lat: 45.0, lng: -93.5, zoom: 7 };
   var selectedZoom = 13;
-
-  stores.forEach(function (store) {
-    var coords = storeCoordinates[store.street + '|' + store.city + '|' + store.zip];
-    if (!coords) return;
-    store.lat = coords.lat;
-    store.lng = coords.lng;
-  });
 
   var activeIndex  = -1;
   var activeCity   = '';
@@ -1289,9 +1337,23 @@
     if (labelAddr) labelAddr.textContent = s.street + ', ' + s.city + ', MN ' + s.zip;
   }
 
+  /* Load the map library only once the map panel is near the viewport,
+     so it doesn't compete with the page's first paint. */
+  var mapInView = !('IntersectionObserver' in window);
+  if (!mapInView) {
+    new IntersectionObserver(function (entries, obs) {
+      if (!entries.some(function (e) { return e.isIntersecting; })) return;
+      obs.disconnect();
+      mapInView = true;
+      refreshMap();
+    }, { rootMargin: '300px 0px' }).observe(mapWrap);
+  }
+
   function refreshMap() {
     if (activeIndex >= 0) updateSelectedLabel();
     else updateOverviewLabel();
+
+    if (!mapInView) return;
 
     if (googleMapsApiKey) {
       withGoogle(function () {
