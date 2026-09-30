@@ -41,9 +41,47 @@
 {{ 'avion-store.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'avion-store.js' | asset_url }}" defer></script>
 
-<script type="application/ld+json">
-  {{ closest.product | structured_data }}
-</script>
+{%- comment -%} Product structured data. Cannabis items are sold only at licensed
+  dispensaries (tagged "cannabis" / $0 here), so they are described as Avió brand
+  products without an online price or stock status, which would otherwise show as
+  "$0.00 · Out of stock" in search results. Purchasable items keep Shopify's full
+  markup with offers. {%- endcomment -%}
+{%- liquid
+  assign sd_product = closest.product
+  assign sd_dispensary_only = false
+  if sd_product.tags contains 'cannabis' or sd_product.price == 0
+    assign sd_dispensary_only = true
+  endif
+-%}
+{%- if sd_dispensary_only -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "@id": {{ shop.url | append: sd_product.url | append: '#product' | json }},
+      "name": {{ sd_product.title | json }},
+      "url": {{ shop.url | append: sd_product.url | json }},
+      {%- if sd_product.description != blank %}
+      "description": {{ sd_product.description | strip_html | strip_newlines | truncate: 500 | json }},
+      {%- endif %}
+      {%- if sd_product.images.size > 0 %}
+      "image": [
+        {%- for img in sd_product.images limit: 4 -%}
+          {{ img | image_url: width: 1200 | prepend: 'https:' | json }}{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
+      {%- endif %}
+      "category": "Cannabis",
+      "brand": { "@type": "Brand", "name": "Avió Supply Co" },
+      "manufacturer": { "@id": {{ shop.url | append: '/#organization' | json }} },
+      "countryOfOrigin": "US"
+    }
+  </script>
+{%- else -%}
+  <script type="application/ld+json">
+    {{ closest.product | structured_data }}
+  </script>
+{%- endif -%}
 
 {% comment %} Breadcrumb — hidden visually, but emit BreadcrumbList JSON-LD for
   sitelinks-breadcrumb rich results and internal-linking signals. {% endcomment %}

@@ -1,0 +1,41 @@
+{%- comment -%}
+  Page-level structured data for standard pages: page type (About / Contact /
+  general), its place in the site, and a Home › Page breadcrumb. Invisible to
+  shoppers; helps search engines understand what each page is for.
+{%- endcomment -%}
+{%- if request.page_type == 'page' and page != blank -%}
+  {%- liquid
+    assign sd_page_url = shop.url | append: page.url
+    assign sd_page_type = 'WebPage'
+    case template.suffix
+      when 'our-story', 'our-story-v2'
+        assign sd_page_type = 'AboutPage'
+      when 'contact'
+        assign sd_page_type = 'ContactPage'
+    endcase
+  -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": {{ sd_page_type | json }},
+          "@id": {{ sd_page_url | append: '#webpage' | json }},
+          "url": {{ sd_page_url | json }},
+          "name": {{ page.title | json }},
+          "isPartOf": { "@id": {{ shop.url | append: '/#website' | json }} },
+          "about": { "@id": {{ shop.url | append: '/#organization' | json }} },
+          "breadcrumb": { "@id": {{ sd_page_url | append: '#breadcrumb' | json }} }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": {{ sd_page_url | append: '#breadcrumb' | json }},
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | append: '/' | json }} },
+            { "@type": "ListItem", "position": 2, "name": {{ page.title | json }}, "item": {{ sd_page_url | json }} }
+          ]
+        }
+      ]
+    }
+  </script>
+{%- endif -%}

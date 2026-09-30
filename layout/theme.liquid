@@ -31,6 +31,8 @@
         assign robots_noindex = true
       elsif product.metafields.seo.hidden.value == 1 or product.metafields.seo.hidden == '1'
         assign robots_noindex = true
+      elsif request.page_type == 'page' and page.handle == 'data-sharing-opt-out'
+        assign robots_noindex = true
       elsif page.metafields.seo.hidden.value == 1 or page.metafields.seo.hidden == '1'
         assign robots_noindex = true
       elsif article.metafields.seo.hidden.value == 1 or article.metafields.seo.hidden == '1'
@@ -42,6 +44,7 @@
     {%- endif -%}
 
     {%- render 'meta-tags' -%}
+    {%- render 'structured-data-page' -%}
     {%- render 'stylesheets' -%}
     {%- render 'fonts' -%}
     {{ 'avion-animations.css' | asset_url | stylesheet_tag }}
