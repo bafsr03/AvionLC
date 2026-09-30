@@ -375,24 +375,31 @@
         {%- endif -%}
 
         <p class="av-footer__about-text">{{ section.settings.about_text | default: 'Avio Supply Co. honors the story of Jerry Wilson — pilot, risk-taker, and advocate for cannabis freedom long before it was mainstream.' }}</p>
+        {%- liquid
+          # Footer icons use this section's links, falling back to Theme settings › Social media.
+          assign av_instagram = section.settings.instagram_url | default: settings.social_instagram_link
+          assign av_facebook = section.settings.facebook_url | default: settings.social_facebook_link
+          assign av_tiktok = section.settings.tiktok_url | default: settings.social_tiktok_link
+          assign av_twitter = section.settings.twitter_url | default: settings.social_twitter_link
+        -%}
         <div class="av-footer__social">
-          {%- if section.settings.instagram_url != blank -%}
-            <a href="{{ section.settings.instagram_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
+          {%- if av_instagram != blank -%}
+            <a href="{{ av_instagram }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </a>
           {%- endif -%}
-          {%- if section.settings.facebook_url != blank -%}
-            <a href="{{ section.settings.facebook_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="Facebook">
+          {%- if av_facebook != blank -%}
+            <a href="{{ av_facebook }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="Facebook">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
             </a>
           {%- endif -%}
-          {%- if section.settings.tiktok_url != blank -%}
-            <a href="{{ section.settings.tiktok_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok">
+          {%- if av_tiktok != blank -%}
+            <a href="{{ av_tiktok }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok">
               <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.03a8.16 8.16 0 004.77 1.52V7.12a4.85 4.85 0 01-1-.43z"/></svg>
             </a>
           {%- endif -%}
-          {%- if section.settings.twitter_url != blank -%}
-            <a href="{{ section.settings.twitter_url }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="X / Twitter">
+          {%- if av_twitter != blank -%}
+            <a href="{{ av_twitter }}" class="av-footer__social-link" target="_blank" rel="noopener" aria-label="X / Twitter">
               <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
           {%- endif -%}
@@ -424,7 +431,7 @@
             <li><a href="/pages/our-story">Our Story</a></li>
             <li><a href="/pages/contact">Contact</a></li>
             <li><a href="/blogs/news">Journal</a></li>
-            <li><a href="/pages/stockists">Stockists</a></li>
+            <li><a href="/pages/where-to-find-us">Stockists</a></li>
           {%- endfor -%}
         </ul>
       </div>

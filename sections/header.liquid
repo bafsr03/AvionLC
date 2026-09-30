@@ -197,22 +197,56 @@
   endif
   assign social_links = social_links | split: ','
 -%}
+{%- liquid
+  assign org_id = shop.url | append: '/#organization'
+  assign site_url = shop.url | append: '/'
+  assign brand_name = 'Avió Supply Co'
+-%}
+{%- comment -%} Brand entity + site name. alternateName ties every spelling people
+  search for (Avio, Avión Legacy, the old domain name) to this one brand. {%- endcomment -%}
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": {{ shop.name | json }},
-    {% if settings.logo %}
-      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
-    {% endif %}
-    {% if social_links.size > 0 %}
-      "sameAs": [
-        {%- for link in social_links -%}
-          {{ link | json }}{%- unless forloop.last -%},{%- endunless -%}
-        {%- endfor -%}
-      ],
-    {% endif %}
-    "url": {{ request.origin | append: page.url | json }}
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": {{ org_id | json }},
+        "name": {{ brand_name | json }},
+        "alternateName": ["Avio Supply Co", "Avió", "Avio", "Avión Legacy Cannabis", "Avion Legacy Cannabis"],
+        "url": {{ site_url | json }},
+        {% if settings.logo %}
+          "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+        {% endif %}
+        "description": "Avió Supply Co is a Minnesota cannabis brand carrying the Jerry Wilson legacy, with pre-rolls, vaporizers and apparel available at licensed dispensaries across Minnesota.",
+        "foundingDate": "2024",
+        "foundingLocation": { "@type": "Place", "name": "Minnesota, United States" },
+        "areaServed": { "@type": "State", "name": "Minnesota", "containedInPlace": { "@type": "Country", "name": "United States" } },
+        "slogan": "The legacy continues",
+        {% if social_links.size > 0 %}
+          "sameAs": [
+            {%- for link in social_links -%}
+              {{ link | json }}{%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          ],
+        {% endif %}
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "support@aviosupply.co",
+          "areaServed": "US-MN",
+          "availableLanguage": "English"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": {{ shop.url | append: '/#website' | json }},
+        "name": {{ brand_name | json }},
+        "alternateName": ["Avio Supply Co", "Avió"],
+        "url": {{ site_url | json }},
+        "inLanguage": {{ request.locale.iso_code | json }},
+        "publisher": { "@id": {{ org_id | json }} }
+      }
+    ]
   }
 </script>
 
@@ -229,7 +263,7 @@
   data-scroll-direction="none"
 >
   {%- if request.page_type == 'index' -%}
-    <h1 class="visually-hidden">{{ shop.name }}</h1>
+    <h1 class="visually-hidden">Avió Supply Co, Minnesota Cannabis Brand</h1>
   {%- endif -%}
   {% for row in rows %}
     {% liquid
