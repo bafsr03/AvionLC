@@ -133,7 +133,7 @@
       "name": "Floating Icon",
       "settings": {
         "icon_image": "shopify://shop_images/avion.png",
-        "icon_alt": "Avion Legacy",
+        "icon_alt": "",
         "icon_size": 280,
         "icon_size_mobile": 50,
         "horizontal_position": 50,

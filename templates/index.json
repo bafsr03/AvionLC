@@ -45,7 +45,7 @@
             "spec_2": "Hand-Selected",
             "spec_3": "Premium Quality",
             "button_label": "FIND US NEARBY",
-            "button_link": "https://aviosupply.co/products/sativa-pre-rolls?variant=52494410449080",
+            "button_link": "shopify://pages/where-to-find-us",
             "card_bg": "#ead2c2",
             "card_hover_bg": "#4a987b",
             "card_shadow": "#533a2129",
@@ -179,7 +179,7 @@
       "name": "Icono Flotante",
       "settings": {
         "icon_image": "shopify://shop_images/cactus.png",
-        "icon_alt": "Avión Legacy",
+        "icon_alt": "",
         "icon_size": 90,
         "icon_size_mobile": 50,
         "horizontal_position": 93,
@@ -322,7 +322,7 @@
       "name": "Icono Flotante",
       "settings": {
         "icon_image": "shopify://shop_images/avion.png",
-        "icon_alt": "Avión Legacy",
+        "icon_alt": "",
         "icon_size": 240,
         "icon_size_mobile": 50,
         "horizontal_position": 10,
