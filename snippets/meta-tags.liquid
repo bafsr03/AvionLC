@@ -13,14 +13,74 @@
 >
 <meta
   name="theme-color"
-  content=""
+  content="{{ settings.color_schemes['scheme-1'].settings.background | default: '#fff3dc' }}"
 >
+
+{%- liquid
+  # Meta description: respect the merchant SEO description (page_description);
+  # generate a keyword-forward, unique per page-type fallback only when blank.
+  assign seo_description = page_description
+  assign seo_description_is_fallback = false
+
+  if seo_description == blank
+    assign seo_description_is_fallback = true
+    case request.page_type
+      when 'index'
+        assign seo_description = shop.description | default: 'Avió Supply Co is a Minnesota cannabis brand — pre-rolls, vaporizers and apparel from the Jerry Wilson legacy, available at licensed MN dispensaries.'
+      when 'product'
+        capture seo_description
+          echo product.title
+          if product.type != blank
+            echo ' — '
+            echo product.type
+          endif
+          echo ' from Avió Supply Co, a Minnesota cannabis brand. Available at licensed MN dispensaries.'
+        endcapture
+      when 'collection'
+        capture seo_description
+          echo 'Shop '
+          echo collection.title
+          echo ' from Avió Supply Co — Minnesota cannabis available at licensed MN dispensaries.'
+        endcapture
+      when 'page'
+        case template.suffix
+          when 'store-locator'
+            assign seo_description = 'Find Avió Supply Co pre-rolls and vaporizers at licensed dispensaries across Minnesota, from Minneapolis and St Paul to Duluth, Brainerd and Winona.'
+          when 'contact'
+            assign seo_description = 'Get in touch with Avió Supply Co, a Minnesota cannabis brand. Questions about our pre-rolls, vaporizers, apparel or where to buy? Reach our team here.'
+          when 'our-story', 'our-story-v2'
+            assign seo_description = 'The story of Avió Supply Co, a Minnesota cannabis brand carrying the Jerry Wilson legacy. Pre-rolls, vaporizers and apparel at licensed MN dispensaries.'
+          else
+            capture seo_description
+              echo page.title
+              echo ' from Avió Supply Co, a Minnesota cannabis brand available at licensed dispensaries across the state.'
+            endcapture
+        endcase
+      when 'blog'
+        assign seo_description = 'Stories and news from Avió Supply Co, a Minnesota cannabis brand available at licensed dispensaries across the state.'
+      when 'article'
+        assign seo_description = article.excerpt_or_content | strip_html | strip_newlines
+      else
+        assign seo_description_is_fallback = false
+    endcase
+  endif
+
+  if seo_description_is_fallback
+    assign seo_description = seo_description | strip_html | truncate: 155
+  endif
+-%}
+{%- if seo_description != blank -%}
+  <meta
+    name="description"
+    content="{{ seo_description | escape }}"
+  >
+{%- endif -%}
 
 {%- liquid
   assign og_title = page_title | default: shop.name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  assign og_description = seo_description | default: shop.description | default: shop.name
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -55,7 +115,7 @@
 {%- if page_image -%}
   <meta
     property="og:image"
-    content="http:{{ page_image | image_url }}"
+    content="https:{{ page_image | image_url }}"
   >
   <meta
     property="og:image:secure_url"
@@ -68,6 +128,10 @@
   <meta
     property="og:image:height"
     content="{{ page_image.height }}"
+  >
+  <meta
+    property="og:image:alt"
+    content="{{ page_image.alt | default: og_title | escape }}"
   >
 {%- endif -%}
 
@@ -85,7 +149,7 @@
 {%- if settings.social_twitter_link != blank -%}
   <meta
     name="twitter:site"
-    content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}"
+    content="{{ settings.social_twitter_link | replace: 'x.com/', 'twitter.com/' | split: 'twitter.com/' | last | split: '/' | first | split: '?' | first | prepend: '@' }}"
   >
 {%- endif -%}
 <meta
@@ -105,37 +169,49 @@
     name="twitter:image"
     content="https:{{ page_image | image_url }}"
   >
+  <meta
+    name="twitter:image:alt"
+    content="{{ page_image.alt | default: og_title | escape }}"
+  >
 {%- endif -%}
 
 {%- liquid
   # Title tag: always respect the merchant SEO title (page_title) where set;
   # only improve the fallbacks. Keyword-forward, unique per page-type, no dupes.
-  assign seo_title = page_title | default: shop.name
+  assign shop_name = shop.name | strip
+  assign seo_title = page_title | default: shop_name | strip
   assign skip_shop_suffix = false
 
   # Homepage: Shopify defaults page_title to the shop name, which the generic
   # store-name suffix below would then duplicate (e.g. "Avio Supply Co – Avio
   # Supply Co"). Emit one clean, keyword-forward title and skip the suffix.
   if request.page_type == 'index'
-    if page_title == blank or page_title == shop.name
-      assign seo_title = shop.name | append: ' | Minnesota Cannabis'
+    if seo_title == blank or seo_title == shop_name
+      assign seo_title = shop_name | append: ' | Minnesota Cannabis'
     endif
+    assign skip_shop_suffix = true
+  endif
+
+  # Store locator: when no custom SEO title is set in admin, use a
+  # search-friendly one that says what the page answers.
+  if request.page_type == 'page' and template.suffix == 'store-locator' and seo_title == page.title
+    assign seo_title = 'Where to Buy Avió Cannabis in Minnesota | Dispensary Locator'
     assign skip_shop_suffix = true
   endif
 
   # Tag / pagination context for listing pages.
   if current_tags
     assign tag_join = current_tags | join: ', '
-    assign seo_title = seo_title | append: ' &ndash; tagged "' | append: tag_join | append: '"'
+    assign seo_title = seo_title | append: ' – tagged "' | append: tag_join | append: '"'
   endif
   if current_page != 1
-    assign seo_title = seo_title | append: ' &ndash; Page ' | append: current_page
+    assign seo_title = seo_title | append: ' – Page ' | append: current_page
   endif
 
   # Append the store name on non-home pages unless already present.
   unless skip_shop_suffix
-    unless seo_title contains shop.name
-      assign seo_title = seo_title | append: ' &ndash; ' | append: shop.name
+    unless seo_title contains shop_name
+      assign seo_title = seo_title | append: ' – ' | append: shop_name
     endunless
   endunless
 -%}
@@ -145,45 +221,3 @@
   rel="canonical"
   href="{{ canonical_url }}"
 >
-
-{%- liquid
-  # Meta description: respect the merchant SEO description (page_description);
-  # generate a keyword-forward, unique per page-type fallback only when blank.
-  assign seo_description = page_description
-  assign seo_description_is_fallback = false
-
-  if seo_description == blank
-    assign seo_description_is_fallback = true
-    case request.page_type
-      when 'index'
-        assign seo_description = shop.description | default: 'Avió Supply Co is a Minnesota cannabis brand — pre-rolls, vaporizers and apparel from the Jerry Wilson legacy, available at licensed MN dispensaries.'
-      when 'product'
-        capture seo_description
-          echo product.title
-          if product.type != blank
-            echo ' — '
-            echo product.type
-          endif
-          echo ' from Avió Supply Co, a Minnesota cannabis brand. Available at licensed MN dispensaries.'
-        endcapture
-      when 'collection'
-        capture seo_description
-          echo 'Shop '
-          echo collection.title
-          echo ' from Avió Supply Co — Minnesota cannabis available at licensed MN dispensaries.'
-        endcapture
-      else
-        assign seo_description_is_fallback = false
-    endcase
-  endif
-
-  if seo_description_is_fallback
-    assign seo_description = seo_description | strip_html | truncate: 155
-  endif
--%}
-{%- if seo_description != blank -%}
-  <meta
-    name="description"
-    content="{{ seo_description | escape }}"
-  >
-{%- endif -%}
